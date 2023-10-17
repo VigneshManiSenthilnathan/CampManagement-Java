@@ -10,8 +10,9 @@ public abstract class CampInformation {
 
     /* if we tag staffInCharge to campName,
      * doesnt that imply that there can only be 1 staff per camp?
-     * meaning campcomittee cant use generateRecords(staffInCharge)
+     * meaning camp committee cant use generateRecords(staffInCharge)
      */
+
     private String staffInCharge;
     private boolean visibility;
 
@@ -25,6 +26,7 @@ public abstract class CampInformation {
         campCommitteeSlots = this.campCommitteeSlots;
         description = this.description;
         staffInCharge = this.staffInCharge;
+
         visibility = this.visibility;
     }
 
@@ -32,18 +34,12 @@ public abstract class CampInformation {
      * int parameter to represent attribute to edit
      * (i.e.) 1 = campName, 2 = dates ...
      */
-    public void editCampDetails(){ 
-        //Not an abstract method - Fill in
-    }
+    public void editCampDetails(CampInformation camp, int attributeToEdit, String edit){ 
+        // switch-case to find attribute to be editted
+        // typecast String to appropriate type based on attribute chosen
+        // handle errors and return to calling function
 
-    //void return cuz reports are generated in excel
-    public void generateReports(){ 
-        //Not an abstract method - Fill in
-    }
-
-    //overloaded method
-    public void generateReports(String staffInCharge){ 
-        //Not an abstract method - Fill in
+        // camp.attributeToEdit = edit;
     }
 
     public void toggleVisibility(CampInformation camp, int set){
@@ -55,4 +51,21 @@ public abstract class CampInformation {
             System.out.println("To Set Invisible Enter: 0");
         } 
     }
+
+    //void return cuz reports are generated in excel
+    public void generateReports(){ 
+        //generate the whole excel sheet at one go
+    }
+
+    //overloaded method
+    public void generateReports(String staffInCharge){ 
+        //generate camp details filtered by staff
+    }
+
+    //abstract method for staff
+    public void generateReports(String staffInCharge, String campName){  }
+
+    //abstract method for camp committee members
+    public void generateReports(CampInformation camp){  }
+
 }   
