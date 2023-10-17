@@ -11,6 +11,9 @@ public abstract class CampInformation {
     /* if we tag staffInCharge to campName,
      * doesnt that imply that there can only be 1 staff per camp?
      * meaning camp committee cant use generateRecords(staffInCharge)
+     * 
+     * Should this be an String array instead then?
+     * But then how will excel parse it?? Problems problems lol
      */
 
     private String staffInCharge;
