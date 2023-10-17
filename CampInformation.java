@@ -1,6 +1,12 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.*;
+import java.util.*;
+
 public abstract class CampInformation {
+    
     private String campName;
-    private double dates; //ddmmyy format
+    private double dates; //ddMMyyddMMyy format -> Error check format in MainApp class
     private double registrationClosing; // is this time or date or both??
     private int userGroup;
     private String location;
@@ -20,27 +26,106 @@ public abstract class CampInformation {
     private boolean visibility;
 
     public CampInformation(String campName, double dates, double registrationClosing, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility){
-        campName = this.campName;
-        dates = this.dates;
-        registrationClosing = this.registrationClosing;
-        userGroup = this.userGroup;
-        location = this.location;
-        totalSlots = this.totalSlots;
-        campCommitteeSlots = this.campCommitteeSlots;
-        description = this.description;
-        staffInCharge = this.staffInCharge;
+        this.campName = campName;
+        this.dates = dates;
+        this.registrationClosing = registrationClosing;
+        this.userGroup = userGroup;
+        this.location = location;
+        this.totalSlots = totalSlots;
+        this.campCommitteeSlots = campCommitteeSlots;
+        this.description = description;
+        this.staffInCharge = staffInCharge;
 
         visibility = this.visibility;
     }
 
     /* Shall we use an index here?
      * int parameter to represent attribute to edit
-     * (i.e.) 1 = campName, 2 = dates ...
+     * (i.e.) 0 = campName, 1 = dates ...
      */
+
+    // someone suggest if got better implementation pls
+    
     public void editCampDetails(CampInformation camp, int attributeToEdit, String edit){ 
+        
+        switch(attributeToEdit){
+
+            case 0:
+                camp.campName = edit;
+                break;
+
+            case 1:
+                try {
+                    double campDate = Double.parseDouble(edit);
+                    camp.dates = campDate;
+                } catch (NumberFormatException nfe) {
+                    System.out.println("NumberFormat Exception: invalid input string");
+                }
+                // Error checking for whether it follows ddMMyyddMMyy format done in MainApp class
+                break;
+
+            case 2:
+                try {
+                    double regClosing = Double.parseDouble(edit);
+                    camp.registrationClosing = regClosing;
+                } catch (NumberFormatException nfe) {
+                    System.out.println("NumberFormat Exception: invalid input string");
+                }
+                break;
+
+            case 3:
+                try {
+                    int userGrp = Integer.parseInt(edit);
+                    camp.userGroup = userGrp;
+                } catch (NumberFormatException nfe) {
+                    System.out.println("NumberFormat Exception: invalid input string");
+                }
+                break;
+
+            case 4:
+                camp.location = edit;
+                break;
+
+            case 5:
+                try {
+                    int slots = Integer.parseInt(edit);
+                    camp.totalSlots = slots;
+                } catch (NumberFormatException nfe) {
+                    System.out.println("NumberFormat Exception: invalid input string");
+                }
+                break;
+
+            case 6:
+                try {
+                    int camslots = Integer.parseInt(edit);
+                    if (camslots > 10){
+                        System.out.println("Committee Slots exceeded! Max 10");
+                    }
+                    else {camp.campCommitteeSlots = camslots;}
+                } catch (NumberFormatException nfe) {
+                    System.out.println("NumberFormat Exception: invalid input string");
+                }
+                break;
+            
+            case 7:
+                camp.description = edit;
+                break;
+            
+            case 8:
+                camp.staffInCharge = edit;
+                break;
+            
+            case 9:
+                System.out.println("Quitting Program . . .");
+                break;
+            
+            default:
+                System.out.println("Attribute does not exist!");
+
+        }
         // switch-case to find attribute to be editted
         // typecast String to appropriate type based on attribute chosen
-        // handle errors and return to calling function
+            // handle errors and return to calling function
 
         // camp.attributeToEdit = edit;
     }
