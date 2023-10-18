@@ -5,7 +5,14 @@ public interface User {
     String getPassword();
     void setPassword(String newPassword);
     String getFaculty();
+    UserType getUserType();
 }
+
+enum UserType {
+    STUDENT, STAFF
+}
+
+/*
 
 public class UserClass implements User {
     private String userID;
@@ -38,3 +45,5 @@ public class UserClass implements User {
         return faculty;
     }
 }
+
+*/
