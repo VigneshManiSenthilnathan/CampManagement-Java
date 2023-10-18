@@ -69,8 +69,7 @@ public class Staff extends CampInformation implements User {
 
     public void generateReports(String staffInCharge, String campName){
         // I think we just use excel java input here?
-        // instead of using any super keywords
-        // dk if thats allowed tho lol
+        // instead of using any super keywords, dk if thats allowed tho lol
         // https://towardsdatascience.com/replacing-vba-with-java-in-excel-e9f5e28d4e5c
     }
 
@@ -79,7 +78,7 @@ public class Staff extends CampInformation implements User {
     }
 
     public void campCommitteeManagement(){
-        
+
     }
 
 
