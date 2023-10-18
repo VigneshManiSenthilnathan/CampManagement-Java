@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.*;
 import java.util.*;
 
-public abstract class CampInformation {
+public class CampInformation {
     
     private String campName;
     private double dates; //ddMMyyddMMyy format -> Error check format in MainApp class
@@ -27,6 +27,8 @@ public abstract class CampInformation {
     private String staffInCharge;
     private boolean visibility;
 
+    public CampInformation(){}
+
     public CampInformation(String campName, double dates, double registrationClosing, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility){
         this.campName = campName;
         this.dates = dates;
@@ -39,6 +41,11 @@ public abstract class CampInformation {
         this.staffInCharge = staffInCharge;
 
         visibility = this.visibility;
+    }
+
+    //getter for campName to use in Staff createCamp()
+    public String getCampName(){
+        return campName;
     }
 
     /* Shall we use an index here?
@@ -153,9 +160,9 @@ public abstract class CampInformation {
     }
 
     //abstract method for staff
-    public void generateReports(String staffInCharge, String campName){  }
+    //public void generateReports(String staffInCharge, String campName){  }
 
     //abstract method for camp committee members
-    public void generateReports(CampInformation camp){  }
+    //public void generateReports(CampInformation camp){  }
 
 }   
