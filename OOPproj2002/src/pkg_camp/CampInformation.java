@@ -1,51 +1,33 @@
-package pkg_camp;
+package sce.sc2002.yys.proj;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-public class CampInformation {
-    
+public abstract class CampInformation {
+
     private String campName;
-    private double dates; //ddMMyyddMMyy format -> Error check format in MainApp class
-    private double registrationClosing; // is this time or date or both??
+    private LocalDate dates;
+    private LocalDate registrationClosingDate;
     private int userGroup;
     private String location;
     private int totalSlots;
-    private int campCommitteeSlots; // max 10
+    private int campCommitteeSlots;
     private String description;
-
-    /* if we tag staffInCharge to campName,
-     * doesnt that imply that there can only be 1 staff per camp?
-     * meaning camp committee cant use generateRecords(staffInCharge)
-     * 
-     * Should this be an String array instead then?
-     * But then how will excel parse it?? Problems problems lol
-     */
-
     private String staffInCharge;
     private boolean visibility;
 
-    public CampInformation(){}
-
-    public CampInformation(String campName, double dates, double registrationClosing, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility){
+    public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
         this.campName = campName;
         this.dates = dates;
-        this.registrationClosing = registrationClosing;
+        this.registrationClosingDate = registrationClosingDate;
         this.userGroup = userGroup;
         this.location = location;
         this.totalSlots = totalSlots;
         this.campCommitteeSlots = campCommitteeSlots;
         this.description = description;
         this.staffInCharge = staffInCharge;
-
-        visibility = this.visibility;
-    }
-
-    //getter for campName to use in Staff createCamp()
-    public String getCampName(){
-        return campName;
+        this.visibility = visibility;
     }
 
     /* Shall we use an index here?
@@ -54,87 +36,85 @@ public class CampInformation {
      */
 
     // someone suggest if got better implementation pls
-    
-    public void editCampDetails(CampInformation camp, int attributeToEdit, String edit){ 
-        
-        switch(attributeToEdit){
 
+	public void editCampDetails(Camp camp, int attributeToEdit, String edit) {
+        switch (attributeToEdit) {
             case 0:
-                camp.campName = edit;
+                camp.setCampName(edit);
                 break;
 
             case 1:
                 try {
-                    double campDate = Double.parseDouble(edit);
-                    camp.dates = campDate;
-                } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: invalid input string");
+                    LocalDate campDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("ddMMyy"));
+                    camp.setDates(campDate);
+                } catch (DateTimeParseException ex) {
+                    System.out.println("Invalid date format. Use 'ddMMyy'.");
                 }
-                // Error checking for whether it follows ddMMyyddMMyy format done in MainApp class
                 break;
 
             case 2:
                 try {
-                    double regClosing = Double.parseDouble(edit);
-                    camp.registrationClosing = regClosing;
-                } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: invalid input string");
+                    LocalDate regClosingDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("ddMMyy"));
+                    camp.setRegistrationClosingDate(regClosingDate);
+                } catch (DateTimeParseException ex) {
+                    System.out.println("Invalid date format. Use 'ddMMyy'.");
                 }
                 break;
 
             case 3:
                 try {
-                    int userGrp = Integer.parseInt(edit);
-                    camp.userGroup = userGrp;
+                    int userGroup = Integer.parseInt(edit);
+                    camp.setUserGroup(userGroup);
                 } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: invalid input string");
+                    System.out.println("NumberFormat Exception: Invalid input.");
                 }
                 break;
 
             case 4:
-                camp.location = edit;
+                camp.setLocation(edit);
                 break;
 
             case 5:
                 try {
                     int slots = Integer.parseInt(edit);
-                    camp.totalSlots = slots;
+                    camp.setTotalSlots(slots);
                 } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: invalid input string");
+                    System.out.println("NumberFormat Exception: Invalid input.");
                 }
                 break;
 
             case 6:
                 try {
                     int camslots = Integer.parseInt(edit);
-                    if (camslots > 10){
-                        System.out.println("Committee Slots exceeded! Max 10");
+                    if (camslots > 10) {
+                        System.out.println("Committee Slots exceeded! Max 10.");
+                    } else {
+                        camp.setCampCommitteeSlots(camslots);
                     }
-                    else {camp.campCommitteeSlots = camslots;}
                 } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: invalid input string");
+                    System.out.println("NumberFormat Exception: Invalid input.");
                 }
                 break;
-            
-            case 7:
-                camp.description = edit;
-                break;
-            
-            case 8:
-                camp.staffInCharge = edit;
-                break;
-            
-            case 9:
-                System.out.println("Quitting Program . . .");
-                break;
-            
-            default:
-                System.out.println("Attribute does not exist!");
 
+            case 7:
+                camp.setDescription(edit);
+                break;
+
+            case 8:
+                camp.setStaffInCharge(edit);
+                break;
+
+            case 9:
+                System.out.println("Quitting Program...");
+                break;
+
+            default:
+                System.out.println("Attribute does not exist.");
         }
-        // switch-case to find attribute to be editted
-        // typecast String to appropriate type based on attribute chosen
-            // handle errors and return to calling function
+        
+        // switch-case to find attribute to be edited
+        // type cast String to appropriate type based on attribute chosen
+        // handle errors and return to calling function
 
         // camp.attributeToEdit = edit;
     }
@@ -148,8 +128,83 @@ public class CampInformation {
             System.out.println("To Set Invisible Enter: 0");
         } 
     }
+    
+    // Setter methods for CampInformation attributes
+    public void setCampName(String campName) {
+        this.campName = campName;
+    }
 
-    //void return cuz reports are generated in excel
+    public void setDates(LocalDate campDate) {
+        this.dates = campDate;
+    }
+    
+    public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
+        this.registrationClosingDate = registrationClosingDate;
+    }
+    
+    public void setUserGroup(int userGroup) {
+        this.userGroup = userGroup;
+    }
+    
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setTotalSlots(int totalSlots) {
+        this.totalSlots = totalSlots;
+    }
+
+    public void setCampCommitteeSlots(int campCommitteeSlots) {
+        this.campCommitteeSlots = campCommitteeSlots;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStaffInCharge(String staffInCharge) {
+        this.staffInCharge = staffInCharge;
+    }
+    
+    //Getter methods for CampInformation attributes
+    public String getCampName(String campName) {
+        return campName;
+    }
+
+    public LocalDate getDates(LocalDate campDate) {
+        return campDate;
+    }
+    
+    public LocalDate getRegistrationClosingDate(LocalDate registrationClosingDate) {
+        return registrationClosingDate;
+    }
+    
+    public int getUserGroup(int userGroup) {
+        return userGroup;
+    }
+    
+    public String getLocation(String location) {
+        return location;
+    }
+
+    public int getTotalSlots(int totalSlots) {
+        return totalSlots;
+    }
+
+    public int getCampCommitteeSlots(int campCommitteeSlots) {
+        return campCommitteeSlots;
+    }
+
+    public String getDescription(String description) {
+        return description;
+    }
+
+    public String getStaffInCharge(String staffInCharge) {
+        return staffInCharge;
+    }
+    
+
+    //void return as reports are generated in excel
     public void generateReports(){ 
         //generate the whole excel sheet at one go
     }
@@ -160,9 +215,9 @@ public class CampInformation {
     }
 
     //abstract method for staff
-    //public void generateReports(String staffInCharge, String campName){  }
+    public void generateReports(String staffInCharge, String campName){  }
 
     //abstract method for camp committee members
-    //public void generateReports(CampInformation camp){  }
+    public void generateReports(CampInformation camp){  }
 
 }   
