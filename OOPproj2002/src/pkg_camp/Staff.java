@@ -86,6 +86,10 @@ public class Staff extends CampInformation implements User {
         }
     }
 
+    public void campCommitteeApproval(Student student){
+        
+    }
+
     public void campCommitteeManagement(){
 
     }

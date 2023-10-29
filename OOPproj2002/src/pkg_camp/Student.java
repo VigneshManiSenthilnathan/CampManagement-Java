@@ -12,7 +12,7 @@ public class Student implements User {
     private StudentType studentType;
     private List<Enquiry> enquiries;
     private List<CampInformation> registeredCamps;
-    private CampCommitteeRole campCommitteeRole;
+    private CampCommitteeMember campCommitteeRole;
 
     public Student(String userID, String password, String faculty) {
         this.userID = userID;
@@ -32,6 +32,7 @@ public class Student implements User {
                 int chosenRole = roleScanner.nextInt();
                 if (chosenRole == 1) {
                     studentType = StudentType.COMMITTEE;
+
                 } else if (chosenRole == 2) {
                     studentType = StudentType.ATTENDEE;
                 } else {
@@ -39,6 +40,7 @@ public class Student implements User {
                     continue; // Repeat the loop
                 }
                 condition = false;
+                roleScanner.close();
             } catch (Exception e) {
                 System.out.println("Enter Valid Integer");
                 System.out.println("[1] : Committee, [2] : Attendee");
@@ -100,6 +102,13 @@ public class Student implements User {
     // Method to delete an enquiry
     public void deleteEnquiry(Enquiry enquiry) {
         enquiries.remove(enquiry);
+    }
+
+    // New camp methods
+
+    public void registerForCamp(){
+        // Show available camps
+        // How can we show available camps? Need to allow access to excel?
     }
 
 }
