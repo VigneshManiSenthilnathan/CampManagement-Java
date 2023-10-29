@@ -4,6 +4,7 @@ public class Enquiry {
     private User sender;
     private User receiver; // User can be either Staff or CampCommitteeMember
     private String message;
+    private String reply;
 
     public Enquiry(User sender, User receiver, String message) {
         this.sender = sender;
@@ -36,9 +37,17 @@ public class Enquiry {
         this.message = message;
     }
 
+    public String getReply(){
+        return reply;
+    }
+
+    public void setReply(String reply){
+        this.reply = reply;
+    }
+
     @Override
     public String toString() {
-        return "Sender: " + sender.getUserID() + "\nReceiver: " + receiver.getUserID() + "\nMessage: " + message;
+        return "Sender: " + sender.getUserID() + "\nReceiver: " + receiver.getUserID() + "\nMessage: " + message + "\nReply: " + reply;
     }
 }
 

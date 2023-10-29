@@ -101,4 +101,5 @@ public class Student implements User {
     public void deleteEnquiry(Enquiry enquiry) {
         enquiries.remove(enquiry);
     }
+
 }

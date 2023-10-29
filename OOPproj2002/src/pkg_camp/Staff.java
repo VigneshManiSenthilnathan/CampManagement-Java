@@ -3,6 +3,7 @@ package OOPproj2002.src.pkg_camp;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Staff extends CampInformation implements User {
 
@@ -78,14 +79,10 @@ public class Staff extends CampInformation implements User {
             System.out.println("Sender: " + enquiry.getSender().getUserID());
             System.out.println("Message: " + enquiry.getMessage());
 
-            // Provide an option to reply to the enquiry
-            String replyMessage = "Your reply goes here."; // You can implement your reply logic
+            Scanner input = new Scanner(System.in);
+            String replyMsg = input.nextLine();
 
-            // Create a reply Enquiry
-            Enquiry reply = new Enquiry(this, enquiry.getSender(), replyMessage);
-
-            // Send the reply to the sender
-            enquiry.getSender().handleEnquiry(reply);
+            enquiry.setReply(replyMsg);
         }
     }
 
