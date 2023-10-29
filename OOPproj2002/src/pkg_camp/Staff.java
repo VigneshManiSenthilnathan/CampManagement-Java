@@ -11,6 +11,7 @@ public class Staff extends CampInformation implements User {
     private String password;
     private String faculty;
     private User STAFF;
+    private ArrayList<Enquiry> enquiries; //enquires related to THIS staff
 
     //Attributes of Staff Methods
     private List<String> createdCampName;
@@ -69,6 +70,23 @@ public class Staff extends CampInformation implements User {
 
     public void enquiriesHandling(){
 
+    }
+
+    public void viewAndReplyToEnquiries() {
+        // Iterate through the enquiries and display them
+        for (Enquiry enquiry : enquiries) {
+            System.out.println("Sender: " + enquiry.getSender().getUserID());
+            System.out.println("Message: " + enquiry.getMessage());
+
+            // Provide an option to reply to the enquiry
+            String replyMessage = "Your reply goes here."; // You can implement your reply logic
+
+            // Create a reply Enquiry
+            Enquiry reply = new Enquiry(this, enquiry.getSender(), replyMessage);
+
+            // Send the reply to the sender
+            enquiry.getSender().handleEnquiry(reply);
+        }
     }
 
     public void campCommitteeManagement(){

@@ -1,22 +1,22 @@
 package OOPproj2002.src.pkg_camp;
 
 public class Enquiry {
-    private Student sender;
+    private User sender;
     private User receiver; // User can be either Staff or CampCommitteeMember
     private String message;
 
-    public Enquiry(Student sender, User receiver, String message) {
+    public Enquiry(User sender, User receiver, String message) {
         this.sender = sender;
         this.receiver = receiver;
         this.message = message;
     }
 
     // Getters and Setters
-    public Student getSender() {
+    public User getSender() {
         return sender;
     }
 
-    public void setSender(Student sender) {
+    public void setSender(User sender) {
         this.sender = sender;
     }
 
