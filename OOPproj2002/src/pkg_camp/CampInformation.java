@@ -16,6 +16,10 @@ public abstract class CampInformation {
     private String staffInCharge;
     private boolean visibility;
 
+    public CampInformation(){
+
+    }
+
     public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
         this.campName = campName;
         this.dates = dates;
@@ -36,7 +40,7 @@ public abstract class CampInformation {
 
     // someone suggest if got better implementation pls
 
-	public void editCampDetails(Camp camp, int attributeToEdit, String edit) {
+	public void editCampDetails(CampInformation camp, int attributeToEdit, String edit) {
         switch (attributeToEdit) {
             case 0:
                 camp.setCampName(edit);
@@ -112,7 +116,7 @@ public abstract class CampInformation {
         }
         
         // switch-case to find attribute to be edited
-        // type cast String to appropriate type based on attribute chosen
+        // typecast String to appropriate type based on attribute chosen
         // handle errors and return to calling function
 
         // camp.attributeToEdit = edit;
