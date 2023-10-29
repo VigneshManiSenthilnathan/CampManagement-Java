@@ -72,9 +72,33 @@ public class Student implements User {
         return STUDENT;
     }
 
-    // Additional methods specific to Student
+    // Enquiry Methods
 
-    public void enquiry() {
-        // Implement the logic for making an enquiry.
+    // Input decides whether staff/campComm receives it
+    public void newEnquiry(User receiver) {
+        
+        Scanner msg = new Scanner(System.in);
+        String message = msg.nextLine();
+        Enquiry enquiry = new Enquiry(this, receiver, message);
+    }
+
+    // Method to get the list of enquiries
+    public List<Enquiry> getEnquiries() {
+        return enquiries;
+    }
+
+    // Method to edit an existing enquiry
+    public void editEnquiry(Enquiry enquiry, String newMessage) {
+
+        int index = enquiries.indexOf(enquiry);
+        if (index != -1) {
+            System.out.println("Original Message: " + enquiries.get(index).getMessage());
+            enquiries.get(index).setMessage(newMessage);
+        }
+    }
+
+    // Method to delete an enquiry
+    public void deleteEnquiry(Enquiry enquiry) {
+        enquiries.remove(enquiry);
     }
 }
