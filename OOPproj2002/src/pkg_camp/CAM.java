@@ -42,7 +42,20 @@ public class CAM {
 				
                 int menu = scanner.nextInt();
 
-                switch(menu):
+                switch(menu){
+                    case 1:
+
+                        break;
+
+                    case 2:
+                        break;
+
+                    case 3:
+                        break;
+
+                    default:
+                        System.out.println("Invalid c")
+                }
 
 
 			}
