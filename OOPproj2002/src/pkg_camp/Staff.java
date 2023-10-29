@@ -63,7 +63,7 @@ public class Staff implements User {
     }
 
     public void generateReports(String staffInCharge, String campName){
-        // I think we just use excel java input here?
+        // I think we just use excel java input here? on it
         // instead of using any super keywords, dk if thats allowed
         // https://towardsdatascience.com/replacing-vba-with-java-in-excel-e9f5e28d4e5c
     }

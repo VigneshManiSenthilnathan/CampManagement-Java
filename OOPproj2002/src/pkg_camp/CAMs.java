@@ -2,13 +2,12 @@ package pkg_camp;
 
 import java.util.Scanner;
 
-public class CAM {
+public class CAMs {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		
 		boolean exit = false;
 		
-        //Branch to here after changing password
 		System.out.println("Main Menu:");
 		System.out.println("(1) Login as Student");
 		System.out.println("(2) Login as Staff");
@@ -49,6 +48,7 @@ public class CAM {
                         student.setPassword(newPassword);
                         break;
                     case 2:
+                        
                         break;
 
                     case 3:
@@ -57,8 +57,6 @@ public class CAM {
                     default:
                         System.out.println("Invalid choice. Please choose a valid option.");
                 }
-
-
 			}
 		}
 		
@@ -73,7 +71,7 @@ public class CAM {
 
             if (password.equals("password")) {
                 Staff staff = new Staff(userID, password, faculty);
-            } 
+            }
             
             else {
                 System.out.println("Invalid login credentials.");
@@ -90,34 +88,7 @@ public class CAM {
 				System.out.println("(7) Camp Suggestions");
 				System.out.println("(8) Generate Camp Report");
 				System.out.println("(9) Generate Performance Report");
-
-				int menu = scanner.nextInt();
-
-				switch(menu){
-
-					case 1: //Change password
-
-					case 2: //Create, edit, delete camp
-
-					case 3: //Camp visibility
-
-					case 4: //View list of all camps
-
-					case 5: //View List of Created camps
-
-					case 6: //View or Reply enquiries
-
-					case 7: //Camp suggestions
-
-					case 8: //Generate camp report
-
-					case 9: //Generate performance report
-
-					default:
-						System.out.println("Invalid choice. Please choose a valid option.");
-				}
 			}
-
 		}
 		
 		scanner.close();
