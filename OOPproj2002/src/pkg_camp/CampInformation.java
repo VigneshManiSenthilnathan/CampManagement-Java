@@ -1,4 +1,5 @@
-package OOPproj2002.src.pkg_camp;
+package pkg_camp;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -13,15 +14,11 @@ public class CampInformation {
     private LocalDate registrationClosingDate;
     private int userGroup;
     private String location;
-    private int totalSlots;
+    private int totalSlots; 
     private int campCommitteeSlots;
     private String description;
     private String staffInCharge;
     private boolean visibility;
-
-    public CampInformation(){
-
-    }
 
     public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
         this.campName = campName;

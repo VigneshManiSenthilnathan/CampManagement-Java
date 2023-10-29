@@ -1,4 +1,4 @@
-package OOPproj2002.src.pkg_camp;
+package pkg_camp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ public class Student implements User {
     private User STUDENT;
     private StudentType studentType;
     private List<Enquiry> enquiries;
-    private List<CampInformation> registeredCamps;
+    private List<Camp> registeredCamps;
     private CampCommitteeMember campCommitteeRole;
 
     public Student(String userID, String password, String faculty) {

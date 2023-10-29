@@ -1,11 +1,11 @@
-package OOPproj2002.src.pkg_camp;
+package pkg_camp;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Staff extends CampInformation implements User {
+public class Staff implements User {
 
     //Attributes of Staff
     private final String userID;
@@ -56,11 +56,10 @@ public class Staff extends CampInformation implements User {
 
     public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
 
-        CampInformation newCamp = new CampInformation (campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description, staffInCharge, visibility);
+        Camp newCamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description, staffInCharge, visibility);
 
         createdCamps.add(newCamp);
-        createdCampName.add(newCamp.getCampName(staffInCharge));       
-        
+        createdCampName.add(newCamp.getCampName(staffInCharge));
     }
 
     public void generateReports(String staffInCharge, String campName){

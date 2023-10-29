@@ -1,4 +1,4 @@
-package OOPproj2002.src.pkg_camp;
+package pkg_camp;
 
 public class Enquiry {
     private User sender;
