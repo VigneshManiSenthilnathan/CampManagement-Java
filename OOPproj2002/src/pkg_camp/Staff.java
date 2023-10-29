@@ -18,18 +18,14 @@ public class Staff implements User {
     private List<String> createdCampName;
     private List<CampInformation> createdCamps;
     private List<Enquiry> enquiriesHandling;
-    private CampCommitteeManagement campCommitteeManagement;
 
     // Constructor
     public Staff(String userID, String password, String faculty) {
         this.userID = userID;
         this.password = password;
         this.faculty = faculty;
-        this.createdCampName = new ArrayList<>();
-        this.createdCamps = new ArrayList<>();
         //this.enquiriesHandling = new ArrayList<>();
     }
-
     // Implement the methods from the User interface
 
     public String getUserID() {
@@ -52,16 +48,6 @@ public class Staff implements User {
         return STAFF;
     }
 
-    // Additional methods specific to Staff
-
-    public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
-
-        Camp newCamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description, staffInCharge, visibility);
-
-        createdCamps.add(newCamp);
-        createdCampName.add(newCamp.getCampName(staffInCharge));
-    }
-
     public void generateReports(String staffInCharge, String campName){
         // I think we just use excel java input here? on it
         // instead of using any super keywords, dk if thats allowed
@@ -69,7 +55,7 @@ public class Staff implements User {
     }
 
     public void enquiriesHandling(){
-
+        
     }
 
     public void viewAndReplyToEnquiries() {
@@ -89,7 +75,7 @@ public class Staff implements User {
         
     }
 
-    public void campCommitteeManagement(){
+    /*public void campCommitteeManagement(){
 
-    }
+    }*/
 }

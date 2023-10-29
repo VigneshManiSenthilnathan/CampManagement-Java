@@ -12,7 +12,7 @@ public class CampInformation {
     private String campName;
     private LocalDate dates;
     private LocalDate registrationClosingDate;
-    private int userGroup;
+    private String userGroup;
     private String location;
     private int totalSlots; 
     private int campCommitteeSlots;
@@ -20,7 +20,7 @@ public class CampInformation {
     private String staffInCharge;
     private boolean visibility;
 
-    public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, int userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
+    public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
         this.campName = campName;
         this.dates = dates;
         this.registrationClosingDate = registrationClosingDate;
@@ -170,39 +170,39 @@ public class CampInformation {
     }
     
     //Getter methods for CampInformation attributes
-    public String getCampName(String campName) {
+    public String getCampName() {
         return campName;
     }
 
-    public LocalDate getDates(LocalDate campDate) {
-        return campDate;
+    public LocalDate getDates() {
+        return dates;
     }
     
-    public LocalDate getRegistrationClosingDate(LocalDate registrationClosingDate) {
+    public LocalDate getRegistrationClosingDate() {
         return registrationClosingDate;
     }
     
-    public int getUserGroup(int userGroup) {
+    public String getUserGroup() {
         return userGroup;
     }
     
-    public String getLocation(String location) {
+    public String getLocation() {
         return location;
     }
 
-    public int getTotalSlots(int totalSlots) {
+    public int getTotalSlots() {
         return totalSlots;
     }
 
-    public int getCampCommitteeSlots(int campCommitteeSlots) {
+    public int getCampCommitteeSlots() {
         return campCommitteeSlots;
     }
 
-    public String getDescription(String description) {
+    public String getDescription() {
         return description;
     }
 
-    public String getStaffInCharge(String staffInCharge) {
+    public String getStaffInCharge() {
         return staffInCharge;
     }
     

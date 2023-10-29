@@ -105,9 +105,22 @@ public class Student implements User {
     }
 
     // New camp methods
+    public void viewCamps(List<Camp> createdCamps){
+        int i = 1;
+        for (Camp camp : createdCamps){
+            if (camp.getUserGroup() == this.getFaculty()){
+                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription());
+            }
+        }
+    }
 
     public void registerForCamp(){
-        // Show available camps
+        // Showing available camps
+        while(i < createdCamps.size()) {
+            if ()
+            i++;
+        }
+
         // How can we show available camps? Need to allow access to excel?
     }
 
