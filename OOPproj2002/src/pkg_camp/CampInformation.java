@@ -3,7 +3,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public abstract class CampInformation {
+public class CampInformation {
 
     private String campName;
     private LocalDate dates;
