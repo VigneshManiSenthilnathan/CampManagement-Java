@@ -1,4 +1,4 @@
-package sce.sc2002.yys.proj;
+package OOPproj2002.src.pkg_camp;
 
 import java.util.ArrayList;
 import java.util.List;
