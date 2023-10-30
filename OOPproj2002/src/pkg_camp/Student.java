@@ -83,6 +83,7 @@ public class Student implements User {
     // Input decides whether staff/campComm receives it
     public void newEnquiry(User receiver) {
 
+
         Scanner msg = new Scanner(System.in);
         String message = msg.nextLine();
         Enquiry enquiry = new Enquiry(this, receiver, message);
@@ -118,6 +119,7 @@ public class Student implements User {
                 System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
                         + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
             }
+            i++;
         }
     }
 
