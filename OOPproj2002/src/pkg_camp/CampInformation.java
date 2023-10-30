@@ -66,7 +66,6 @@ public class CampInformation {
 
             case 3:
                 try {
-                    int userGroup = Integer.parseInt(edit);
                     camp.setUserGroup(userGroup);
                 } catch (NumberFormatException nfe) {
                     System.out.println("NumberFormat Exception: Invalid input.");
@@ -147,7 +146,7 @@ public class CampInformation {
         this.registrationClosingDate = registrationClosingDate;
     }
     
-    public void setUserGroup(int userGroup) {
+    public void setUserGroup(String userGroup) {
         this.userGroup = userGroup;
     }
 

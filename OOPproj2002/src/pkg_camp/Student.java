@@ -143,10 +143,12 @@ public class Student implements User {
             System.out.println("Register for Camp: ");
             Scanner sc = new Scanner(System.in);
             String campname = sc.nextLine();
+
             for (Camp camp : createdCamps) {
                 if (campname == camp.getCampName()){
                     camp.attendees.add(student.getName());
                 }
             }
+        }
     }
 }
