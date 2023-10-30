@@ -16,30 +16,34 @@ public class Student implements User {
 
     public Student(String userID, String password, String faculty) {
         this.userID = userID;
-        this.password = password;
+        this.password = "password";
         this.faculty = faculty;
         this.enquiries = new ArrayList<>();
         this.registeredCamps = new ArrayList<>();
 
         // Here, you can set the student type based on user input
         Scanner roleScanner = new Scanner(System.in);
-        System.out.println("Enter Number for Role");
-        System.out.println("[1] : Committee, [2] : Attendee");
+
+        System.out.println("Enter Number for Role: ");
+        System.out.println("(1) Attendee");
+        System.out.println("(2) Camp Committee");
 
         boolean condition = true;
+
         while (condition) {
             try {
-                int chosenRole = roleScanner.nextInt();
-                if (chosenRole == 1) {
+                int choice = roleScanner.nextInt();
+                if (choice == 1) {
                     studentType = StudentType.COMMITTEE;
 
-                } else if (chosenRole == 2) {
+                } else if (choice == 2) {
                     studentType = StudentType.ATTENDEE;
                 } else {
                     System.out.println("Invalid role selection. Please enter 1 or 2.");
                     continue; // Repeat the loop
                 }
                 condition = false;
+
                 roleScanner.close();
             } catch (Exception e) {
                 System.out.println("Enter Valid Integer");
@@ -78,7 +82,7 @@ public class Student implements User {
 
     // Input decides whether staff/campComm receives it
     public void newEnquiry(User receiver) {
-        
+
         Scanner msg = new Scanner(System.in);
         String message = msg.nextLine();
         Enquiry enquiry = new Enquiry(this, receiver, message);
@@ -105,23 +109,42 @@ public class Student implements User {
     }
 
     // New camp methods
-    public void viewCamps(List<Camp> createdCamps){
+    // Showing available camps
+    public void viewCamps(List<Camp> createdCamps) {
         int i = 1;
-        for (Camp camp : createdCamps){
-            if (camp.getUserGroup() == this.getFaculty()){
-                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription());
+        System.out.println("List of Camps available to join:");
+        for (Camp camp : createdCamps) {
+            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
+                        + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
             }
         }
     }
 
-    public void registerForCamp(){
+    // Register for a camp
+    public void registerForCamp(List<Camp> createdCamps) {
         // Showing available camps
-        while(i < createdCamps.size()) {
-            if ()
-            i++;
-        }
+        int i = 1;
+        // Registering as Attendee
+        boolean done = false;
+        while (!done) {
+            System.out.println("List of Camps available to join:");
+            for (Camp camp : createdCamps) {
+                if ((camp.getUserGroup() == this.getFaculty())
+                        && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+                    System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
+                            + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+                    i++;
+                }
+            }
 
-        // How can we show available camps? Need to allow access to excel?
+            System.out.println("Register for Camp: ");
+            Scanner sc = new Scanner(System.in);
+            String campname = sc.nextLine();
+            for (Camp camp : createdCamps) {
+                if (campname == camp.getCampName()){
+                    camp.attendees.add(student.getName());
+                }
+            }
     }
-
 }

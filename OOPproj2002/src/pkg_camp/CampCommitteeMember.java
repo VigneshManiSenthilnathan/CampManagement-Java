@@ -8,7 +8,7 @@ public class CampCommitteeMember extends Student {
     private List<String> suggestions;
     private int points;
 
-    public CampCommitteeMember(CampInformation campDetails) {
+    public CampCommitteeMember(String userID, String password, String faculty, CampInformation campDetails) {
         super(userID, password, faculty);
         this.campDetails = campDetails;
         this.suggestions = new ArrayList<>();

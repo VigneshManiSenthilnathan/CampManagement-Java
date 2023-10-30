@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-
-//CANNOT BE ABSTRACT!!
-
 public class CampInformation {
 
     private String campName;
@@ -66,8 +63,7 @@ public class CampInformation {
 
             case 3:
                 try {
-                    int userGroup = Integer.parseInt(edit);
-                    camp.setUserGroup(userGroup);
+                    camp.setUserGroup(edit);
                 } catch (NumberFormatException nfe) {
                     System.out.println("NumberFormat Exception: Invalid input.");
                 }
@@ -88,11 +84,11 @@ public class CampInformation {
 
             case 6:
                 try {
-                    int camslots = Integer.parseInt(edit);
-                    if (camslots > 10) {
+                    int comslots = Integer.parseInt(edit);
+                    if (comslots > 10) {
                         System.out.println("Committee Slots exceeded! Max 10.");
                     } else {
-                        camp.setCampCommitteeSlots(camslots);
+                        camp.setCampCommitteeSlots(comslots);
                     }
                 } catch (NumberFormatException nfe) {
                     System.out.println("NumberFormat Exception: Invalid input.");
@@ -145,7 +141,7 @@ public class CampInformation {
         this.registrationClosingDate = registrationClosingDate;
     }
     
-    public void setUserGroup(int userGroup) {
+    public void setUserGroup(String userGroup) {
         this.userGroup = userGroup;
     }
     
