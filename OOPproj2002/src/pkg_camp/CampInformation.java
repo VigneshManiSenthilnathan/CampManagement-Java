@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-
 //CANNOT BE ABSTRACT!!
 
 public class CampInformation {
@@ -14,13 +13,15 @@ public class CampInformation {
     private LocalDate registrationClosingDate;
     private String userGroup;
     private String location;
-    private int totalSlots; 
+    private int totalSlots;
     private int campCommitteeSlots;
     private String description;
     private String staffInCharge;
     private boolean visibility;
 
-    public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
+    public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
+            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
+            boolean visibility) {
         this.campName = campName;
         this.dates = dates;
         this.registrationClosingDate = registrationClosingDate;
@@ -33,14 +34,15 @@ public class CampInformation {
         this.visibility = visibility;
     }
 
-    /* Shall we use an index here?
+    /*
+     * Shall we use an index here?
      * int parameter to represent attribute to edit
      * (i.e.) 0 = campName, 1 = dates ...
      */
 
     // someone suggest if got better implementation pls
 
-	public void editCampDetails(CampInformation camp, int attributeToEdit, String edit) {
+    public void editCampDetails(CampInformation camp, int attributeToEdit, String edit) {
         switch (attributeToEdit) {
             case 0:
                 camp.setCampName(edit);
@@ -65,12 +67,7 @@ public class CampInformation {
                 break;
 
             case 3:
-                try {
-                    int userGroup = Integer.parseInt(edit);
-                    camp.setUserGroup(userGroup);
-                } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: Invalid input.");
-                }
+                camp.setUserGroup(edit);
                 break;
 
             case 4:
@@ -114,7 +111,7 @@ public class CampInformation {
             default:
                 System.out.println("Attribute does not exist.");
         }
-        
+
         // switch-case to find attribute to be edited
         // typecast String to appropriate type based on attribute chosen
         // handle errors and return to calling function
@@ -122,16 +119,18 @@ public class CampInformation {
         // camp.attributeToEdit = edit;
     }
 
-    public void toggleVisibility(CampInformation camp, int set){
-        if (set == 1){camp.visibility = true;}
-        else if (set == 0){camp.visibility = false;}
-        else {
+    public void toggleVisibility(CampInformation camp, int set) {
+        if (set == 1) {
+            camp.visibility = true;
+        } else if (set == 0) {
+            camp.visibility = false;
+        } else {
             System.out.println("Invalid integer input!");
             System.out.println("To Set Visible Enter: 1");
             System.out.println("To Set Invisible Enter: 0");
-        } 
+        }
     }
-    
+
     // Setter methods for CampInformation attributes
     public void setCampName(String campName) {
         this.campName = campName;
@@ -140,15 +139,15 @@ public class CampInformation {
     public void setDates(LocalDate campDate) {
         this.dates = campDate;
     }
-    
+
     public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
         this.registrationClosingDate = registrationClosingDate;
     }
-    
-    public void setUserGroup(int userGroup) {
+
+    public void setUserGroup(String userGroup) {
         this.userGroup = userGroup;
     }
-    
+
     public void setLocation(String location) {
         this.location = location;
     }
@@ -168,8 +167,8 @@ public class CampInformation {
     public void setStaffInCharge(String staffInCharge) {
         this.staffInCharge = staffInCharge;
     }
-    
-    //Getter methods for CampInformation attributes
+
+    // Getter methods for CampInformation attributes
     public String getCampName() {
         return campName;
     }
@@ -177,15 +176,15 @@ public class CampInformation {
     public LocalDate getDates() {
         return dates;
     }
-    
+
     public LocalDate getRegistrationClosingDate() {
         return registrationClosingDate;
     }
-    
+
     public String getUserGroup() {
         return userGroup;
     }
-    
+
     public String getLocation() {
         return location;
     }
@@ -205,22 +204,23 @@ public class CampInformation {
     public String getStaffInCharge() {
         return staffInCharge;
     }
-    
 
-    //void return as reports are generated in excel
-    public void generateReports(){ 
-        //generate the whole excel sheet at one go
+    // void return as reports are generated in excel
+    public void generateReports() {
+        // generate the whole excel sheet at one go
     }
 
-    //overloaded method
-    public void generateReports(String staffInCharge){ 
-        //generate camp details filtered by staff
+    // overloaded method
+    public void generateReports(String staffInCharge) {
+        // generate camp details filtered by staff
     }
 
-    //abstract method for staff
-    public void generateReports(String staffInCharge, String campName){  }
+    // abstract method for staff
+    public void generateReports(String staffInCharge, String campName) {
+    }
 
-    //abstract method for camp committee members
-    public void generateReports(CampInformation camp){  }
+    // abstract method for camp committee members
+    public void generateReports(CampInformation camp) {
+    }
 
-}   
+}
