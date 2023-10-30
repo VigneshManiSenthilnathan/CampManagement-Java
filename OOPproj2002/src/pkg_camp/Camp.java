@@ -20,14 +20,14 @@ public class Camp extends CampInformation {
         campCommittee = new ArrayList<>();
     }
 
-    public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, int userGroup,
+    public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
             String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
             boolean visibility) {
         Camp newCamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots,
                 campCommitteeSlots, description, staffInCharge, visibility);
 
         createdCamps.add(newCamp);
-        createdCampName.add(newCamp.getCampName(staffInCharge));
+        createdCampName.add(newCamp.getCampName());
     }
 
     public List<Student> getAttendees() {

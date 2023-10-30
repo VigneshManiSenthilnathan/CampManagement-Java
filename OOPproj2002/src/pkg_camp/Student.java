@@ -78,7 +78,7 @@ public class Student implements User {
 
     // Input decides whether staff/campComm receives it
     public void newEnquiry(User receiver) {
-        
+
         Scanner msg = new Scanner(System.in);
         String message = msg.nextLine();
         Enquiry enquiry = new Enquiry(this, receiver, message);
@@ -105,12 +105,13 @@ public class Student implements User {
     }
 
     // New camp methods
-    public void viewCamps(List<Camp> createdCamps){
+    public void viewCamps(List<Camp> createdCamps) {
         int i = 1;
-        for (Camp camp : createdCamps){
-            if (camp.getUserGroup() == this.getFaculty()){
+        for (Camp camp : createdCamps) {
+            if (camp.getUserGroup() == this.getFaculty()) {
                 System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription());
             }
+            i++;
         }
     }
 
