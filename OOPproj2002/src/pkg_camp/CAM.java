@@ -11,20 +11,23 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CAM {
-    public static void main(String[] args) {    
+    public static void main(String[] args) {
 
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();
 
-        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); //reads data from file path student_list
-        Workbook workbook1 = new XSSFWorkbook(excelFile1); //XSSFWorkbook constructor takes excelFile1 as parameter and init data from excel file
-        Sheet sheet1 = workbook1.getSheet("student"); //retrieves student sheet from workbook, sheet1 then holds a reference to student sheet
+        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); // reads data from file path
+                                                                                         // student_list
+        Workbook workbook1 = new XSSFWorkbook(excelFile1); // XSSFWorkbook constructor takes excelFile1 as parameter and
+                                                           // init data from excel file
+        Sheet sheet1 = workbook1.getSheet("student"); // retrieves student sheet from workbook, sheet1 then holds a
+                                                      // reference to student sheet
 
         for (Row row : sheet1) {
             String userID = row.getCell(1).getStringCellValue();
             String faculty = row.getCell(2).getStringCellValue();
 
-            if (userID.contains("@")){
+            if (userID.contains("@")) {
                 String[] parts = userID.split("@");
                 userID = parts[0].trim();
             }
@@ -40,7 +43,7 @@ public class CAM {
             String userID = row.getCell(1).getStringCellValue();
             String faculty = row.getCell(2).getStringCellValue();
 
-            if (userID.contains("@")){
+            if (userID.contains("@")) {
                 String[] parts = userID.split("@");
                 userID = parts[0].trim();
             }
@@ -78,126 +81,27 @@ public class CAM {
 
                             boolean changed = false;
 
-                            while (!changed){
+                            while (!changed) {
                                 System.out.println("Change your password: ");
                                 String newPassword = scanner.nextLine();
 
-                                if (newPassword != "password"){
+                                if (newPassword != "password") {
                                     System.out.println("Password Successfully Changed!");
                                     student.setPassword(newPassword);
                                     changed = true;
-                                }
-                                else {
+                                } else {
                                     System.out.println("Use a Different Password!");
                                 }
                             }
-                        }
-                        else if (student.getUserID() == userID && password != "password") {
+                        } else if (student.getUserID() == userID && password != "password") {
                             System.out.println("Student Login Successful!");
                             exitstudentlogin = true;
-                        }
-                        else {
+                            studentMenuPage(student);
+                        } else {
                             System.out.println("Invalid login credentials.");
                         }
                     }
                 }
-
-                boolean exitstudentmenu = false;
-
-                while (!exitstudentmenu) {
-                    System.out.println("Student Menu:");
-                    System.out.println("(1) Change Password");
-                    System.out.println("(2) View List of Camps");
-                    System.out.println("(3) Register for a Camp");
-                    System.out.println("(4) Submit Enquiry");
-                    System.out.println("(5) View, Edit or Delete your Enquiry");
-                    System.out.println("(6) Check Registered Camps");
-                    System.out.println("(7) Withdraw from a Camp");
-
-                    int menu = scanner.nextInt();
-
-                    switch (menu) {
-                        case 1:
-                            System.out.println("What is your new Password?: ")
-                            String newPassword = scanner.nextLine();
-                            student.setPassword(newPassword);
-                            exit = true;
-                            break;
-
-                        case 2:
-                            student.viewCamps(createdCamps);
-                            break;
-
-                        case 3:
-                            System.out.println("Registering as:");
-                            System.out.println("(1) Attendee");
-                            System.out.println("(2) Camp Committee Member");
-                            choice = scanner.nextInt();
-                            if (choice == 1) {
-                                student.StudentType = 1;
-                            }
-
-                            student.registerForCamp();
-                            break;
-
-                        case 4:
-                            student.newEnquiry();
-                            break;
-
-                        case 5:
-                            boolean quit = false;
-                            while (!quit) {
-                                System.out.println("Choose your option below");
-                                System.out.println("Press 1 to view");
-                                System.out.println("Press 2 to edit");
-                                System.out.println("Press 3 to delete");
-                                int option = scanner.nextInt();
-
-                                switch (option) {
-                                    case 1:
-                                        student.getEnquiries();
-                                        quit = true;
-                                        break;
-                                    case 2:
-                                        student.editEnquiry();
-                                        quit = true;
-                                        break;
-                                    case 3:
-                                        student.deleteEnquiry();
-                                        quit = true;
-                                        break;
-                                    default:
-                                        System.out.println("Invalid choice. Please choose a valid option.");
-                                }
-                            }
-                            break;
-
-                        case 6:
-                            break;
-
-                        case 7:
-                            boolean quit1 = false;
-                            System.out.println("Are you sure you want to withdraw from the camp(Y/N)?");
-                            while (quit1 != true) {
-                                String Decision = scanner.nextLine().toUpperCase();
-                                char c = Decision.charAt(0);
-                                if (c == 'Y') {
-                                    student.withdraw();
-                                    break;
-                                } else if (c == 'N') {
-                                    break;
-                                } else {
-                                    System.out.println("Error Please enter either Y or N");
-                                    continue;
-                                }
-                            }
-                            break;
-
-                        default:
-                            System.out.println("Invalid choice. Please choose a valid option.");
-                    }
-                }
-                exitstudentmenu = false;
             }
 
             else if (choice == 2) {
@@ -216,8 +120,8 @@ public class CAM {
                 else {
                     System.out.println("Invalid login credentials.");
                 }
-
-                while (!exit) {
+                boolean exitStaffMenu = false;
+                while (!exitStaffMenu) {
                     System.out.println("Staff Menu:");
                     System.out.println("(1) Change Password");
                     System.out.println("(2) Create, Edit or Delete Camps");
@@ -236,7 +140,7 @@ public class CAM {
                         case 1: // Change password
                             String newPassword = scanner.nextLine();
                             staff.setPassword(newPassword);
-                            exit = true;
+                            exitStaffMenu = true;
                             break;
 
                         case 2: // Create, edit, delete camp
@@ -269,5 +173,107 @@ public class CAM {
         }
 
         scanner.close();
+
     }
+
+    public static void studentMenuPage(Student student){
+            
+        Scanner scanner = new Scanner(System.in);
+        boolean exitstudentmenu = false;
+
+        while (!exitstudentmenu) {
+            System.out.println("Student Menu:");
+            System.out.println("(1) Change Password");
+            System.out.println("(2) View List of Camps");
+            System.out.println("(3) Register for a Camp");
+            System.out.println("(4) Submit Enquiry");
+            System.out.println("(5) View, Edit or Delete your Enquiry");
+            System.out.println("(6) Check Registered Camps");
+            System.out.println("(7) Withdraw from a Camp");
+            System.out.print("Input Choice Digit: ");
+
+            int menu = scanner.nextInt();
+
+            switch (menu) {
+                case 1:s
+                    System.out.println("What is your new Password?: ")
+                    String newPassword = scanner.nextLine();
+                    student.setPassword(newPassword);
+                    exitstudentmenu = true;
+                    break;
+
+                case 2:
+                    student.viewCamps(createdCamps);
+                    break;
+
+                case 3:
+                    System.out.println("Registering as:");
+                    System.out.println("(1) Attendee");
+                    System.out.println("(2) Camp Committee Member");
+                    choice = scanner.nextInt();
+                    if (choice == 1) {
+                        student.StudentType = 1;
+                    }
+
+                    student.registerForCamp();
+                    break;
+
+                case 4:
+                    student.newEnquiry();
+                    break;
+
+                case 5:
+                    boolean quit = false;
+                    while (!quit) {
+                        System.out.println("Choose your option below");
+                        System.out.println("Press 1 to view");
+                        System.out.println("Press 2 to edit");
+                        System.out.println("Press 3 to delete");
+                        int option = scanner.nextInt();
+
+                        switch (option) {
+                            case 1:
+                                student.getEnquiries();
+                                quit = true;
+                                break;
+                            case 2:
+                                student.editEnquiry();
+                                quit = true;
+                                break;
+                            case 3:
+                                student.deleteEnquiry();
+                                quit = true;
+                                break;
+                            default:
+                                System.out.println("Invalid choice. Please choose a valid option.");
+                        }
+                    }
+                    break;
+
+                case 6:
+                    break;
+
+                case 7:
+                    boolean quit1 = false;
+                    System.out.println("Are you sure you want to withdraw from the camp(Y/N)?");
+                    while (quit1 != true) {
+                        String Decision = scanner.nextLine().toUpperCase();
+                        char c = Decision.charAt(0);
+                        if (c == 'Y') {
+                            student.withdraw();
+                            break;
+                        } else if (c == 'N') {
+                            break;
+                        } else {
+                            System.out.println("Error Please enter either Y or N");
+                            continue;
+                        }
+                    }
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please choose a valid option.");
+            }
+        }
+        exitstudentmenu = false;
 }

@@ -145,7 +145,7 @@ public class CampInformation {
     public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
         this.registrationClosingDate = registrationClosingDate;
     }
-    
+
     public void setUserGroup(String userGroup) {
         this.userGroup = userGroup;
     }
@@ -205,6 +205,10 @@ public class CampInformation {
 
     public String getStaffInCharge() {
         return staffInCharge;
+    }
+
+    public boolean getVisibility() {
+        return visibility;
     }
 
     // void return as reports are generated in excel

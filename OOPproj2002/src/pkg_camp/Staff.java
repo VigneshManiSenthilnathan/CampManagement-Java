@@ -7,14 +7,14 @@ import java.util.Scanner;
 
 public class Staff implements User {
 
-    //Attributes of Staff
+    // Attributes of Staff
     private final String userID;
     private String password;
     private String faculty;
     private User STAFF;
-    private ArrayList<Enquiry> enquiries; //enquires related to THIS staff
+    private ArrayList<Enquiry> enquiries; // enquires related to THIS staff
 
-    //Attributes of Staff Methods
+    // Attributes of Staff Methods
     private List<String> createdCampName;
     private List<CampInformation> createdCamps;
     private List<Enquiry> enquiriesHandling;
@@ -24,7 +24,7 @@ public class Staff implements User {
         this.userID = userID;
         this.password = password;
         this.faculty = faculty;
-        //this.enquiriesHandling = new ArrayList<>();
+        // this.enquiriesHandling = new ArrayList<>();
     }
     // Implement the methods from the User interface
 
@@ -36,7 +36,7 @@ public class Staff implements User {
         return password;
     }
 
-    public void setPassword(String newPassword){
+    public void setPassword(String newPassword) {
         this.password = newPassword;
     }
 
@@ -44,18 +44,51 @@ public class Staff implements User {
         return faculty;
     }
 
-    public User getUserType(){
+    public User getUserType() {
         return STAFF;
     }
 
-    public void generateReports(String staffInCharge, String campName){
-        // I think we just use excel java input here? on it
-        // instead of using any super keywords, dk if thats allowed
-        // https://towardsdatascience.com/replacing-vba-with-java-in-excel-e9f5e28d4e5c
+    public void generateReports(String staffInCharge, String attendeeType, String outputFileFormat) {
+        /*
+         * List<Camp> campsCreatedByStaff = getCampsCreatedByStaff(staffInCharge);
+         * 
+         * for (Camp camp : campsCreatedByStaff) {
+         * List<Participant> participants = camp.getParticipantsByType(attendeeType);
+         * 
+         * // Generate the report content
+         * StringBuilder reportContent = new StringBuilder();
+         * reportContent.append("Camp Name: ").append(camp.getName()).append("\n");
+         * reportContent.append("Camp Date: ").append(camp.getDate()).append("\n");
+         * reportContent.append("Location: ").append(camp.getLocation()).append("\n");
+         * reportContent.append("Organizer: ").append(camp.getOrganizer()).append("\n");
+         * 
+         * for (Participant participant : participants) {
+         * reportContent.append("Participant Name: ").append(participant.getName()).
+         * append("\n");
+         * reportContent.append("Participant Role: ").append(participant.getRole()).
+         * append("\n");
+         * // Add more participant details as needed
+         * 
+         * // Add a separator between participants
+         * reportContent.append("------------------------\n");
+         * }
+         * 
+         * // Output the report to a file in the specified format (txt or csv)
+         * String outputFileName = camp.getName() + "_attendance_report." +
+         * outputFileFormat;
+         * try (BufferedWriter writer = new BufferedWriter(new
+         * FileWriter(outputFileName))) {
+         * writer.write(reportContent.toString());
+         * System.out.println("Attendance report generated: " + outputFileName);
+         * } catch (IOException e) {
+         * e.printStackTrace();
+         * System.err.println("Error: Unable to write the attendance report.");
+         * }
+         */
     }
 
-    public void enquiriesHandling(){
-        
+    public void enquiriesHandling() {
+
     }
 
     public void viewAndReplyToEnquiries() {
@@ -71,11 +104,13 @@ public class Staff implements User {
         }
     }
 
-    public void campCommitteeApproval(Student student){
-        
+    public void campCommitteeApproval(Student student) {
+
     }
 
-    /*public void campCommitteeManagement(){
-
-    }*/
+    /*
+     * public void campCommitteeManagement(){
+     * 
+     * }
+     */
 }

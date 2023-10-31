@@ -78,11 +78,18 @@ public class Student implements User {
         return STUDENT;
     }
 
+    public void setStudentType(StudentType type) {
+        if (type == StudentType.ATTENDEE || type == StudentType.COMMITTEE) {
+            this.studentType = type;
+        } else {
+            System.out.println("Invalid Student Type!");
+        }
+    }
+
     // Enquiry Methods
 
     // Input decides whether staff/campComm receives it
     public void newEnquiry(User receiver) {
-
 
         Scanner msg = new Scanner(System.in);
         String message = msg.nextLine();
@@ -111,11 +118,13 @@ public class Student implements User {
 
     // New camp methods
     // Showing available camps
-    public void viewCamps(List<Camp> createdCamps) {
+    // cant have an input parameter here.
+    public void viewCamps() {
         int i = 1;
         System.out.println("List of Camps available to join:");
         for (Camp camp : createdCamps) {
-            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getVisibility())
+                    && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
                 System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
                         + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
             }
@@ -145,7 +154,7 @@ public class Student implements User {
             String campname = sc.nextLine();
 
             for (Camp camp : createdCamps) {
-                if (campname == camp.getCampName()){
+                if (campname == camp.getCampName()) {
                     camp.attendees.add(student.getName());
                 }
             }
