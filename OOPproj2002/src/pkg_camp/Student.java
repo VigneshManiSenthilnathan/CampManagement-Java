@@ -86,6 +86,10 @@ public class Student implements User {
         }
     }
 
+    public StudentType getStudentType() {
+        return this.studentType;
+    }
+
     // Enquiry Methods
 
     // Input decides whether staff/campComm receives it
@@ -120,7 +124,8 @@ public class Student implements User {
 
     // New camp methods
     // Showing available camps
-    // cant have an input parameter here.
+    // cant have an input parameter here -> wait why not please explain with PEEL
+
     public void viewCamps() {
         int i = 1;
         System.out.println("List of Camps available to join:");

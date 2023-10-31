@@ -47,7 +47,11 @@ public class Camp extends CampInformation {
     }
 
     public void addAttendee(Student student) {
+        attendees.add(student);
+    }
 
+    public void addCampCommitteeMember(Student student) {
+        campCommittee.add(student); // Add the student to the camp committee list
     }
 
     @Override

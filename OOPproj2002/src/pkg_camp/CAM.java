@@ -91,17 +91,23 @@ public class CAM {
                                 String newPassword = scanner.nextLine();
 
                                 if (newPassword != "password") { // if newPassword is not the same as old password
-                                                                 // "password"
+                                                                 // "password", change the password to newPassword
                                     System.out.println("Password Successfully Changed!");
                                     student.setPassword(newPassword);
-                                    changed = true;
-                                } else {
+                                    changed = true; // exit asking them to change password
+                                }
+
+                                else { // if they input the same password, ask them to input again
                                     System.out.println("Use a Different Password!");
                                 }
                             }
-                        } else if (student.getUserID() == userID && password != "password") {
+
+                        } else if (userID == student.getUserID() && password == student.getPassword()
+                                && password != "password") { // userID and password is correct, not their first time
+                                                             // logging in
                             System.out.println("Student Login Successful!");
                             exitstudentlogin = true;
+                            // Redirect to student menu method below
                             studentMenuPage(student);
                         } else {
                             System.out.println("Invalid login credentials.");
@@ -182,9 +188,11 @@ public class CAM {
 
     }
 
+    // Student Menu - after log in
     public static void studentMenuPage(Student student){
             
         Scanner scanner = new Scanner(System.in);
+        
         boolean exitstudentmenu = false;
 
         while (!exitstudentmenu) {
@@ -196,18 +204,26 @@ public class CAM {
             System.out.println("(5) View, Edit or Delete your Enquiry");
             System.out.println("(6) Check Registered Camps");
             System.out.println("(7) Withdraw from a Camp");
-            System.out.print("Input Choice Digit: ");
+            System.out.print("Input Choice: ");
 
             int menu = scanner.nextInt();
 
             switch (menu) {
                 case 1:
-                    System.out.println("Enter new Password: ")
+                    System.out.println("Enter new Password: ");
                     String newPassword = scanner.nextLine();
                     // Add some conditions to check
-                    student.setPassword(newPassword);
-                    exitstudentmenu = true;
-                    break;
+                    boolean change = false;
+                    while(!change){
+                        if (newPassword != student.getPassword()){
+                            student.setPassword(newPassword);
+                            change = true;
+                        }
+                        else {
+                            System.out.println("Use a Different Password!");
+                        }
+                    }
+                break;
 
                 case 2:
                     student.viewCamps();
@@ -217,17 +233,23 @@ public class CAM {
                     System.out.println("Registering as:");
                     System.out.println("(1) Attendee");
                     System.out.println("(2) Camp Committee Member");
-                    int choice = scanner.nextInt();
-                    if (choice == 1) {
-                        student.setStudentType(StudentType.ATTENDEE);
-                        
+                    int role_choice = scanner.nextInt();
+                    if (role_choice == 1) {
+                        student.setStudentType(StudentType.ATTENDEE); 
+                    }
+                    else if (role_choice == 2){
+                        student.setStudentType(StudentType.COMMITTEE); 
                     }
 
-                    student.registerForCamp();
+                    student.registerForCamp(createdCamps, student.getStudentType()); //i think...? or issit better to have 2 registerforcamp methods, 1 for attendee and 1 for committee
                     break;
 
                 case 4:
-                    student.newEnquiry();
+                    System.out.println("Send Enquiry To:");
+                    System.out.println("(1) Camp Staff");
+                    System.out.println("(2) Camp Committee Member");
+                    int choice = scanner.nextInt();
+                    student.newEnquiry(User.receiver);
                     break;
 
                 case 5:
@@ -241,11 +263,28 @@ public class CAM {
 
                         switch (option) {
                             case 1:
-                                student.getEnquiries();
+                                List<Enquiry> enqList = student.getEnquiries();
+                                System.out.println(enqList);
                                 quit = true;
                                 break;
                             case 2:
-                                student.editEnquiry();
+                                System.out.println("Choose the enquiry to edit below")
+                                List<Enquiry> enqToEdit = student.getEnquiries();
+                                System.out.println(enqToEdit);
+                                int editIndex = scanner.nextInt();
+                                System.out.println("Enter your new message: ")
+                                String newMsg = scanner.nextLine();
+                                
+
+                                for (Enquiry enquiry : enqToEdit) {
+                                    int i = 0;
+                                    // Account for entry of i > length of enquiry list
+                                    if (i == editIndex){
+                                        student.editEnquiry(enquiry, newMsg);
+                                    }
+
+                                    i++;
+                                }
                                 quit = true;
                                 break;
                             case 3:
@@ -263,6 +302,12 @@ public class CAM {
 
                 case 7:
                     boolean quit1 = false;
+                    System.out.println("Camps you have registered for: ");
+                    System.out.print(student.getEnquiries());
+
+                    System.out.println("Choose the camp you would like to withdraw from: ");
+                    int withdrawIndex = scanner.nextInt();
+
                     System.out.println("Are you sure you want to withdraw from the camp(Y/N)?");
                     while (quit1 != true) {
                         String Decision = scanner.nextLine().toUpperCase();
@@ -284,4 +329,5 @@ public class CAM {
             }
         }
         exitstudentmenu = false;
+    }
 }
