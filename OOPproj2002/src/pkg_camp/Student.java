@@ -94,6 +94,8 @@ public class Student implements User {
         Scanner msg = new Scanner(System.in);
         String message = msg.nextLine();
         Enquiry enquiry = new Enquiry(this, receiver, message);
+        enquiries.add(enquiry);
+        msg.close();
     }
 
     // Method to get the list of enquiries
@@ -133,7 +135,7 @@ public class Student implements User {
     }
 
     // Register for a camp
-    public void registerForCamp(List<Camp> createdCamps) {
+    public void registerForCamp(Camp camp) {
         // Showing available camps
         int i = 1;
         // Registering as Attendee

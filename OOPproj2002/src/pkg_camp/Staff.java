@@ -99,6 +99,7 @@ public class Staff implements User {
 
             Scanner input = new Scanner(System.in);
             String replyMsg = input.nextLine();
+            input.close();
 
             enquiry.setReply(replyMsg);
         }

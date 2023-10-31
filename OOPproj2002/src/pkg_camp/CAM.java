@@ -3,6 +3,8 @@ package pkg_camp;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import pkg_camp.Student.StudentType;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
@@ -77,7 +79,10 @@ public class CAM {
                     String password = scanner.nextLine();
 
                     for (Student student : studentList) {
-                        if (student.getUserID() == userID && password == "password") {
+                        if (student.getUserID() == userID && password == "password") { // if studentID is correct and
+                                                                                       // its their first time logging
+                                                                                       // in, ask them to change
+                                                                                       // password
 
                             boolean changed = false;
 
@@ -85,7 +90,8 @@ public class CAM {
                                 System.out.println("Change your password: ");
                                 String newPassword = scanner.nextLine();
 
-                                if (newPassword != "password") {
+                                if (newPassword != "password") { // if newPassword is not the same as old password
+                                                                 // "password"
                                     System.out.println("Password Successfully Changed!");
                                     student.setPassword(newPassword);
                                     changed = true;
@@ -195,24 +201,26 @@ public class CAM {
             int menu = scanner.nextInt();
 
             switch (menu) {
-                case 1:s
-                    System.out.println("What is your new Password?: ")
+                case 1:
+                    System.out.println("Enter new Password: ")
                     String newPassword = scanner.nextLine();
+                    // Add some conditions to check
                     student.setPassword(newPassword);
                     exitstudentmenu = true;
                     break;
 
                 case 2:
-                    student.viewCamps(createdCamps);
+                    student.viewCamps();
                     break;
 
                 case 3:
                     System.out.println("Registering as:");
                     System.out.println("(1) Attendee");
                     System.out.println("(2) Camp Committee Member");
-                    choice = scanner.nextInt();
+                    int choice = scanner.nextInt();
                     if (choice == 1) {
-                        student.StudentType = 1;
+                        student.setStudentType(StudentType.ATTENDEE);
+                        
                     }
 
                     student.registerForCamp();

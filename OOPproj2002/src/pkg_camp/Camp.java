@@ -8,18 +8,23 @@ public class Camp extends CampInformation {
     private List<Student> attendees;
     private List<Student> campCommittee;
     private List<String> createdCampName;
-    private List<Camp> createdCamps; 
+    private List<Camp> createdCamps;
 
-    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
-        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description, staffInCharge, visibility);
+    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
+            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
+        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
+                description, staffInCharge, visibility);
         this.createdCampName = new ArrayList<>();
         this.createdCamps = new ArrayList<>();
         attendees = new ArrayList<>();
         campCommittee = new ArrayList<>();
     }
 
-    public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
-        Camp newCamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description, staffInCharge, visibility);
+    public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
+            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
+            boolean visibility) {
+        Camp newCamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots,
+                campCommitteeSlots, description, staffInCharge, visibility);
 
         createdCamps.add(newCamp);
         createdCampName.add(newCamp.getCampName());
@@ -35,6 +40,10 @@ public class Camp extends CampInformation {
 
     public List<Camp> getCreatedCamps() {
         return createdCamps;
+    }
+
+    public boolean getVisibility() {
+        return super.getVisibility();
     }
 
     public void addAttendee(Student student) {
