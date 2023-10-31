@@ -16,9 +16,9 @@ public class CAM {
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();
 
-        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx"));
-        Workbook workbook1 = new XSSFWorkbook(excelFile1);
-        Sheet sheet1 = workbook1.getSheet("student");
+        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); //reads data from file path student_list
+        Workbook workbook1 = new XSSFWorkbook(excelFile1); //XSSFWorkbook constructor takes excelFile1 as parameter and init data from excel file
+        Sheet sheet1 = workbook1.getSheet("student"); //retrieves student sheet from workbook, sheet1 then holds a reference to student sheet
 
         for (Row row : sheet1) {
             String userID = row.getCell(1).getStringCellValue();
