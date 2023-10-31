@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CAM {
-    public static void main(String[] args) {
+    public static void main(String[] args) {    
 
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();

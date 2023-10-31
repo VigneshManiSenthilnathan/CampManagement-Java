@@ -9,6 +9,13 @@
             "name": "CAM",
             "request": "launch",
             "mainClass": "pkg_camp.CAM",
+            "projectName": "CampManagement-Java_b0fe31fe"
+        },
+        {
+            "type": "java",
+            "name": "CAM",
+            "request": "launch",
+            "mainClass": "pkg_camp.CAM",
             "projectName": "CampManagement-Java_4d510701"
         }
     ]
