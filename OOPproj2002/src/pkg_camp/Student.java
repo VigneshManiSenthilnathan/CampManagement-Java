@@ -126,7 +126,7 @@ public class Student implements User {
     // Showing available camps
     // cant have an input parameter here -> wait why not please explain with PEEL
 
-    public void viewCamps() {
+    public void viewCamps(List<Camp> createdCamps) {
         int i = 1;
         System.out.println("List of Camps available to join:");
         for (Camp camp : createdCamps) {
@@ -140,7 +140,7 @@ public class Student implements User {
     }
 
     // Register for a camp
-    public void registerForCamp(Camp camp) {
+    public void registerForCamp(List<Camp> createdCamps, Student student) {
         // Showing available camps
         int i = 1;
         // Registering as Attendee
@@ -162,7 +162,7 @@ public class Student implements User {
 
             for (Camp camp : createdCamps) {
                 if (campname == camp.getCampName()) {
-                    camp.attendees.add(student.getName());
+                    camp.addAttendee(student);
                 }
             }
         }

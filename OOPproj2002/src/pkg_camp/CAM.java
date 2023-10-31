@@ -17,6 +17,7 @@ public class CAM {
 
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();
+        List<Camp> createdCamps = new ArrayList<>();
 
         FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); // reads data from file path
                                                                                          // student_list
@@ -55,7 +56,6 @@ public class CAM {
 
         Staff staff = null;
         Camp camp = null;
-        List<Camp> createdCamps = null;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -79,10 +79,11 @@ public class CAM {
                     String password = scanner.nextLine();
 
                     for (Student student : studentList) {
-                        if (student.getUserID() == userID && password == "password") { // if studentID is correct and
-                                                                                       // its their first time logging
-                                                                                       // in, ask them to change
-                                                                                       // password
+                        if (student.getUserID() == userID && password == "password") {
+                            // if studentID is correct and
+                            // its their first time logging
+                            // in, ask them to change
+                            // password
 
                             boolean changed = false;
 
@@ -226,7 +227,7 @@ public class CAM {
                 break;
 
                 case 2:
-                    student.viewCamps();
+                    student.viewCamps(createdCamps);
                     break;
 
                 case 3:
