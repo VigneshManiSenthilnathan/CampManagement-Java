@@ -130,39 +130,53 @@ public class Student implements User {
         int i = 1;
         System.out.println("List of Camps available to join:");
         for (Camp camp : createdCamps) {
-            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getVisibility())
-                    && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
-                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
-                        + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getVisibility()) && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | " + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
             }
             i++;
         }
     }
 
     // Register for a camp
-    public void registerForCamp(List<Camp> createdCamps, Student student) {
+    public void registerForCamp(Student student, List<Camp> createdCamps) {
         // Showing available camps
         int i = 1;
-        // Registering as Attendee
         boolean done = false;
         while (!done) {
+            // List all the camps available to join
             System.out.println("List of Camps available to join:");
             for (Camp camp : createdCamps) {
-                if ((camp.getUserGroup() == this.getFaculty())
-                        && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
-                    System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
-                            + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
-                    i++;
+                if (camp.getUserGroup().equals(this.getFaculty()) && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+                    boolean userAlreadyAttended = false;
+
+                    for (Student attendee : camp.getAttendees()) {
+                        if (this.getUserID().equals(attendee.getUserID())) {
+                            userAlreadyAttended = true;
+                            break; // No need to check further, the user has attended this camp
+                        }
+                    }
+            
+                    if (!userAlreadyAttended) {
+                        System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | " + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+                        i++;
+                    }
                 }
             }
 
+            // Register for an available Camp
             System.out.println("Register for Camp: ");
-            Scanner sc = new Scanner(System.in);
-            String campname = sc.nextLine();
+            Scanner register = new Scanner(System.in);
+            String campname = register.nextLine();
 
             for (Camp camp : createdCamps) {
                 if (campname == camp.getCampName()) {
+                    for (Student applicant : camp.getCampCommittee()){
+                        if (applicant.getUserID() == camp.getCampCommitteeUserID(applicant.getUserID())){
+
+                        }
+                    }
                     camp.addAttendee(student);
+
                 }
             }
         }

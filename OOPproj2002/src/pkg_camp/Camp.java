@@ -34,8 +34,30 @@ public class Camp extends CampInformation {
         return attendees;
     }
 
-    public List<Student> getCampCommittee() {
+    public String getAttendeeUserID(String attendeeUserID) {
+        for (Student attendee : attendees) {
+            if (attendee.getUserID().equals(attendeeUserID)) {
+                return attendee.getUserID();
+            }
+        }
+
+        System.out.println("UserID not found in attendees list!");
+        return null; // Return null if the attendee with the specified name is not found
+    }
+
+    public List<Student> getCampCommittee(){
         return campCommittee;
+    }
+
+    public String getCampCommitteeUserID(String campCommitteeUserID) {
+        for (Student campcommittee : campCommittee) {
+            if (campcommittee.getUserID().equals(campCommitteeUserID)) {
+                return campcommittee.getUserID();
+            }
+        }
+
+        System.out.println("UserID not found in Camp Committee list!");
+        return null; // Return null if the attendee with the specified name is not found
     }
 
     public List<Camp> getCreatedCamps() {

@@ -13,18 +13,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CAM {
-    public static void main(String[] args) {
+    public static void main(String[] args){
 
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();
         List<Camp> createdCamps = new ArrayList<>();
 
-        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); // reads data from file path
-                                                                                         // student_list
-        Workbook workbook1 = new XSSFWorkbook(excelFile1); // XSSFWorkbook constructor takes excelFile1 as parameter and
-                                                           // init data from excel file
-        Sheet sheet1 = workbook1.getSheet("student"); // retrieves student sheet from workbook, sheet1 then holds a
-                                                      // reference to student sheet
+        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); // reads data from file path: student_list
+        Workbook workbook1 = new XSSFWorkbook(excelFile1); // XSSFWorkbook constructor takes excelFile1 as parameter and init data from excel file
+        Sheet sheet1 = workbook1.getSheet("student"); // retrieves student sheet from workbook, sheet1 then holds a reference to student sheet
 
         for (Row row : sheet1) {
             String userID = row.getCell(1).getStringCellValue();
@@ -38,9 +35,9 @@ public class CAM {
             studentList.add(student);
         }
 
-        FileInputStream excelFile2 = new FileInputStream(new File("student_list.xlsx"));
+        FileInputStream excelFile2 = new FileInputStream(new File("staff_list.xlsx"));
         Workbook workbook2 = new XSSFWorkbook(excelFile2);
-        Sheet sheet2 = workbook2.getSheet("student");
+        Sheet sheet2 = workbook2.getSheet("staff");
 
         for (Row row : sheet2) {
             String userID = row.getCell(1).getStringCellValue();
@@ -53,9 +50,6 @@ public class CAM {
             Staff staff = new Staff(userID, "password", faculty);
             staffList.add(staff);
         }
-
-        Staff staff = null;
-        Camp camp = null;
 
         Scanner scanner = new Scanner(System.in);
 
@@ -107,9 +101,9 @@ public class CAM {
                                 && password != "password") { // userID and password is correct, not their first time
                                                              // logging in
                             System.out.println("Student Login Successful!");
-                            exitstudentlogin = true;
                             // Redirect to student menu method below
-                            studentMenuPage(student);
+                            studentMenuPage(student, createdCamps);
+                            exitstudentlogin = true;
                         } else {
                             System.out.println("Invalid login credentials.");
                         }
@@ -118,79 +112,57 @@ public class CAM {
             }
 
             else if (choice == 2) {
-                System.out.println("Staff Login:");
-                System.out.print("UserID: ");
-                String userID = scanner.nextLine();
-                System.out.print("Password (default: password): ");
-                String password = scanner.nextLine();
-                System.out.print("Faculty: ");
-                String faculty = scanner.nextLine();
+                boolean exitstafflogin = false;
+                while(!exitstafflogin){
+                    System.out.println("Staff Login:");
+                    System.out.print("UserID: ");
+                    String userID = scanner.nextLine();
+                    System.out.print("Password (default: password): ");
+                    String password = scanner.nextLine();
+                    System.out.print("Faculty: ");
+                    String faculty = scanner.nextLine();
 
-                if (password.equals("password")) {
-                    Staff staff = new Staff(userID, password, faculty);
-                }
+                    for (Staff staff : staffList) {
+                        if (staff.getUserID() == userID && password == "password") {
+                            // if staffID is correct and its their first time logging in, ask them to change password
+                            boolean changed = false;
+                            while (!changed) {
+                                System.out.println("Change your password: ");
+                                String newPassword = scanner.nextLine();
 
-                else {
-                    System.out.println("Invalid login credentials.");
-                }
-                boolean exitStaffMenu = false;
-                while (!exitStaffMenu) {
-                    System.out.println("Staff Menu:");
-                    System.out.println("(1) Change Password");
-                    System.out.println("(2) Create, Edit or Delete Camps");
-                    System.out.println("(3) Toggle Camp Visibility");
-                    System.out.println("(4) View All Camps");
-                    System.out.println("(5) View List Created Camps");
-                    System.out.println("(6) View or Reply Enquiries");
-                    System.out.println("(7) Camp Suggestions");
-                    System.out.println("(8) Generate Camp Report");
-                    System.out.println("(9) Generate Performance Report");
+                                if (newPassword != "password") { // if newPassword is not the same as old password "password", change the password to newPassword
+                                    System.out.println("Password Successfully Changed!");
+                                    staff.setPassword(newPassword);
+                                    changed = true; // exit asking them to change password
+                                }
 
-                    int menu = scanner.nextInt();
-
-                    switch (menu) {
-
-                        case 1: // Change password
-                            String newPassword = scanner.nextLine();
-                            staff.setPassword(newPassword);
-                            exitStaffMenu = true;
-                            break;
-
-                        case 2: // Create, edit, delete camp
-
-                        case 3: // Camp visibility
-
-                        case 4: // View list of all camps
-
-                        case 5: // View List of Created camps
-
-                        case 6: // View or Reply enquiries
-
-                        case 7: // Camp suggestions
-
-                        case 8: // Generate camp report
-
-                        case 9: // Generate performance report
-
-                        default:
-                            System.out.println("Invalid choice. Please choose a valid option.");
-
+                                else { // if they input the same password, ask them to input again
+                                    System.out.println("Use a Different Password!");
+                                }
+                            }
+                        } 
+                        
+                        else if (userID == staff.getUserID() && password == staff.getPassword()
+                                && password != "password") { // userID and password is correct, not their first time
+                                                            // logging in
+                            System.out.println("Staff Login Successful!");
+                            // Redirect to student menu method below
+                            staffMenuPage(staff, createdCamps);
+                            exitstafflogin = true;
+                        } 
+                        
+                        else {
+                            System.out.println("Invalid login credentials.");
+                        }
                     }
-
                 }
-            }
-
-            else {
-                exit = true;
             }
         }
-
         scanner.close();
-
     }
 
     // Student Menu - after log in
-    public static void studentMenuPage(Student student){
+    public static void studentMenuPage(Student student, List<Camp> createdCamps){
             
         Scanner scanner = new Scanner(System.in);
         
@@ -242,7 +214,7 @@ public class CAM {
                         student.setStudentType(StudentType.COMMITTEE); 
                     }
 
-                    student.registerForCamp(createdCamps, student.getStudentType()); //i think...? or issit better to have 2 registerforcamp methods, 1 for attendee and 1 for committee
+                    student.registerForCamp(createdCamps, student);
                     break;
 
                 case 4:
@@ -330,5 +302,74 @@ public class CAM {
             }
         }
         exitstudentmenu = false;
+    }
+
+    // Staff Menu - after log in
+    public static void staffMenuPage(Staff staff, List<Camp> createdCamps){
+            
+        Scanner scanner = new Scanner(System.in);
+        boolean exitStaffMenu = false;
+
+        while (!exitStaffMenu) {
+            System.out.println("Staff Menu:");
+            System.out.println("(1) Change Password");
+            System.out.println("(2) Create, Edit or Delete Camps");
+            System.out.println("(3) Toggle Camp Visibility");
+            System.out.println("(4) View All Camps");
+            System.out.println("(5) View List Created Camps");
+            System.out.println("(6) View or Reply Enquiries");
+            System.out.println("(7) Camp Suggestions");
+            System.out.println("(8) Generate Camp Report");
+            System.out.println("(9) Generate Performance Report");
+
+            int menu = scanner.nextInt();
+
+            switch (menu) {
+
+                case 1: // Change password
+                    System.out.println("Enter new Password: ");
+                    String newPassword = scanner.nextLine();
+                    // Add some conditions to check
+                    boolean change = false;
+                    while(!change){
+                        if (newPassword != staff.getPassword()){
+                            staff.setPassword(newPassword);
+                            change = true;
+                        }
+                        else {
+                            System.out.println("Use a Different Password!");
+                        }
+                    }
+                    break;
+
+                case 2: // Create, edit, delete camp
+                    break;
+
+                case 3: // Camp visibility
+                    break;
+
+                case 4: // View list of all camps
+                    break;
+
+                case 5: // View List of Created camps
+                    break;
+
+                case 6: // View or Reply enquiries
+                    break;
+
+                case 7: // Camp suggestions
+                    break;
+
+                case 8: // Generate camp report
+                    break;
+
+                case 9: // Generate performance report
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please choose a valid option.");
+            }
+                exitStaffMenu = true;
+        }
     }
 }
