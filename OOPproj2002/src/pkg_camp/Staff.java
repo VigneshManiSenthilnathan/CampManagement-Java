@@ -70,28 +70,18 @@ public class Staff extends Camp implements User {
                 reportContent.append("Camp Date: ").append(camp.getDates()).append("\n");
                 reportContent.append("Location: ").append(camp.getLocation()).append("\n");
                 reportContent.append("Description: ").append(camp.getDescription()).append("\n");
-                reportContent.append("Staff in Charge: ").append(camp.getStaffInCharge().getName()).append("\n"); // might
-                                                                                                                  // need
-                                                                                                                  // to
-                                                                                                                  // have
-                                                                                                                  // a
-                                                                                                                  // getter
-                                                                                                                  // method
-                                                                                                                  // for
-                                                                                                                  // this
+                reportContent.append("Staff in Charge: ").append(camp.getStaffInCharge().getName()).append("\n");
+
+                // might need to have a getter method for this
 
                 // Add participants to the report
                 for (Student participant : participants) {
-                    reportContent.append("Participant Name: ").append(participant.getName()).append("\n"); // might need
-                                                                                                           // to have a
-                                                                                                           // getter
-                                                                                                           // method for
-                                                                                                           // this
-                    reportContent.append("Participant Role: ").append(participant.getRole()).append("\n"); // might need
-                                                                                                           // to have a
-                                                                                                           // getter
-                                                                                                           // method for
-                                                                                                           // this
+                    reportContent.append("Participant Name: ").append(participant.getName()).append("\n");
+                    // might need to have a getter method for this
+
+                    reportContent.append("Participant Role: ").append(participant.getRole()).append("\n");
+                    // might need to have a getter method for this
+
                     // Add more participant details as needed
 
                     // Add a separator between participants
