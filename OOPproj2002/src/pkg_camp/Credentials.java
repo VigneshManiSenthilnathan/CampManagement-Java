@@ -2,17 +2,24 @@ package pkg_camp;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 // To store usernames and passwords
 // Extend to store studentType too?
 public class Credentials {
     private String username;
     private static String password; // Store encoded PW only
+
+    public Credentials(String username, String password) {
+        this.username = username;
+        setPassword(password);
+    }
 
     // Getters
     public String getUsername() {
@@ -27,17 +34,19 @@ public class Credentials {
     }
 
     // Setters
-    public void setUsername(String newUsername) {
-        // Get password from username
-        String corresPW = getPassword(username);
-        this.username = newUsername;
-        // Also update in excel using corresPW to locate -- not just here!
-    }
+    /*
+     * public void setUsername(String newUsername) {
+     * // Get password from username
+     * String corresPW = getPassword(username);
+     * this.username = newUsername;
+     * // Also update in excel using corresPW to locate -- not just here!
+     * }
+     */
 
-    public void setPassword(String Username, String newPassword) {
+    public void setPassword(String newPassword) {
 
         String encodedNewPW = encodePassword(newPassword);
-        this.password = encodedNewPW;
+        Credentials.password = encodedNewPW;
 
     }
 
@@ -45,12 +54,6 @@ public class Credentials {
     public static boolean verifyPassword(String inputUsername, String inputPassword) {
         String encodedPW = getPassword(inputUsername);
         return encodedPW.equals(inputPassword);
-    }
-
-    // To store a username - [password] as a key value pair: Dictionary?
-    // Dk if we need that since we can just use excel lol
-    public static void storeCredentials(String username, String encodedPW) {
-
     }
 
     // To encode a password input
@@ -74,11 +77,60 @@ public class Credentials {
                 }
                 hexString.append(hex);
             }
-
+            System.out.println("Encoding Successful!");
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
+            System.out.println("Encoding Unsuccessful!");
             return null;
+        }
+    }
+
+    public void excelWriter(String username, String password) {
+
+        // Check if the Excel file exists
+        File file = new File("user_passwords.xlsx"); // Change the file name as needed
+        Workbook workbook;
+        Sheet sheet;
+
+        if (file.exists()) {
+            // If the file exists, open it and check if the sheet "UserPasswords" exists
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                workbook = new XSSFWorkbook(fis);
+                sheet = workbook.getSheet("UserPasswords");
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+
+        else {
+            // If the file doesn't exist, create a new workbook and sheet
+            workbook = new XSSFWorkbook();
+            sheet = workbook.createSheet("UserPasswords");
+
+            // Create a header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Username");
+            headerRow.createCell(1).setCellValue("EncodedPassword");
+        }
+
+        // Create a data row for the new username and password
+        int lastRowNum = sheet.getLastRowNum();
+        Row dataRow = sheet.createRow(lastRowNum + 1);
+        dataRow.createCell(0).setCellValue(username);
+        dataRow.createCell(1).setCellValue(password);
+
+        try {
+            // Write the updated workbook to the Excel file
+            FileOutputStream fileOut = new FileOutputStream("user_passwords.xlsx"); // Change the file name as needed
+            workbook.write(fileOut);
+            fileOut.close();
+            System.out.println("Data has been written to the Excel file.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
