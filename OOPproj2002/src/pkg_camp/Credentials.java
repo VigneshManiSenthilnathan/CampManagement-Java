@@ -1,12 +1,17 @@
 package pkg_camp;
 
+import java.io.*;
+import java.util.Iterator;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -29,8 +34,41 @@ public class Credentials {
     // Security Concern to return password directly.
     // Return the encoded password thats stored in excel
     private static String getPassword(String username) {
-        // Implement getting relavant pw from username
-        return password;
+        try {
+            File file = new File("user_passwords.xlsx"); // Change the file name as needed
+            if (!file.exists()) {
+                System.out.println("Excel file does not exist.");
+                return null;
+            }
+
+            FileInputStream fis = new FileInputStream(file);
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheet("UserPasswords");
+
+            Iterator<Row> iterator = sheet.iterator();
+            iterator.next(); // Skip the header row
+
+            while (iterator.hasNext()) {
+                Row row = iterator.next();
+                Cell usernameCell = row.getCell(0);
+                Cell passwordCell = row.getCell(1);
+
+                if (usernameCell != null && passwordCell != null) {
+                    String cellUsername = usernameCell.getStringCellValue();
+                    if (cellUsername.equals(username)) {
+                        String encodedPassword = passwordCell.getStringCellValue();
+                        fis.close();
+                        return encodedPassword;
+                    }
+                }
+            }
+
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Return null if the username is not found
     }
 
     // Setters
@@ -52,7 +90,17 @@ public class Credentials {
 
     // Run this in the main function to verify existing accounts
     public static boolean verifyPassword(String inputUsername, String inputPassword) {
+        if (usernameExists(inputUsername) == false) {
+            System.out.println("Username does not exist!");
+            return false;
+        }
+
         String encodedPW = getPassword(inputUsername);
+
+        if (encodedPW.equals(inputPassword) == false) {
+            System.out.println("Incorrect Password!");
+            return false;
+        }
         return encodedPW.equals(inputPassword);
     }
 
@@ -86,6 +134,43 @@ public class Credentials {
         }
     }
 
+    // Check if username exists
+    public static boolean usernameExists(String username) {
+        try {
+            FileInputStream fis = new FileInputStream("user_passwords.xlsx");
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheet("UserPasswords");
+
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+
+                // Skip the header row
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+
+                // Get the username from the first cell of the current row
+                Cell cell = row.getCell(0);
+                String cellValue = cell.getStringCellValue();
+
+                // Check if the username matches the input
+                if (cellValue.equals(username)) {
+                    fis.close();
+                    return true;
+                }
+            }
+
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    // Write to excel
     public void excelWriter(String username, String password) {
 
         // Check if the Excel file exists
