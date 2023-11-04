@@ -218,4 +218,53 @@ public class Credentials {
             e.printStackTrace();
         }
     }
+
+    public static void updatePassword(String usernameToUpdate, String newPassword) {
+        // Check if the Excel file exists
+        File file = new File("user_passwords.xlsx"); // Change the file name as needed
+        Workbook workbook;
+        Sheet sheet;
+
+        String encodedNewPW = encodePassword(newPassword);
+
+        if (file.exists()) {
+            // If the file exists, open it and check if the sheet "UserPasswords" exists
+            try {
+                FileInputStream fis = new FileInputStream(file);
+                workbook = new XSSFWorkbook(fis);
+                sheet = workbook.getSheet("UserPasswords");
+                fis.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        } else {
+            System.out.println("Excel file not found. Please create it first.");
+            return;
+        }
+
+        // Find the username and update the password
+        Iterator<Row> rowIterator = sheet.iterator();
+        while (rowIterator.hasNext()) {
+            Row row = rowIterator.next();
+            Cell usernameCell = row.getCell(0);
+
+            if (usernameCell != null && usernameCell.getStringCellValue().equals(usernameToUpdate)) {
+                // Found the username, update the password
+                Cell passwordCell = row.getCell(1);
+                passwordCell.setCellValue(encodedNewPW);
+                break; // No need to continue searching
+            }
+        }
+
+        try {
+            // Write the updated workbook to the Excel file
+            FileOutputStream fileOut = new FileOutputStream("user_passwords.xlsx"); // Change the file name as needed
+            workbook.write(fileOut);
+            fileOut.close();
+            System.out.println("Password updated successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

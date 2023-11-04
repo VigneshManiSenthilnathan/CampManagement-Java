@@ -7,6 +7,8 @@ import pkg_camp.Student.StudentType;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,44 +21,68 @@ public class CAM {
         List<Staff> staffList = new ArrayList<>();
         List<Camp> createdCamps = new ArrayList<>();
 
-        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); // reads data from file path:
-                                                                                         // student_list
-        Workbook workbook1 = new XSSFWorkbook(excelFile1); // XSSFWorkbook constructor takes excelFile1 as parameter and
-                                                           // init data from excel file
-        Sheet sheet1 = workbook1.getSheet("student"); // retrieves student sheet from workbook, sheet1 then holds a
-                                                      // reference to student sheet
+        // Student
+        try {
+            // reads data from file path: student_list
+            FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx"));
 
-        for (Row row : sheet1) {
-            String userID = row.getCell(1).getStringCellValue();
-            String faculty = row.getCell(2).getStringCellValue();
+            // XSSFWorkbook constructor takes excelFile1 as parameter and init data from
+            // excel file
+            Workbook workbook1 = new XSSFWorkbook(excelFile1);
 
-            if (userID.contains("@")) {
-                String[] parts = userID.split("@");
-                userID = parts[0].trim();
+            // retrieves student sheet from workbook, sheet1 then holds a reference to
+            // student sheet
+            Sheet sheet1 = workbook1.getSheet("student");
+
+            for (Row row : sheet1) {
+                String userID = row.getCell(1).getStringCellValue();
+                String faculty = row.getCell(2).getStringCellValue();
+
+                if (userID.contains("@")) {
+                    String[] parts = userID.split("@");
+                    userID = parts[0].trim();
+                }
+                Student student = new Student(userID, "password", faculty);
+
+                // need to also add in credentials excel: "user_passwords.xlsx"
+                Credentials newUser = new Credentials(userID, "password");
+                newUser.excelWriter(userID, "password");
+
+                studentList.add(student);
+                excelFile1.close();
+                workbook1.close();
             }
-            Student student = new Student(userID, "password", faculty);
 
-            // need to also add in credentials excel: "user_passwords.xlsx"
-            // Credentials newUser = new Credentials(userID, "password");
-            // newUser.excelWriter(userID, "password");
-
-            studentList.add(student);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        FileInputStream excelFile2 = new FileInputStream(new File("staff_list.xlsx"));
-        Workbook workbook2 = new XSSFWorkbook(excelFile2);
-        Sheet sheet2 = workbook2.getSheet("staff");
+        // Staff
+        try {
+            FileInputStream excelFile2 = new FileInputStream(new File("staff_list.xlsx"));
+            Workbook workbook2 = new XSSFWorkbook(excelFile2);
+            Sheet sheet2 = workbook2.getSheet("staff");
 
-        for (Row row : sheet2) {
-            String userID = row.getCell(1).getStringCellValue();
-            String faculty = row.getCell(2).getStringCellValue();
+            for (Row row : sheet2) {
+                String userID = row.getCell(1).getStringCellValue();
+                String faculty = row.getCell(2).getStringCellValue();
 
-            if (userID.contains("@")) {
-                String[] parts = userID.split("@");
-                userID = parts[0].trim();
+                if (userID.contains("@")) {
+                    String[] parts = userID.split("@");
+                    userID = parts[0].trim();
+                }
+                Staff staff = new Staff(userID, "password", faculty);
+
+                // need to also add in credentials excel: "user_passwords.xlsx"
+                Credentials newUser = new Credentials(userID, "password");
+                newUser.excelWriter(userID, "password");
+
+                staffList.add(staff);
+                excelFile2.close();
+                workbook2.close();
             }
-            Staff staff = new Staff(userID, "password", faculty);
-            staffList.add(staff);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         Scanner scanner = new Scanner(System.in);
@@ -73,47 +99,60 @@ public class CAM {
 
             if (choice == 1) {
                 boolean exitstudentlogin = false;
+                boolean validcredentials = false;
                 while (!exitstudentlogin) {
+
                     System.out.println("| Student Login |");
                     System.out.print("UserID: ");
                     String userID = scanner.nextLine();
                     System.out.print("Password (default is: password): ");
                     String password = scanner.nextLine();
 
-                    for (Student student : studentList) {
-                        if (student.getUserID() == userID && password == "password") {
-                            // if studentID is correct and
-                            // its their first time logging
-                            // in, ask them to change
-                            // password
+                    // Credentials check
+                    if (Credentials.verifyPassword(userID, password)) {
+                        validcredentials = true;
+                    }
 
-                            boolean changed = false;
+                    while (validcredentials) {
+                        for (Student student : studentList) {
+                            if (student.getUserID() == userID && password == "password") {
+                                // if studentID is correct and
+                                // its their first time logging
+                                // in, ask them to change
+                                // password
 
-                            while (!changed) {
-                                System.out.println("Change your password: ");
-                                String newPassword = scanner.nextLine();
+                                boolean changed = false;
 
-                                if (newPassword != "password") { // if newPassword is not the same as old password
-                                                                 // "password", change the password to newPassword
-                                    System.out.println("Password Successfully Changed!");
-                                    student.setPassword(newPassword);
-                                    changed = true; // exit asking them to change password
+                                while (!changed) {
+                                    System.out.println("Change your password: ");
+                                    String newPassword = scanner.nextLine();
+
+                                    // if newPassword is not the same as old password "password",
+                                    // change the password to newPassword
+
+                                    if (newPassword != "password") {
+                                        System.out.println("Password Successfully Changed!");
+                                        student.setPassword(newPassword);
+
+                                        changed = true; // exit asking them to change password
+                                        studentMenuPage(student, createdCamps);
+                                    }
+
+                                    else { // if they input the same password, ask them to input again
+                                        System.out.println("Use a Different Password!");
+                                    }
                                 }
 
-                                else { // if they input the same password, ask them to input again
-                                    System.out.println("Use a Different Password!");
-                                }
+                            } else if (userID == student.getUserID() && password == student.getPassword()
+                                    && password != "password") { // userID and password is correct, not their first time
+                                                                 // logging in
+                                System.out.println("Student Login Successful!");
+                                // Redirect to student menu method below
+                                studentMenuPage(student, createdCamps);
+                                exitstudentlogin = true;
+                            } else {
+                                System.out.println("Invalid login credentials.");
                             }
-
-                        } else if (userID == student.getUserID() && password == student.getPassword()
-                                && password != "password") { // userID and password is correct, not their first time
-                                                             // logging in
-                            System.out.println("Student Login Successful!");
-                            // Redirect to student menu method below
-                            studentMenuPage(student, createdCamps);
-                            exitstudentlogin = true;
-                        } else {
-                            System.out.println("Invalid login credentials.");
                         }
                     }
                 }
