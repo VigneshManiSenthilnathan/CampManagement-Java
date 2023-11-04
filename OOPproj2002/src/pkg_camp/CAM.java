@@ -13,15 +13,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CAM {
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();
         List<Camp> createdCamps = new ArrayList<>();
 
-        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); // reads data from file path: student_list
-        Workbook workbook1 = new XSSFWorkbook(excelFile1); // XSSFWorkbook constructor takes excelFile1 as parameter and init data from excel file
-        Sheet sheet1 = workbook1.getSheet("student"); // retrieves student sheet from workbook, sheet1 then holds a reference to student sheet
+        FileInputStream excelFile1 = new FileInputStream(new File("student_list.xlsx")); // reads data from file path:
+                                                                                         // student_list
+        Workbook workbook1 = new XSSFWorkbook(excelFile1); // XSSFWorkbook constructor takes excelFile1 as parameter and
+                                                           // init data from excel file
+        Sheet sheet1 = workbook1.getSheet("student"); // retrieves student sheet from workbook, sheet1 then holds a
+                                                      // reference to student sheet
 
         for (Row row : sheet1) {
             String userID = row.getCell(1).getStringCellValue();
@@ -32,6 +35,11 @@ public class CAM {
                 userID = parts[0].trim();
             }
             Student student = new Student(userID, "password", faculty);
+
+            // need to also add in credentials excel: "user_passwords.xlsx"
+            // Credentials newUser = new Credentials(userID, "password");
+            // newUser.excelWriter(userID, "password");
+
             studentList.add(student);
         }
 
@@ -113,7 +121,7 @@ public class CAM {
 
             else if (choice == 2) {
                 boolean exitstafflogin = false;
-                while(!exitstafflogin){
+                while (!exitstafflogin) {
                     System.out.println("Staff Login:");
                     System.out.print("UserID: ");
                     String userID = scanner.nextLine();
@@ -124,13 +132,15 @@ public class CAM {
 
                     for (Staff staff : staffList) {
                         if (staff.getUserID() == userID && password == "password") {
-                            // if staffID is correct and its their first time logging in, ask them to change password
+                            // if staffID is correct and its their first time logging in, ask them to change
+                            // password
                             boolean changed = false;
                             while (!changed) {
                                 System.out.println("Change your password: ");
                                 String newPassword = scanner.nextLine();
 
-                                if (newPassword != "password") { // if newPassword is not the same as old password "password", change the password to newPassword
+                                if (newPassword != "password") { // if newPassword is not the same as old password
+                                                                 // "password", change the password to newPassword
                                     System.out.println("Password Successfully Changed!");
                                     staff.setPassword(newPassword);
                                     changed = true; // exit asking them to change password
@@ -140,17 +150,17 @@ public class CAM {
                                     System.out.println("Use a Different Password!");
                                 }
                             }
-                        } 
-                        
+                        }
+
                         else if (userID == staff.getUserID() && password == staff.getPassword()
                                 && password != "password") { // userID and password is correct, not their first time
-                                                            // logging in
+                                                             // logging in
                             System.out.println("Staff Login Successful!");
                             // Redirect to student menu method below
                             staffMenuPage(staff, createdCamps);
                             exitstafflogin = true;
-                        } 
-                        
+                        }
+
                         else {
                             System.out.println("Invalid login credentials.");
                         }
@@ -305,8 +315,8 @@ public class CAM {
     }
 
     // Staff Menu - after log in
-    public static void staffMenuPage(Staff staff, List<Camp> createdCamps){
-            
+    public static void staffMenuPage(Staff staff, List<Camp> createdCamps) {
+
         Scanner scanner = new Scanner(System.in);
         boolean exitStaffMenu = false;
 
@@ -331,12 +341,11 @@ public class CAM {
                     String newPassword = scanner.nextLine();
                     // Add some conditions to check
                     boolean change = false;
-                    while(!change){
-                        if (newPassword != staff.getPassword()){
+                    while (!change) {
+                        if (newPassword != staff.getPassword()) {
                             staff.setPassword(newPassword);
                             change = true;
-                        }
-                        else {
+                        } else {
                             System.out.println("Use a Different Password!");
                         }
                     }
@@ -369,7 +378,7 @@ public class CAM {
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
             }
-                exitStaffMenu = true;
+            exitStaffMenu = true;
         }
     }
 }
