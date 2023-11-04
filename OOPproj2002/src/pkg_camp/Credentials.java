@@ -95,13 +95,18 @@ public class Credentials {
             return false;
         }
 
-        String encodedPW = getPassword(inputUsername);
+        String encodeInputPW = encodePassword(inputPassword);
 
-        if (encodedPW.equals(inputPassword) == false) {
+        String encodedPW = getPassword(inputUsername);
+        // System.out.println(inputPassword);
+        // System.out.println(encodedPW);
+        // System.out.println(encodeInputPW);
+
+        if (encodedPW.equals(encodeInputPW) == false) {
             System.out.println("Incorrect Password!");
             return false;
         }
-        return encodedPW.equals(inputPassword);
+        return encodedPW.equals(encodeInputPW);
     }
 
     // To encode a password input

@@ -19,7 +19,7 @@ public class CAM {
 
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();
-        List<Camp> createdCamps = new ArrayList<>();
+        List<CampInfoController> createdCamps = new ArrayList<>();
 
         // System.out.println("Current working directory: " +
         // System.getProperty("user.dir"));
@@ -44,6 +44,7 @@ public class CAM {
                     String[] parts = userID.split("@");
                     userID = parts[0].trim();
                 }
+                // System.out.println(userID);
                 Student student = new Student(userID, "password", faculty);
 
                 // need to also add in credentials excel: "user_passwords.xlsx"
@@ -104,60 +105,73 @@ public class CAM {
             if (choice == 1) {
                 boolean exitstudentlogin = false;
                 boolean validcredentials = false;
+                int errorCount = 0;
+
                 while (!exitstudentlogin) {
-
+                    scanner.useDelimiter(System.lineSeparator());
                     System.out.println("| Student Login |");
-                    System.out.print("UserID: ");
-                    String userID = scanner.nextLine();
-                    System.out.print("Password (default is: password): ");
-                    String password = scanner.nextLine();
+                    System.out.print("UserID:");
+                    String userID = scanner.next();
 
-                    // Credentials check
+                    if (!Credentials.usernameExists(userID)) {
+                        System.out.print("Invalid Username");
+                        break;
+                    }
+
+                    System.out.println("Password (default is: password):");
+                    String password = scanner.next();
+
                     if (Credentials.verifyPassword(userID, password)) {
                         validcredentials = true;
                     }
 
                     while (validcredentials) {
+                        Student thisStudent = null;
                         for (Student student : studentList) {
-                            if (student.getUserID() == userID && password == "password") {
-                                // if studentID is correct and
-                                // its their first time logging
-                                // in, ask them to change
-                                // password
-
-                                boolean changed = false;
-
-                                while (!changed) {
-                                    System.out.println("Change your password: ");
-                                    String newPassword = scanner.nextLine();
-
-                                    // if newPassword is not the same as old password "password",
-                                    // change the password to newPassword
-
-                                    if (newPassword != "password") {
-                                        System.out.println("Password Successfully Changed!");
-                                        student.setPassword(newPassword);
-                                        Credentials.updatePassword(userID, newPassword);
-
-                                        changed = true; // exit asking them to change password
-                                        studentMenuPage(student, createdCamps);
-                                    }
-
-                                    else { // if they input the same password, ask them to input again
-                                        System.out.println("Use a Different Password!");
-                                    }
-                                }
-                                // userID and password is correct, not their first time logging in
-                            } else if (userID == student.getUserID() && password == student.getPassword()
-                                    && password != "password") {
-                                System.out.println("Student Login Successful!");
-                                // Redirect to student menu method below
-                                studentMenuPage(student, createdCamps);
-                                exitstudentlogin = true;
-                            } else {
-                                System.out.println("Invalid login credentials.");
+                            if (student.getUserID() == userID) {
+                                thisStudent = student;
                             }
                         }
+
+                        if (password == "password") {
+                            // if studentID is correct and
+                            // its their first time logging
+                            // in, ask them to change
+                            // password
+
+                            boolean changed = false;
+
+                            while (!changed) {
+                                System.out.println("Change your password: ");
+                                String newPassword = scanner.nextLine();
+
+                                // if newPassword is not the same as old password "password",
+                                // change the password to newPassword
+
+                                if (newPassword != "password") {
+                                    System.out.println("Password Successfully Changed!");
+                                    thisStudent.setPassword(newPassword);
+                                    Credentials.updatePassword(userID, newPassword);
+
+                                    changed = true; // exit asking them to change password
+                                    studentMenuPage(thisStudent, createdCamps);
+                                }
+
+                                else { // if they input the same password, ask them to input again
+                                    System.out.println("Use a Different Password!");
+                                }
+                            }
+                            // userID and password is correct, not their first time logging in
+                        } else if (password != "password") {
+                            System.out.println("Student Login Successful!");
+                            // Redirect to student menu method below
+                            studentMenuPage(thisStudent, createdCamps);
+                            exitstudentlogin = true;
+                        } else {
+                            System.out.println("Invalid login credentials.");
+                            validcredentials = false;
+                        }
+
                     }
                 }
             }
@@ -167,13 +181,18 @@ public class CAM {
                 boolean validcredentials = false;
 
                 while (!exitstafflogin) {
-                    System.out.println("Staff Login:");
+                    scanner.useDelimiter(System.lineSeparator());
+                    System.out.println("| Staff Login |");
                     System.out.print("UserID: ");
-                    String userID = scanner.nextLine();
+                    String userID = scanner.next();
+
+                    if (!Credentials.usernameExists(userID)) {
+                        System.out.print("Invalid Username");
+                        break;
+                    }
+
                     System.out.print("Password (default: password): ");
-                    String password = scanner.nextLine();
-                    System.out.print("Faculty: ");
-                    String faculty = scanner.nextLine();
+                    String password = scanner.next();
 
                     // Credentials check
                     if (Credentials.verifyPassword(userID, password)) {
@@ -181,46 +200,51 @@ public class CAM {
                     }
 
                     while (validcredentials) {
-
+                        Staff thisStaff = null;
                         for (Staff staff : staffList) {
-                            if (staff.getUserID() == userID && password == "password") {
-                                // if staffID is correct and its their first time logging in,
-                                // ask them to change password
-                                boolean changed = false;
-                                while (!changed) {
-                                    System.out.println("Change your password: ");
-                                    String newPassword = scanner.nextLine();
-
-                                    // if newPassword is not the same as old password
-                                    // "password", change the password to newPassword
-
-                                    if (newPassword != "password") {
-                                        System.out.println("Password Successfully Changed!");
-                                        staff.setPassword(newPassword);
-                                        Credentials.updatePassword(userID, newPassword);
-                                        changed = true; // exit asking them to change password
-                                        staffMenuPage(staff, createdCamps);
-                                    }
-
-                                    else { // if they input the same password, ask them to input again
-                                        System.out.println("Use a Different Password!");
-                                    }
-                                }
-                            }
-
-                            else if (userID == staff.getUserID() && password == staff.getPassword()
-                                    && password != "password") { // userID and password is correct, not their first time
-                                                                 // logging in
-                                System.out.println("Staff Login Successful!");
-                                // Redirect to student menu method below
-                                staffMenuPage(staff, createdCamps);
-                                exitstafflogin = true;
-                            }
-
-                            else {
-                                System.out.println("Invalid login credentials.");
+                            if (staff.getUserID() == userID) {
+                                thisStaff = staff;
                             }
                         }
+
+                        if (password == "password") {
+                            // if staffID is correct and its their first time logging in,
+                            // ask them to change password
+                            boolean changed = false;
+                            while (!changed) {
+                                System.out.println("Change your password: ");
+                                String newPassword = scanner.nextLine();
+
+                                // if newPassword is not the same as old password
+                                // "password", change the password to newPassword
+
+                                if (newPassword != "password") {
+                                    System.out.println("Password Successfully Changed!");
+                                    thisStaff.setPassword(newPassword);
+                                    Credentials.updatePassword(userID, newPassword);
+                                    changed = true; // exit asking them to change password
+                                    staffMenuPage(thisStaff, createdCamps);
+                                }
+
+                                else { // if they input the same password, ask them to input again
+                                    System.out.println("Use a Different Password!");
+                                }
+                            }
+                        }
+
+                        else if (password != "password") { // userID and password is correct, not their first time
+                                                           // logging in
+                            System.out.println("Staff Login Successful!");
+                            // Redirect to student menu method below
+                            exitstafflogin = true;
+                            staffMenuPage(thisStaff, createdCamps);
+                        }
+
+                        else {
+                            System.out.println("Invalid login credentials.");
+                            validcredentials = false;
+                        }
+
                     }
                 }
             }
@@ -229,7 +253,7 @@ public class CAM {
     }
 
     // Student Menu - after log in
-    public static void studentMenuPage(Student student, List<Camp> createdCamps) {
+    public static void studentMenuPage(Student student, List<CampInfoController> createdCamps) {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -369,7 +393,7 @@ public class CAM {
     }
 
     // Staff Menu - after log in
-    public static void staffMenuPage(Staff staff, List<Camp> createdCamps) {
+    public static void staffMenuPage(Staff staff, List<CampInfoController> createdCamps) {
 
         Scanner scanner = new Scanner(System.in);
         boolean exitStaffMenu = false;

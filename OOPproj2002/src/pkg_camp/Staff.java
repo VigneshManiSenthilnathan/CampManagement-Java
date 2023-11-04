@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 //extends camp for now, might need to remove if got better options
-public class Staff extends Camp implements User {
+public class Staff extends CampInfoController implements User {
 
     // Attributes of Staff
     private final String userID;
@@ -49,8 +49,8 @@ public class Staff extends Camp implements User {
         return STAFF;
     }
 
-    public void generateReports(List<Camp> camps, String attendeeType, String outputFileFormat) {
-        for (Camp camp : camps) {
+    public void generateReports(List<CampInfoController> camps, String attendeeType, String outputFileFormat) {
+        for (CampInfoController camp : camps) {
             // Check if the camp was created by this staff member
             if (camp.getStaffInCharge().equals(this)) {
                 // Filter participants based on attendee type
@@ -101,10 +101,10 @@ public class Staff extends Camp implements User {
         }
     }
 
-    public void generatePerformanceReport(List<Camp> camps, String outputFileFormat) {
+    public void generatePerformanceReport(List<CampInfoController> camps, String outputFileFormat) {
         StringBuilder reportContent = new StringBuilder();
 
-        for (Camp camp : camps) {
+        for (CampInfoController camp : camps) {
             // Check if the camp was created by this staff member and has a camp committee
             if (camp.getStaffInCharge().equals(this) && !camp.getCampCommittee().isEmpty()) {
                 reportContent.append("Camp Name: ").append(camp.getCampName()).append("\n");

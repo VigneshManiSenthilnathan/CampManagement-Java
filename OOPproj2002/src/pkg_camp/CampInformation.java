@@ -17,6 +17,10 @@ public class CampInformation {
     private String staffInCharge;
     private boolean visibility;
 
+    public CampInformation() {
+
+    }
+
     public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
             String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
             boolean visibility) {

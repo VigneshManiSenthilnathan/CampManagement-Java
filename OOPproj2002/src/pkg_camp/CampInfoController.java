@@ -4,13 +4,18 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Camp extends CampInformation {
+public class CampInfoController extends CampInformation {
     private List<Student> attendees;
     private List<Student> campCommittee;
     private List<String> createdCampName;
-    private List<Camp> createdCamps;
+    private List<CampInfoController> createdCamps;
 
-    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
+    public CampInfoController() {
+
+    }
+
+    public CampInfoController(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
+            String location,
             int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
         super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
                 description, staffInCharge, visibility);
@@ -23,7 +28,8 @@ public class Camp extends CampInformation {
     public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
             String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
             boolean visibility) {
-        Camp newCamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots,
+        CampInfoController newCamp = new CampInfoController(campName, dates, registrationClosingDate, userGroup,
+                location, totalSlots,
                 campCommitteeSlots, description, staffInCharge, visibility);
 
         createdCamps.add(newCamp);
@@ -45,7 +51,7 @@ public class Camp extends CampInformation {
         return null; // Return null if the attendee with the specified name is not found
     }
 
-    public List<Student> getCampCommittee(){
+    public List<Student> getCampCommittee() {
         return campCommittee;
     }
 
@@ -60,7 +66,7 @@ public class Camp extends CampInformation {
         return null; // Return null if the attendee with the specified name is not found
     }
 
-    public List<Camp> getCreatedCamps() {
+    public List<CampInfoController> getCreatedCamps() {
         return createdCamps;
     }
 

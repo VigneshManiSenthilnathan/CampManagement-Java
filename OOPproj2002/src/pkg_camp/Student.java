@@ -11,7 +11,7 @@ public class Student implements User {
     private User STUDENT;
     private StudentType studentType;
     private List<Enquiry> enquiries;
-    private List<Camp> registeredCamps;
+    private List<CampInfoController> registeredCamps;
     private CampCommitteeMember campCommitteeRole;
 
     public Student(String userID, String password, String faculty) {
@@ -95,10 +95,10 @@ public class Student implements User {
     // Showing available camps
     // cant have an input parameter here -> wait why not please explain with PEEL
 
-    public void viewCamps(List<Camp> createdCamps) {
+    public void viewCamps(List<CampInfoController> createdCamps) {
         int i = 1;
         System.out.println("List of Camps available to join:");
-        for (Camp camp : createdCamps) {
+        for (CampInfoController camp : createdCamps) {
             if ((camp.getUserGroup() == this.getFaculty()) && (camp.getVisibility())
                     && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
                 System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
@@ -109,14 +109,14 @@ public class Student implements User {
     }
 
     // Register for a camp
-    public void registerForCamp(Student student, List<Camp> createdCamps) {
+    public void registerForCamp(Student student, List<CampInfoController> createdCamps) {
         // Showing available camps
         int i = 1;
         boolean done = false;
         while (!done) {
             // List all the camps available to join
             System.out.println("List of Camps available to join:");
-            for (Camp camp : createdCamps) {
+            for (CampInfoController camp : createdCamps) {
                 if (camp.getUserGroup().equals(this.getFaculty())
                         && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
                     boolean userAlreadyAttended = false;
@@ -141,7 +141,7 @@ public class Student implements User {
             Scanner register = new Scanner(System.in);
             String campname = register.nextLine();
 
-            for (Camp camp : createdCamps) {
+            for (CampInfoController camp : createdCamps) {
                 if (campname == camp.getCampName()) {
                     for (Student applicant : camp.getCampCommittee()) {
                         if (applicant.getUserID() == camp.getCampCommitteeUserID(applicant.getUserID())) {
