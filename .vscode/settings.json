@@ -128,8 +128,6 @@
         "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-layout-template-json-2.21.1.jar",
         "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-mongodb3-2.21.1.jar",
         "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-mongodb4-2.21.1.jar",
-        "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-slf4j2-impl-2.21.1.jar",
-        "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-slf4j-impl-2.21.1.jar",
         "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-spring-boot-2.21.1.jar",
         "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-spring-cloud-config-client-2.21.1.jar",
         "poi-bin-5.2.3-20220909/apache-log4j-2.21.1-bin/log4j-taglib-2.21.1.jar",

@@ -35,7 +35,7 @@ public class Credentials {
     // Return the encoded password thats stored in excel
     private static String getPassword(String username) {
         try {
-            File file = new File("user_passwords.xlsx"); // Change the file name as needed
+            File file = new File("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change the file name as needed
             if (!file.exists()) {
                 System.out.println("Excel file does not exist.");
                 return null;
@@ -137,7 +137,7 @@ public class Credentials {
     // Check if username exists
     public static boolean usernameExists(String username) {
         try {
-            FileInputStream fis = new FileInputStream("user_passwords.xlsx");
+            FileInputStream fis = new FileInputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx");
             Workbook workbook = new XSSFWorkbook(fis);
             Sheet sheet = workbook.getSheet("UserPasswords");
 
@@ -174,7 +174,7 @@ public class Credentials {
     public void excelWriter(String username, String password) {
 
         // Check if the Excel file exists
-        File file = new File("user_passwords.xlsx"); // Change the file name as needed
+        File file = new File("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change the file name as needed
         Workbook workbook;
         Sheet sheet;
 
@@ -210,7 +210,10 @@ public class Credentials {
 
         try {
             // Write the updated workbook to the Excel file
-            FileOutputStream fileOut = new FileOutputStream("user_passwords.xlsx"); // Change the file name as needed
+            FileOutputStream fileOut = new FileOutputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change
+                                                                                                             // the file
+                                                                                                             // name as
+                                                                                                             // needed
             workbook.write(fileOut);
             fileOut.close();
             System.out.println("Data has been written to the Excel file.");
@@ -221,7 +224,7 @@ public class Credentials {
 
     public static void updatePassword(String usernameToUpdate, String newPassword) {
         // Check if the Excel file exists
-        File file = new File("user_passwords.xlsx"); // Change the file name as needed
+        File file = new File("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change the file name as needed
         Workbook workbook;
         Sheet sheet;
 
@@ -259,7 +262,10 @@ public class Credentials {
 
         try {
             // Write the updated workbook to the Excel file
-            FileOutputStream fileOut = new FileOutputStream("user_passwords.xlsx"); // Change the file name as needed
+            FileOutputStream fileOut = new FileOutputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change
+                                                                                                             // the file
+                                                                                                             // name as
+                                                                                                             // needed
             workbook.write(fileOut);
             fileOut.close();
             System.out.println("Password updated successfully.");

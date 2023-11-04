@@ -22,35 +22,38 @@ public class Student implements User {
         this.registeredCamps = new ArrayList<>();
 
         // Here, you can set the student type based on user input
-        Scanner roleScanner = new Scanner(System.in);
-
-        System.out.println("Enter Number for Role: ");
-        System.out.println("(1) Attendee");
-        System.out.println("(2) Camp Committee");
-
-        boolean condition = true;
-
-        while (condition) {
-            try {
-                int choice = roleScanner.nextInt();
-                if (choice == 1) {
-                    studentType = StudentType.COMMITTEE;
-
-                } else if (choice == 2) {
-                    studentType = StudentType.ATTENDEE;
-                } else {
-                    System.out.println("Invalid role selection. Please enter 1 or 2.");
-                    continue; // Repeat the loop
-                }
-                condition = false;
-
-                roleScanner.close();
-            } catch (Exception e) {
-                System.out.println("Enter Valid Integer");
-                System.out.println("[1] : Committee, [2] : Attendee");
-                roleScanner.nextLine(); // Consume the invalid input
-            }
-        }
+        /*
+         * Scanner roleScanner = new Scanner(System.in);
+         * 
+         * System.out.println("Enter Number for Role: ");
+         * System.out.println("(1) Attendee");
+         * System.out.println("(2) Camp Committee");
+         * 
+         * 
+         * boolean condition = true;
+         * 
+         * while (condition) {
+         * try {
+         * int choice = roleScanner.nextInt();
+         * if (choice == 1) {
+         * studentType = StudentType.COMMITTEE;
+         * 
+         * } else if (choice == 2) {
+         * studentType = StudentType.ATTENDEE;
+         * } else {
+         * System.out.println("Invalid role selection. Please enter 1 or 2.");
+         * continue; // Repeat the loop
+         * }
+         * condition = false;
+         * 
+         * roleScanner.close();
+         * } catch (Exception e) {
+         * System.out.println("Enter Valid Integer");
+         * System.out.println("[1] : Committee, [2] : Attendee");
+         * roleScanner.nextLine(); // Consume the invalid input
+         * }
+         * }
+         */
     }
 
     enum StudentType {
@@ -130,8 +133,10 @@ public class Student implements User {
         int i = 1;
         System.out.println("List of Camps available to join:");
         for (Camp camp : createdCamps) {
-            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getVisibility()) && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
-                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | " + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getVisibility())
+                    && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
+                        + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
             }
             i++;
         }
@@ -146,7 +151,8 @@ public class Student implements User {
             // List all the camps available to join
             System.out.println("List of Camps available to join:");
             for (Camp camp : createdCamps) {
-                if (camp.getUserGroup().equals(this.getFaculty()) && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+                if (camp.getUserGroup().equals(this.getFaculty())
+                        && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
                     boolean userAlreadyAttended = false;
 
                     for (Student attendee : camp.getAttendees()) {
@@ -155,9 +161,10 @@ public class Student implements User {
                             break; // No need to check further, the user has attended this camp
                         }
                     }
-            
+
                     if (!userAlreadyAttended) {
-                        System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | " + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+                        System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
+                                + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
                         i++;
                     }
                 }
@@ -170,8 +177,8 @@ public class Student implements User {
 
             for (Camp camp : createdCamps) {
                 if (campname == camp.getCampName()) {
-                    for (Student applicant : camp.getCampCommittee()){
-                        if (applicant.getUserID() == camp.getCampCommitteeUserID(applicant.getUserID())){
+                    for (Student applicant : camp.getCampCommittee()) {
+                        if (applicant.getUserID() == camp.getCampCommitteeUserID(applicant.getUserID())) {
 
                         }
                     }
