@@ -20,40 +20,6 @@ public class Student implements User {
         this.faculty = faculty;
         this.enquiries = new ArrayList<>();
         this.registeredCamps = new ArrayList<>();
-
-        // Here, you can set the student type based on user input
-        /*
-         * Scanner roleScanner = new Scanner(System.in);
-         * 
-         * System.out.println("Enter Number for Role: ");
-         * System.out.println("(1) Attendee");
-         * System.out.println("(2) Camp Committee");
-         * 
-         * 
-         * boolean condition = true;
-         * 
-         * while (condition) {
-         * try {
-         * int choice = roleScanner.nextInt();
-         * if (choice == 1) {
-         * studentType = StudentType.COMMITTEE;
-         * 
-         * } else if (choice == 2) {
-         * studentType = StudentType.ATTENDEE;
-         * } else {
-         * System.out.println("Invalid role selection. Please enter 1 or 2.");
-         * continue; // Repeat the loop
-         * }
-         * condition = false;
-         * 
-         * roleScanner.close();
-         * } catch (Exception e) {
-         * System.out.println("Enter Valid Integer");
-         * System.out.println("[1] : Committee, [2] : Attendee");
-         * roleScanner.nextLine(); // Consume the invalid input
-         * }
-         * }
-         */
     }
 
     enum StudentType {
