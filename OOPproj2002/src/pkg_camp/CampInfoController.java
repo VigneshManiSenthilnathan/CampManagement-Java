@@ -7,7 +7,7 @@ import java.util.List;
 public class CampInfoController extends CampInformation {
     private List<Student> attendees;
     private List<Student> campCommittee;
-    private List<String> createdCampName;
+    // private List<String> createdCampName;
     private List<CampInfoController> createdCamps;
 
     public CampInfoController() {
@@ -15,29 +15,70 @@ public class CampInfoController extends CampInformation {
     }
 
     public CampInfoController(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
-            String location,
-            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
+            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
+            boolean visibility) {
         super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
                 description, staffInCharge, visibility);
-        this.createdCampName = new ArrayList<>();
-        this.createdCamps = new ArrayList<>();
+        // this.createdCampName = new ArrayList<>();
+        // this.createdCamps = new ArrayList<>();
         attendees = new ArrayList<>();
         campCommittee = new ArrayList<>();
     }
 
-    public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
-            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
-            boolean visibility) {
-        CampInfoController newCamp = new CampInfoController(campName, dates, registrationClosingDate, userGroup,
-                location, totalSlots,
-                campCommitteeSlots, description, staffInCharge, visibility);
+    // Getter Methods
+    public String getCampName() {
+        return super.getCampName();
+    }
 
-        createdCamps.add(newCamp);
-        createdCampName.add(newCamp.getCampName());
+    public LocalDate getCampDate() {
+        return super.getDates();
+    }
+
+    public LocalDate getClosing() {
+        return super.getRegistrationClosingDate();
+    }
+
+    public String getFaculty() {
+        return super.getUserGroup();
+    }
+
+    public String getLocation() {
+        return super.getLocation();
+    }
+
+    public int getTotalSlots() {
+        return super.getTotalSlots();
+    }
+
+    public int getCommitteeSlots() {
+        return super.getCampCommitteeSlots();
+    }
+
+    public String getDescription() {
+        return super.getDescription();
+    }
+
+    public String getStaff() {
+        return super.getStaffInCharge();
     }
 
     public List<Student> getAttendees() {
         return attendees;
+    }
+
+    public boolean getVisibility() {
+        return super.getVisibility();
+    }
+
+    public List<String> getAttendeeUserID() {
+
+        List<String> campAttendees = new ArrayList<String>();
+
+        for (Student attendee : attendees) {
+            campAttendees.add(attendee.getUserID());
+        }
+
+        return campAttendees;
     }
 
     public String getAttendeeUserID(String attendeeUserID) {
@@ -55,6 +96,17 @@ public class CampInfoController extends CampInformation {
         return campCommittee;
     }
 
+    public List<String> getCampCommitteeUserID() {
+
+        List<String> campCommitteeUserID = new ArrayList<String>();
+
+        for (Student campcommittee : campCommittee) {
+            campCommitteeUserID.add(campcommittee.getUserID());
+        }
+
+        return campCommitteeUserID;
+    }
+
     public String getCampCommitteeUserID(String campCommitteeUserID) {
         for (Student campcommittee : campCommittee) {
             if (campcommittee.getUserID().equals(campCommitteeUserID)) {
@@ -66,20 +118,33 @@ public class CampInfoController extends CampInformation {
         return null; // Return null if the attendee with the specified name is not found
     }
 
-    public List<CampInfoController> getCreatedCamps() {
-        return createdCamps;
-    }
-
-    public boolean getVisibility() {
-        return super.getVisibility();
-    }
+    /*
+     * public List<CampInfoController> getCreatedCamps() {
+     * return createdCamps;
+     * }
+     */
 
     public void addAttendee(Student student) {
         attendees.add(student);
     }
 
+    public void removeAttendee(Student student) {
+        attendees.remove(student);
+    }
+
     public void addCampCommitteeMember(Student student) {
         campCommittee.add(student); // Add the student to the camp committee list
+    }
+
+    public void createCamp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
+            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
+            boolean visibility) {
+        CampInfoController newCamp = new CampInfoController(campName, dates, registrationClosingDate, userGroup,
+                location, totalSlots,
+                campCommitteeSlots, description, staffInCharge, visibility);
+
+        // createdCamps.add(newCamp);
+        // createdCampName.add(newCamp.getCampName());
     }
 
     @Override

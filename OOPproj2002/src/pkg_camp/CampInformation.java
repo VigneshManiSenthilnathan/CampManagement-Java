@@ -1,5 +1,8 @@
 package pkg_camp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -16,6 +19,9 @@ public class CampInformation {
     private String description;
     private String staffInCharge;
     private boolean visibility;
+
+    private ArrayList<Student> attendees;
+    private ArrayList<Student> committee;
 
     public CampInformation() {
 

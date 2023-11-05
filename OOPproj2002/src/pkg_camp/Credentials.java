@@ -33,7 +33,7 @@ public class Credentials {
 
     // Security Concern to return password directly.
     // Return the encoded password thats stored in excel
-    private static String getPassword(String username) {
+    public static String getPassword(String username) {
         try {
             File file = new File("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change the file name as needed
             if (!file.exists()) {

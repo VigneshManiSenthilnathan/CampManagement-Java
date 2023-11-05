@@ -9,18 +9,22 @@ import java.util.Scanner;
 public class Staff extends CampInfoController implements User {
 
     // Attributes of Staff
-    private final String userID;
+    private String userID;
     private String password;
     private String faculty;
     private User STAFF;
-    private ArrayList<Enquiry> enquiries; // enquires related to THIS staff
+    private ArrayList<EnquiryController> enquiries; // enquires related to THIS staff
 
     // Attributes of Staff Methods
     private List<String> createdCampName;
     private List<CampInformation> createdCamps;
-    private List<Enquiry> enquiriesHandling;
+    private List<EnquiryController> enquiriesHandling;
 
     // Constructor
+    public Staff() {
+
+    }
+
     public Staff(String userID, String password, String faculty) {
         this.userID = userID;
         this.password = password;
@@ -145,7 +149,7 @@ public class Staff extends CampInfoController implements User {
 
     public void viewAndReplyToEnquiries() {
         // Iterate through the enquiries and display them
-        for (Enquiry enquiry : enquiries) {
+        for (EnquiryController enquiry : enquiries) {
             System.out.println("Sender: " + enquiry.getSender().getUserID());
             System.out.println("Message: " + enquiry.getMessage());
 

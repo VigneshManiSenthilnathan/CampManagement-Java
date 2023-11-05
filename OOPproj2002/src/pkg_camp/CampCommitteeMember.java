@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CampCommitteeMember extends Student {
+    private Student student;
     private CampInformation campDetails;
     private List<String> suggestions;
     private int points;
@@ -13,6 +14,13 @@ public class CampCommitteeMember extends Student {
         this.campDetails = campDetails;
         this.suggestions = new ArrayList<>();
         this.points = 0;
+    }
+
+    public CampCommitteeMember(CampInformation campDetails) {
+        this.campDetails = campDetails;
+        this.suggestions = new ArrayList<>();
+        this.points = 0;
+
     }
 
     public CampInformation getCampDetails() {
@@ -50,4 +58,3 @@ public class CampCommitteeMember extends Student {
         // Implement the report generation logic here
     }
 }
-

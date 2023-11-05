@@ -128,12 +128,12 @@ public class CAM {
                     while (validcredentials) {
                         Student thisStudent = null;
                         for (Student student : studentList) {
-                            if (student.getUserID() == userID) {
+                            if (student.getUserID().equals(userID)) {
                                 thisStudent = student;
                             }
                         }
 
-                        if (password == "password") {
+                        if (password.equals("password")) {
                             // if studentID is correct and
                             // its their first time logging
                             // in, ask them to change
@@ -141,9 +141,11 @@ public class CAM {
 
                             boolean changed = false;
 
+                            System.out.println(thisStudent.getUserID());
+
                             while (!changed) {
                                 System.out.println("Change your password: ");
-                                String newPassword = scanner.nextLine();
+                                String newPassword = scanner.next();
 
                                 // if newPassword is not the same as old password "password",
                                 // change the password to newPassword
@@ -162,12 +164,13 @@ public class CAM {
                                 }
                             }
                             // userID and password is correct, not their first time logging in
-                        } else if (password != "password") {
+                        } else if (!password.equals("password")) {
                             System.out.println("Student Login Successful!");
                             // Redirect to student menu method below
                             studentMenuPage(thisStudent, createdCamps);
                             exitstudentlogin = true;
                         } else {
+                            // Just for sanity purposes. Wont ever happen
                             System.out.println("Invalid login credentials.");
                             validcredentials = false;
                         }
@@ -202,12 +205,12 @@ public class CAM {
                     while (validcredentials) {
                         Staff thisStaff = null;
                         for (Staff staff : staffList) {
-                            if (staff.getUserID() == userID) {
+                            if (staff.getUserID().equals(userID)) {
                                 thisStaff = staff;
                             }
                         }
 
-                        if (password == "password") {
+                        if (password.equals("password")) {
                             // if staffID is correct and its their first time logging in,
                             // ask them to change password
                             boolean changed = false;
@@ -232,8 +235,8 @@ public class CAM {
                             }
                         }
 
-                        else if (password != "password") { // userID and password is correct, not their first time
-                                                           // logging in
+                        // userID and password is correct, not their first time logging in
+                        else if (!password.equals("password")) {
                             System.out.println("Staff Login Successful!");
                             // Redirect to student menu method below
                             exitstafflogin = true;
@@ -268,19 +271,23 @@ public class CAM {
             System.out.println("(5) View, Edit or Delete your Enquiry");
             System.out.println("(6) Check Registered Camps");
             System.out.println("(7) Withdraw from a Camp");
+            System.out.println("(8) Exit Menu");
             System.out.print("Input Choice: ");
 
             int menu = scanner.nextInt();
+            scanner.useDelimiter(System.lineSeparator());
 
             switch (menu) {
                 case 1:
                     System.out.println("Enter new Password: ");
-                    String newPassword = scanner.nextLine();
+                    String newPassword = scanner.next();
+                    String oldPW = Credentials.getPassword(student.getUserID());
                     // Add some conditions to check
                     boolean change = false;
                     while (!change) {
-                        if (newPassword != student.getPassword()) {
+                        if (!newPassword.equals(oldPW)) {
                             student.setPassword(newPassword);
+                            Credentials.updatePassword(student.getUserID(), newPassword);
                             change = true;
                         } else {
                             System.out.println("Use a Different Password!");
@@ -295,6 +302,7 @@ public class CAM {
                 case 3:
                     System.out.println("Registering as:");
                     System.out.println("(1) Attendee");
+                    System.out.println("(1) Attendee");
                     System.out.println("(2) Camp Committee Member");
                     int role_choice = scanner.nextInt();
                     if (role_choice == 1) {
@@ -303,13 +311,16 @@ public class CAM {
                         student.setStudentType(StudentType.COMMITTEE);
                     }
 
-                    // student.registerForCamp(createdCamps, student);
+                    Registration registration = new Registration();
+                    System.out.println("Send Enquiry To:");
+                    registration.registerForCamp(student, createdCamps);
                     break;
 
                 case 4:
                     System.out.println("Send Enquiry To:");
                     System.out.println("(1) Camp Staff");
                     System.out.println("(2) Camp Committee Member");
+
                     int choice = scanner.nextInt();
                     // student.newEnquiry(User.receiver);
                     break;
@@ -325,19 +336,19 @@ public class CAM {
 
                         switch (option) {
                             case 1:
-                                List<Enquiry> enqList = student.getEnquiries();
+                                List<EnquiryController> enqList = student.getEnquiries();
                                 System.out.println(enqList);
                                 quit = true;
                                 break;
                             case 2:
                                 System.out.println("Choose the enquiry to edit below");
-                                List<Enquiry> enqToEdit = student.getEnquiries();
+                                List<EnquiryController> enqToEdit = student.getEnquiries();
                                 System.out.println(enqToEdit);
                                 int editIndex = scanner.nextInt();
                                 System.out.println("Enter your new message: ");
                                 String newMsg = scanner.nextLine();
 
-                                for (Enquiry enquiry : enqToEdit) {
+                                for (EnquiryController enquiry : enqToEdit) {
                                     int i = 0;
                                     // Account for entry of i > length of enquiry list
                                     if (i == editIndex) {
@@ -359,6 +370,8 @@ public class CAM {
                     break;
 
                 case 6:
+
+                    // Check the camp student is registered in and display it
                     break;
 
                 case 7:
@@ -384,12 +397,15 @@ public class CAM {
                         }
                     }
                     break;
-
+                case 8:
+                    Upload.writeToExcel(createdCamps);
+                    exitstudentmenu = true;
+                    break;
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
             }
         }
-        exitstudentmenu = false;
+        scanner.close();
     }
 
     // Staff Menu - after log in
@@ -409,19 +425,23 @@ public class CAM {
             System.out.println("(7) Camp Suggestions");
             System.out.println("(8) Generate Camp Report");
             System.out.println("(9) Generate Performance Report");
+            System.out.println("(10) Exit Menu");
 
             int menu = scanner.nextInt();
+            scanner.useDelimiter(System.lineSeparator());
 
             switch (menu) {
 
                 case 1: // Change password
                     System.out.println("Enter new Password: ");
-                    String newPassword = scanner.nextLine();
+                    String newPassword = scanner.next();
+                    String oldPW = Credentials.getPassword(staff.getUserID());
                     // Add some conditions to check
                     boolean change = false;
                     while (!change) {
-                        if (newPassword != staff.getPassword()) {
+                        if (!newPassword.equals(oldPW)) {
                             staff.setPassword(newPassword);
+                            Credentials.updatePassword(staff.getUserID(), newPassword);
                             change = true;
                         } else {
                             System.out.println("Use a Different Password!");
@@ -453,10 +473,16 @@ public class CAM {
                 case 9: // Generate performance report
                     break;
 
+                case 10: // Exit Staff Menu
+                    Upload.writeToExcel(createdCamps);
+                    exitStaffMenu = true;
+                    break;
+
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
             }
-            exitStaffMenu = true;
+            // exitStaffMenu = true;
+            scanner.close();
         }
     }
 }
