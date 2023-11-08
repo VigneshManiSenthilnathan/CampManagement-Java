@@ -8,10 +8,9 @@ public class ModifyCamp extends Staff {
 
         // Implement Sanity Check for camp name
 
-boolean done = false;
-                                    
+boolean done = false;    
+        
         while(!done)        
-
 {}{}.out{
             ("(0) Change Camp Name");
             SySystem.out.println("(1) Change Camp Dates");
@@ -32,9 +31,43 @@ boolean done = false;
                     System.out.println("Enter New Camp Name: ");
                     String newcampname = sc.nextLine();
                     break;
+                case 1:
+                    System.out.println("Enter New Camp Dates: ");
+                    String newcampdate = sc.nextLine();
+                    break;
+                case 3:
+                    System.out.println("Enter New Camp Registration Closing Date: ");
+                    String newcampregdate = sc.nextLine();
+                    break;
+                case 4:
+                    System.out.println("Enter New Camp Faculty: ");
+                    String newcampfaculty = sc.nextLine();
+                    break;
+                case 5:
+                    System.out.println("Enter New Camp Location: ");
+                    String newcamplocation = sc.nextLine();
+                    break;
+                case 6:
+                    System.out.println("Enter New Total Slots Available: ");
+                    int newcamptotalslots = sc.nextLine();
+                    break;
+                case 7:
+                    System.out.println("Enter New Total Camp Committee Slots Available: ");
+                    int newcampcommitteeslots = sc.nextLine();
+                    break;
+                case 8:
+                    System.out.println("Enter New Camp Description: ");
+                    String newcampdescription = sc.nextLine();
+                    break;
+                case 9:
+                    System.out.println("Enter New Camp Visibility (Visible = 1, Invisible = 0): ");
+                    int newcampvisibility = sc.nextLine();
+                    break;
+                case 10:
+                    System.out.println("Exiting back to staff menu...");
 
-                                    default:
-
+                    break;
+                default:
                     System.out.println("Invalid choice. Please choose a valid option.");
                         break;
             } 
