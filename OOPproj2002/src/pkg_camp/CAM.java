@@ -369,7 +369,7 @@ public class CAM {
                                 System.out.println(enqToEdit);
                                 int editIndex = scanner.nextInt();
                                 System.out.println("Enter your new message: ");
-                                String newMsg = scanner.nextLine();
+                                String newMsg = scanner.next();
 
                                 for (EnquiryController enq : enqToEdit) {
                                     int i = 0;
@@ -473,6 +473,38 @@ public class CAM {
                     break;
 
                 case 2: // Create, edit, delete camp
+                    boolean campedits = false;
+                    while (!campedits) {
+                        System.out.println("(1) Create New Camp");
+                        System.out.println("(2) Modify Camp");
+                        System.out.println("(3) Delete Camp");
+                        System.out.println("(4) Exit to Staff Menu");
+                        int choice = scanner.nextInt();
+
+                        switch (choice) {
+                            case 1:
+                                CreateCamp.createNewCamp(staff);
+                                break;
+
+                            case 2:
+                                ModifyCamp.modifyCamp(staff);
+                                break;
+
+                            case 3:
+                                System.out.println("Enter Camp Name: ");
+                                String campName = scanner.next();
+                                Staff.staffDeleteCamp(staff, createdCamps, campName);
+                                Upload.deleteCamp(campName);
+                                break;
+
+                            case 4:
+                                campedits = true;
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice. Please choose a valid option.");
+                        }
+                    }
                     break;
 
                 case 3: // Camp visibility

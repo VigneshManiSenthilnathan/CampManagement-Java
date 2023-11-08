@@ -57,6 +57,26 @@ public class Staff extends CampInfoController implements User {
         return STAFF;
     }
 
+    public static List<CampInfoController> staffDeleteCamp(Staff staff, List<CampInfoController> createdCamps,
+            String campName) {
+
+        boolean found = false;
+
+        for (CampInfoController camp : createdCamps) {
+            if (camp.getCampName().equalsIgnoreCase(campName) && camp.getStaffInCharge().equals(staff.getUserID())) {
+                found = true;
+                createdCamps.remove(camp);
+                System.out.println("Camp deleted successfully!");
+            }
+        }
+
+        if (!found) {
+            System.out.println("No such camp in database! Check your spelling!");
+        }
+
+        return createdCamps;
+    }
+
     public void generateReports(List<CampInfoController> camps, String attendeeType, String outputFileFormat) {
         for (CampInfoController camp : camps) {
             // Check if the camp was created by this staff member

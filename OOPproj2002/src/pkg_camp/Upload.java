@@ -49,7 +49,7 @@ public abstract class Upload {
     }
 
     public void updateStaffInCharge(String campName, String staff) {
-        updateCellValue(campName, staff, 7);
+        updateCellValue(campName, staff, 8);
     }
 
     // Need to figure out how to update attendees and camp committee list still.
@@ -89,10 +89,11 @@ public abstract class Upload {
             headerRow.createCell(5).setCellValue("Total Slots");
             headerRow.createCell(6).setCellValue("Committee Slots");
             headerRow.createCell(7).setCellValue("Description");
-            headerRow.createCell(8).setCellValue("Staff In Charge");
+            headerRow.createCell(8).setCellValue("Visibilty");
+            headerRow.createCell(9).setCellValue("Staff In Charge");
 
-            headerRow.createCell(9).setCellValue("Attendees");
-            headerRow.createCell(10).setCellValue("Committee Members");
+            headerRow.createCell(10).setCellValue("Attendees");
+            headerRow.createCell(11).setCellValue("Committee Members");
         }
 
         int lastRowNum = sheet.getLastRowNum();
@@ -123,10 +124,11 @@ public abstract class Upload {
                 row.createCell(5).setCellValue(camp.getTotalSlots());
                 row.createCell(6).setCellValue(camp.getCommitteeSlots());
                 row.createCell(7).setCellValue(camp.getDescription());
-                row.createCell(8).setCellValue(camp.getStaff());
+                row.createCell(8).setCellValue(camp.getVisibility());
+                row.createCell(9).setCellValue(camp.getStaff());
 
-                row.createCell(3).setCellValue(String.join(" ", camp.getAttendeeUserID()));
-                row.createCell(4).setCellValue(String.join(" ", camp.getCampCommitteeUserID()));
+                row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
+                row.createCell(11).setCellValue(String.join(" ", camp.getCampCommitteeUserID()));
             }
         }
 
@@ -137,7 +139,7 @@ public abstract class Upload {
         }
     }
 
-    public void deleteCamp(String campNameToDelete) {
+    public static void deleteCamp(String campNameToDelete) {
 
         String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
 
@@ -177,7 +179,7 @@ public abstract class Upload {
         }
     }
 
-    private void updateCellValue(String campName, String newValue, int columnIndex) {
+    public static void updateCellValue(String campName, String newValue, int columnIndex) {
 
         String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
 

@@ -31,15 +31,17 @@ public class CreateCamp extends Staff {
         String location = sc.next();
 
         System.out.println("Enter Total Slots Available: ");
-        String totalSlots = sc.next();
+        int totalSlots = sc.nextInt();
 
         System.out.println("Enter Camp Committee Slots Available: ");
-        String campCommitteeSlots = sc.next();
+        int campCommitteeSlots = sc.nextInt();
 
         System.out.println("Enter Camp Description: ");
         String description = sc.next();
 
         boolean exitVisibility = false;
+        boolean visibility = false;
+
         while (!exitVisibility) {
             System.out.println("Enter Camp Visibility:");
             System.out.println("[1]: Visible");
@@ -47,12 +49,11 @@ public class CreateCamp extends Staff {
             int visibilityInt = sc.nextInt();
 
             if (visibilityInt == 1) {
-                boolean visilibility = true;
+                visibility = true;
                 exitVisibility = true;
             }
 
             else if (visibilityInt == 2) {
-                boolean visibility = false;
                 exitVisibility = true;
             }
 
