@@ -30,12 +30,12 @@ public class CampInfoController extends CampInformation {
         return super.getCampName();
     }
 
-    public LocalDate getCampDate() {
-        return super.getDates();
+    public String getCampDate() {
+        return super.getDates().toString();
     }
 
-    public LocalDate getClosing() {
-        return super.getRegistrationClosingDate();
+    public String getClosing() {
+        return super.getRegistrationClosingDate().toString();
     }
 
     public String getFaculty() {
@@ -62,12 +62,12 @@ public class CampInfoController extends CampInformation {
         return super.getStaffInCharge();
     }
 
-    public List<Student> getAttendees() {
-        return attendees;
-    }
-
     public boolean getVisibility() {
         return super.getVisibility();
+    }
+
+    public List<Student> getAttendees() {
+        return attendees;
     }
 
     public List<String> getAttendeeUserID() {

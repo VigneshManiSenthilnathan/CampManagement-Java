@@ -16,6 +16,44 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public abstract class Upload {
 
+    public void updateCampName(String campName, String newName) {
+        updateCellValue(campName, newName, 0);
+    }
+
+    public void updateDates(String campName, String newDate) {
+        updateCellValue(campName, newDate, 1);
+    }
+
+    public void updateClosingDate(String campName, String newDate) {
+        updateCellValue(campName, newDate, 2);
+    }
+
+    public void updateFaculty(String campName, String newFaculty) {
+        updateCellValue(campName, newFaculty, 3);
+    }
+
+    public void updateLocation(String campName, String newLocation) {
+        updateCellValue(campName, newLocation, 4);
+    }
+
+    public void updateAttendeeSlots(String campName, String newSlots) {
+        updateCellValue(campName, newSlots, 5);
+    }
+
+    public void updateCommitteeSlots(String campName, String newSlots) {
+        updateCellValue(campName, newSlots, 6);
+    }
+
+    public void updateDescription(String campName, String newDesc) {
+        updateCellValue(campName, newDesc, 7);
+    }
+
+    public void updateStaffInCharge(String campName, String staff) {
+        updateCellValue(campName, staff, 7);
+    }
+
+    // Need to figure out how to update attendees and camp committee list still.
+
     public static void writeToExcel(List<CampInfoController> campList) {
 
         String filepath = "OOPproj2002/src/pkg_camp/camps.xlsx";
@@ -87,8 +125,8 @@ public abstract class Upload {
                 row.createCell(7).setCellValue(camp.getDescription());
                 row.createCell(8).setCellValue(camp.getStaff());
 
-                row.createCell(3).setCellValue(String.join(", ", camp.getAttendeeUserID()));
-                row.createCell(4).setCellValue(String.join(", ", camp.getCampCommitteeUserID()));
+                row.createCell(3).setCellValue(String.join(" ", camp.getAttendeeUserID()));
+                row.createCell(4).setCellValue(String.join(" ", camp.getCampCommitteeUserID()));
             }
         }
 
@@ -134,6 +172,48 @@ public abstract class Upload {
 
         try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
             workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateCellValue(String campName, String newValue, int columnIndex) {
+
+        String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
+
+        try {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                // Handle the case where the file doesn't exist
+                System.out.println("The Excel file doesn't exist.");
+                return;
+            }
+
+            Workbook workbook = WorkbookFactory.create(file);
+            Sheet sheet = workbook.getSheet("Camps");
+
+            boolean campFound = false;
+
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row != null && row.getCell(0) != null) {
+                    String existingCampName = row.getCell(0).getStringCellValue();
+                    if (existingCampName.equals(campName)) {
+                        campFound = true;
+                        Cell cell = row.createCell(columnIndex);
+                        cell.setCellValue(newValue);
+                        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                            workbook.write(outputStream);
+                            System.out.println("Database successfully updated!");
+                        }
+                        return; // Exit the loop once the camp is updated
+                    }
+                }
+            }
+
+            if (!campFound) {
+                System.out.println("Camp does not exist in database. Check camp name!");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

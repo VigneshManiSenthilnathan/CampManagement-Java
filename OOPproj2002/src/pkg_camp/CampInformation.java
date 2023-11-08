@@ -58,19 +58,19 @@ public class CampInformation {
 
             case 1:
                 try {
-                    LocalDate campDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("ddMMyy"));
+                    LocalDate campDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("dd/MM/yy"));
                     camp.setDates(campDate);
                 } catch (DateTimeParseException ex) {
-                    System.out.println("Invalid date format. Use 'ddMMyy'.");
+                    System.out.println("Invalid date format. Use 'dd/MM/yy'.");
                 }
                 break;
 
             case 2:
                 try {
-                    LocalDate regClosingDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("ddMMyy"));
+                    LocalDate regClosingDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("dd/MM/yy"));
                     camp.setRegistrationClosingDate(regClosingDate);
                 } catch (DateTimeParseException ex) {
-                    System.out.println("Invalid date format. Use 'ddMMyy'.");
+                    System.out.println("Invalid date format. Use 'dd/MM/yy'.");
                 }
                 break;
 
