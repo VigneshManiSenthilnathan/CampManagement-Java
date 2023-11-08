@@ -1,5 +1,9 @@
 package pkg_camp;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +60,7 @@ public class Staff extends CampInfoController implements User {
     public void generateReports(List<CampInfoController> camps, String attendeeType, String outputFileFormat) {
         for (CampInfoController camp : camps) {
             // Check if the camp was created by this staff member
-            if (camp.getStaffInCharge().equals(this)) {
+            if (camp.getStaffInCharge().equals(this.getUserID())) {
                 // Filter participants based on attendee type
                 List<Student> participants;
                 if ("attendee".equals(attendeeType)) {
@@ -74,16 +78,17 @@ public class Staff extends CampInfoController implements User {
                 reportContent.append("Camp Date: ").append(camp.getDates()).append("\n");
                 reportContent.append("Location: ").append(camp.getLocation()).append("\n");
                 reportContent.append("Description: ").append(camp.getDescription()).append("\n");
-                reportContent.append("Staff in Charge: ").append(camp.getStaffInCharge().getName()).append("\n");
+                reportContent.append("Staff in Charge: ").append(camp.getStaffInCharge()).append("\n");
 
                 // might need to have a getter method for this
 
                 // Add participants to the report
                 for (Student participant : participants) {
-                    reportContent.append("Participant Name: ").append(participant.getName()).append("\n");
+                    reportContent.append("Participant Name: ").append(participant.getUserID()).append("\n");
                     // might need to have a getter method for this
 
-                    reportContent.append("Participant Role: ").append(participant.getRole()).append("\n");
+                    reportContent.append("Participant Role: ").append(participant.getStudentType().toString())
+                            .append("\n");
                     // might need to have a getter method for this
 
                     // Add more participant details as needed
@@ -118,9 +123,9 @@ public class Staff extends CampInfoController implements User {
                 // Add camp committee members to the report
                 List<Student> campCommitteeMembers = camp.getCampCommittee();
                 for (Student committeeMember : campCommitteeMembers) {
-                    reportContent.append("Committee Member Name: ").append(committeeMember.getName()).append("\n"); // same
-                                                                                                                    // getter
-                                                                                                                    // method
+
+                    // same getter method
+                    reportContent.append("Committee Member Name: ").append(committeeMember.getUserID()).append("\n");
                     // Add more committee member details as needed
 
                     // Add a separator between committee members

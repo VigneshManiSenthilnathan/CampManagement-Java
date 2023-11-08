@@ -261,6 +261,7 @@ public class CAM {
         Scanner scanner = new Scanner(System.in);
 
         boolean exitstudentmenu = false;
+        EnquiryController enquiry = new EnquiryController();
 
         while (!exitstudentmenu) {
             System.out.println("Student Menu:");
@@ -317,29 +318,51 @@ public class CAM {
                     break;
 
                 case 4:
-                    System.out.println("Send Enquiry To:");
+                    System.out.print("Send Enquiry To:");
                     System.out.println("(1) Camp Staff");
                     System.out.println("(2) Camp Committee Member");
 
                     int choice = scanner.nextInt();
-                    // student.newEnquiry(User.receiver);
+
+                    System.out.println("Enter your enquiry!");
+                    String enquiryMade = scanner.next();
+
+                    switch (choice) {
+                        case 1:
+                            enquiry.addEnquiry(student.getUserID(), "STAFF", enquiryMade);
+                            break;
+
+                        case 2:
+                            enquiry.addEnquiry(student.getUserID(), "COMMITTEE", enquiryMade);
+                            break;
+
+                        default:
+                            System.out.println("Enter a valid number! [1] or [2] only");
+                            System.out.println("Enter 4 again to retry!");
+                            break;
+
+                    }
+
                     break;
 
                 case 5:
                     boolean quit = false;
                     while (!quit) {
                         System.out.println("Choose your option below");
-                        System.out.println("Press 1 to view");
-                        System.out.println("Press 2 to edit");
-                        System.out.println("Press 3 to delete");
+                        System.out.println("Press [1] to view");
+                        System.out.println("Press [2] to edit");
+                        System.out.println("Press [3] to delete");
+
                         int option = scanner.nextInt();
 
                         switch (option) {
+
                             case 1:
-                                List<EnquiryController> enqList = student.getEnquiries();
-                                System.out.println(enqList);
+                                List<String> enqList = enquiry.getEnquiriesBySender(student.getUserID());
+                                enqList.forEach(System.out::println);
                                 quit = true;
                                 break;
+
                             case 2:
                                 System.out.println("Choose the enquiry to edit below");
                                 List<EnquiryController> enqToEdit = student.getEnquiries();
@@ -348,11 +371,11 @@ public class CAM {
                                 System.out.println("Enter your new message: ");
                                 String newMsg = scanner.nextLine();
 
-                                for (EnquiryController enquiry : enqToEdit) {
+                                for (EnquiryController enq : enqToEdit) {
                                     int i = 0;
                                     // Account for entry of i > length of enquiry list
                                     if (i == editIndex) {
-                                        student.editEnquiry(enquiry, newMsg);
+                                        student.editEnquiry(enq, newMsg);
                                     }
 
                                     i++;
