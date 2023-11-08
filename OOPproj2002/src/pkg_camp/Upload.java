@@ -38,24 +38,31 @@ public abstract class Upload {
             workbook = new XSSFWorkbook();
         }
 
-        Sheet sheet = workbook.createSheet("Camps");
+        Sheet sheet = workbook.getSheet("Camps");
 
-        // Create header row
-        Row headerRow = sheet.createRow(0);
-        headerRow.createCell(0).setCellValue("Camp Name");
-        headerRow.createCell(1).setCellValue("Date");
-        headerRow.createCell(2).setCellValue("Closing");
-        headerRow.createCell(3).setCellValue("Faculty");
-        headerRow.createCell(4).setCellValue("Location");
-        headerRow.createCell(5).setCellValue("Total Slots");
-        headerRow.createCell(6).setCellValue("Committee Slots");
-        headerRow.createCell(7).setCellValue("Description");
-        headerRow.createCell(8).setCellValue("Staff In Charge");
+        // If the sheet doesn't exist, create it
+        if (sheet == null) {
+            sheet = workbook.createSheet("Camps");
 
-        headerRow.createCell(9).setCellValue("Attendees");
-        headerRow.createCell(10).setCellValue("Committee Members");
+            // Create header row
+            Row headerRow = sheet.createRow(0);
+            headerRow.createCell(0).setCellValue("Camp Name");
+            headerRow.createCell(1).setCellValue("Date");
+            headerRow.createCell(2).setCellValue("Closing");
+            headerRow.createCell(3).setCellValue("Faculty");
+            headerRow.createCell(4).setCellValue("Location");
+            headerRow.createCell(5).setCellValue("Total Slots");
+            headerRow.createCell(6).setCellValue("Committee Slots");
+            headerRow.createCell(7).setCellValue("Description");
+            headerRow.createCell(8).setCellValue("Staff In Charge");
 
-        int rowNum = 1;
+            headerRow.createCell(9).setCellValue("Attendees");
+            headerRow.createCell(10).setCellValue("Committee Members");
+        }
+
+        int lastRowNum = sheet.getLastRowNum();
+        int rowNum = lastRowNum + 1;
+
         for (CampInfoController camp : campList) {
             Row row = sheet.createRow(rowNum++);
             row.createCell(0).setCellValue(camp.getCampName());
