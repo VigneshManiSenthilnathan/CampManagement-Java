@@ -9,6 +9,7 @@ public class CampInfoController extends CampInformation {
     private List<Student> campCommittee;
     // private List<String> createdCampName;
     private List<CampInfoController> createdCamps;
+    private boolean visibility;
 
     public CampInfoController() {
 
@@ -19,6 +20,7 @@ public class CampInfoController extends CampInformation {
             boolean visibility) {
         super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
                 description, staffInCharge, visibility);
+        this.visibility = visibility;
         // this.createdCampName = new ArrayList<>();
         // this.createdCamps = new ArrayList<>();
         attendees = new ArrayList<>();
@@ -60,6 +62,14 @@ public class CampInfoController extends CampInformation {
 
     public String getStaff() {
         return super.getStaffInCharge();
+    }
+
+    public void toggleVisibility() {
+        this.visibility = !this.visibility;
+    }
+
+    public boolean isVisible() {
+        return visibility;
     }
 
     public boolean getVisibility() {

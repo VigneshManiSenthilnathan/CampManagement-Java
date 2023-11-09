@@ -508,24 +508,42 @@ public class CAM {
                     break;
 
                 case 3: // Camp visibility
+                    System.out.println("Enter Camp Name: ");
+                    String campNameVisibility = scanner.next();
+                    staff.toggleCampVisibility(createdCamps, campNameVisibility);
                     break;
 
-                case 4: // View list of all camps
+                case 4: // View all camps
+                    for (CampInfoController camp : createdCamps) {
+                        System.out.println(camp);
+                    }
                     break;
 
                 case 5: // View List of Created camps
+                    for (String campName : staff.createdCampName) {
+                        System.out.println(campName);
+                    }
                     break;
 
                 case 6: // View or Reply enquiries
+                    staff.viewAndReplyToEnquiries();
                     break;
 
                 case 7: // Camp suggestions
                     break;
 
                 case 8: // Generate camp report
+                    System.out.println("Enter attendee type (Attendee / Camp Committee): ");
+                    String attendeeType = scanner.next();
+                    System.out.println("Enter output file format (txt/csv): ");
+                    String outputFileFormat = scanner.next();
+                    staff.generateReports(createdCamps, attendeeType, outputFileFormat);
                     break;
 
                 case 9: // Generate performance report
+                    System.out.println("Enter output file format (txt/csv): ");
+                    String performanceOutputFileFormat = scanner.next();
+                    staff.generatePerformanceReport(createdCamps, performanceOutputFileFormat);
                     break;
 
                 case 10: // Exit Staff Menu

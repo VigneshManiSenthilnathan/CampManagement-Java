@@ -77,6 +77,23 @@ public class Staff extends CampInfoController implements User {
         return createdCamps;
     }
 
+    public void toggleCampVisibility(List<CampInfoController> camps, String campName) {
+        for (CampInfoController camp : camps) {
+            if (camp.getCampName().equalsIgnoreCase(campName) && camp.getStaffInCharge().equals(this.getUserID())) {
+                camp.toggleVisibility();
+                System.out.println("Camp visibility toggled successfully!");
+                displayCampVisibility(camp);
+                return;
+            }
+        }
+        System.out.println("No such camp in database or you don't have permission to modify visibility. Check your spelling or staff ID.");
+    }
+
+    public void displayCampVisibility(CampInfoController camp) {
+        String visibilityStatus = camp.isVisible() ? "ON" : "OFF";
+        System.out.println("Camp Visibility: " + visibilityStatus);
+    }
+
     public void generateReports(List<CampInfoController> camps, String attendeeType, String outputFileFormat) {
         for (CampInfoController camp : camps) {
             // Check if the camp was created by this staff member
