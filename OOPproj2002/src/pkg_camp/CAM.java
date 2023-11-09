@@ -530,6 +530,7 @@ public class CAM {
                     break;
 
                 case 7: // Camp suggestions
+                    staff.viewAndApproveSuggestions();
                     break;
 
                 case 8: // Generate camp report

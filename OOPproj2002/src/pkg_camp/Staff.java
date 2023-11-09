@@ -18,6 +18,7 @@ public class Staff extends CampInfoController implements User {
     private String faculty;
     private User STAFF;
     private ArrayList<EnquiryController> enquiries; // enquires related to THIS staff
+    private SuggestionsController suggestionsController;
 
     // Attributes of Staff Methods
     private List<String> createdCampName;
@@ -33,6 +34,7 @@ public class Staff extends CampInfoController implements User {
         this.userID = userID;
         this.password = password;
         this.faculty = faculty;
+        suggestionsController = new SuggestionsController();
         // this.enquiriesHandling = new ArrayList<>();
     }
     // Implement the methods from the User interface
@@ -55,6 +57,10 @@ public class Staff extends CampInfoController implements User {
 
     public User getUserType() {
         return STAFF;
+    }
+
+    public SuggestionsController getSuggestionsController() {
+        return suggestionsController;
     }
 
     public static List<CampInfoController> staffDeleteCamp(Staff staff, List<CampInfoController> createdCamps,
@@ -92,6 +98,34 @@ public class Staff extends CampInfoController implements User {
     public void displayCampVisibility(CampInfoController camp) {
         String visibilityStatus = camp.isVisible() ? "ON" : "OFF";
         System.out.println("Camp Visibility: " + visibilityStatus);
+    }
+
+    public void viewAndApproveSuggestions() {
+        List<SuggestionsController.Suggestion> suggestions = suggestionsController.getAllSuggestions();
+
+        if (suggestions.isEmpty()) {
+            System.out.println("No suggestions available for review.");
+        } else {
+            System.out.println("List of Suggestions:");
+            for (int i = 0; i < suggestions.size(); i++) {
+                SuggestionsController.Suggestion suggestion = suggestions.get(i);
+                System.out.println((i + 1) + ". Camp Name: " + suggestion.getCampName());
+                System.out.println("   Suggested Details: " + suggestion.getSuggestedDetails());
+                System.out.println("   Status: " + (suggestion.isAccepted() ? "Accepted" : "Pending"));
+            }
+
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter the number of the suggestion to approve (or 0 to exit):");
+            int choice = scanner.nextInt();
+
+            if (choice > 0 && choice <= suggestions.size()) {
+                SuggestionsController.Suggestion selectedSuggestion = suggestions.get(choice - 1);
+                selectedSuggestion.acceptSuggestion();
+                System.out.println("Suggestion approved successfully!");
+            } else if (choice != 0) {
+                System.out.println("Invalid choice. Please try again.");
+            }
+        }
     }
 
     public void generateReports(List<CampInfoController> camps, String attendeeType, String outputFileFormat) {
