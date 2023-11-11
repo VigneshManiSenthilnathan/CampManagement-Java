@@ -3,6 +3,8 @@ package pkg_camp;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class CreateCamp extends Staff {
 
@@ -11,6 +13,10 @@ public class CreateCamp extends Staff {
     }
 
     public static List<CampInfoController> createNewCamp(Staff staff, List<CampInfoController> createdCamps) {
+
+        LocalDate dates = null;
+        LocalDate registrationClosingDate = null;
+
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter(System.lineSeparator());
 
@@ -19,11 +25,20 @@ public class CreateCamp extends Staff {
 
         System.out.println("Enter Camp Dates: ");
         String datesStr = sc.next();
-        LocalDate dates = LocalDate.parse(datesStr);
+        try {
+            dates = LocalDate.parse(datesStr, DateTimeFormatter.ofPattern("dd/MM/yy"));
+        } catch (DateTimeParseException ex) {
+            System.out.println("Invalid date format. Use 'dd/MM/yy'.");
+        }
 
         System.out.println("Enter Camp Registration Closing Date: ");
         String registrationClosingDateStr = sc.next();
-        LocalDate registrationClosingDate = LocalDate.parse(registrationClosingDateStr);
+        try {
+            registrationClosingDate = LocalDate.parse(registrationClosingDateStr,
+                    DateTimeFormatter.ofPattern("dd/MM/yy"));
+        } catch (DateTimeParseException ex) {
+            System.out.println("Invalid date format. Use 'dd/MM/yy'.");
+        }
 
         System.out.println("Enter Faculty: ");
         String userGroup = sc.next();
@@ -63,7 +78,8 @@ public class CreateCamp extends Staff {
             }
         }
 
-        sc.close();
+        // dont close scanner here
+        // sc.close();
         CampInfoController newcamp = new CampInfoController(campName, dates, registrationClosingDate, userGroup,
                 location, totalSlots, campCommitteeSlots, description, staff.getUserID(), visibility);
 

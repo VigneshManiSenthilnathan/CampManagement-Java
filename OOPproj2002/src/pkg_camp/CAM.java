@@ -216,7 +216,7 @@ public class CAM {
                             boolean changed = false;
                             while (!changed) {
                                 System.out.println("Change your password: ");
-                                String newPassword = scanner.nextLine();
+                                String newPassword = scanner.next();
 
                                 // if newPassword is not the same as old password
                                 // "password", change the password to newPassword
@@ -227,6 +227,7 @@ public class CAM {
                                     Credentials.updatePassword(userID, newPassword);
                                     changed = true; // exit asking them to change password
                                     staffMenuPage(thisStaff, createdCamps);
+                                    break;
                                 }
 
                                 else { // if they input the same password, ask them to input again
@@ -241,6 +242,7 @@ public class CAM {
                             // Redirect to student menu method below
                             exitstafflogin = true;
                             staffMenuPage(thisStaff, createdCamps);
+                            break;
                         }
 
                         else {
@@ -364,24 +366,26 @@ public class CAM {
                                 break;
 
                             case 2:
-                                System.out.println("Choose the enquiry to edit below");
-                                List<EnquiryController> enqToEdit = student.getEnquiries();
-                                System.out.println(enqToEdit);
-                                int editIndex = scanner.nextInt();
-                                System.out.println("Enter your new message: ");
-                                String newMsg = scanner.next();
-
-                                for (EnquiryController enq : enqToEdit) {
-                                    int i = 0;
-                                    // Account for entry of i > length of enquiry list
-                                    if (i == editIndex) {
-                                        student.editEnquiry(enq, newMsg);
-                                    }
-
-                                    i++;
-                                }
-                                quit = true;
-                                break;
+                                /*
+                                 * System.out.println("Choose the enquiry to edit below");
+                                 * List<EnquiryController> enqToEdit = student.getEnquiries();
+                                 * System.out.println(enqToEdit);
+                                 * int editIndex = scanner.nextInt();
+                                 * System.out.println("Enter your new message: ");
+                                 * String newMsg = scanner.next();
+                                 * 
+                                 * for (EnquiryController enq : enqToEdit) {
+                                 * int i = 0;
+                                 * // Account for entry of i > length of enquiry list
+                                 * if (i == editIndex) {
+                                 * student.editEnquiry(enq, newMsg);
+                                 * }
+                                 * 
+                                 * i++;
+                                 * }
+                                 * quit = true;
+                                 * break;
+                                 */
                             case 3:
                                 // student.deleteEnquiry();
                                 quit = true;
@@ -400,7 +404,7 @@ public class CAM {
                 case 7:
                     boolean quit1 = false;
                     System.out.println("Camps you have registered for: ");
-                    System.out.print(student.getEnquiries());
+                    // System.out.print(student.getEnquiries());
 
                     System.out.println("Choose the camp you would like to withdraw from: ");
                     int withdrawIndex = scanner.nextInt();
@@ -429,6 +433,7 @@ public class CAM {
             }
         }
         scanner.close();
+        return;
     }
 
     // Staff Menu - after log in
@@ -483,7 +488,7 @@ public class CAM {
 
                         switch (choice) {
                             case 1:
-                                CreateCamp.createNewCamp(staff);
+                                createdCamps = CreateCamp.createNewCamp(staff, createdCamps);
                                 break;
 
                             case 2:
@@ -522,10 +527,12 @@ public class CAM {
                     break;
 
                 case 5: // View List of Created camps
-                    for (String campName : staff.createdCampName) {
-                        System.out.println(campName);
-                    }
-                    break;
+                    /*
+                     * for (String campName : staff.createdCampName) {
+                     * System.out.println(campName);
+                     * }
+                     * break;
+                     */
 
                 case 6: // View or Reply enquiries
                     staff.viewAndReplyToEnquiries();
@@ -552,13 +559,14 @@ public class CAM {
                 case 10: // Exit Staff Menu
                     Upload.writeToExcel(createdCamps);
                     exitStaffMenu = true;
+                    // scanner.close();
                     break;
 
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
             }
             // exitStaffMenu = true;
-            scanner.close();
         }
+        return;
     }
 }

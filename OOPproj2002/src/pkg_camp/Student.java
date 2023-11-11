@@ -77,6 +77,7 @@ public class Student implements User {
             i++;
         }
     }
+}
 
 // Register for a camp
 /*

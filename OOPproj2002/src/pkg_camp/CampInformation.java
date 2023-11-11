@@ -12,7 +12,7 @@ public class CampInformation {
     private String campName;
     private LocalDate dates;
     private LocalDate registrationClosingDate;
-    private String userGroup;
+    private static String userGroup;
     private String location;
     private int totalSlots;
     private int campCommitteeSlots;
@@ -141,7 +141,7 @@ public class CampInformation {
             System.out.println("To Set Visible Enter: 1");
             System.out.println("To Set Invisible Enter: 0");
         }
-    }s
+    }
 
     // Setter methods for CampInformation attributes
     public void setCampName(String campName) {
