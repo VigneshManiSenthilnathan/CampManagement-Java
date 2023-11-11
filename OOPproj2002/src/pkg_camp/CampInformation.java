@@ -50,7 +50,7 @@ public class CampInformation {
 
     // someone suggest if got better implementation pls
 
-    public void editCampDetails(CampInformation camp, int attributeToEdit, String edit) {
+    public static void editCampDetails(CampInformation camp, int attributeToEdit, String edit) {
         switch (attributeToEdit) {
             case 0:
                 camp.setCampName(edit);
@@ -131,7 +131,7 @@ public class CampInformation {
         // camp.attributeToEdit = edit;
     }
 
-    public void toggleVisibility(CampInformation camp, int set) {
+    public static void toggleVisibility(CampInformation camp, int set) {
         if (set == 1) {
             camp.visibility = true;
         } else if (set == 0) {
@@ -141,7 +141,7 @@ public class CampInformation {
             System.out.println("To Set Visible Enter: 1");
             System.out.println("To Set Invisible Enter: 0");
         }
-    }
+    }s
 
     // Setter methods for CampInformation attributes
     public void setCampName(String campName) {
