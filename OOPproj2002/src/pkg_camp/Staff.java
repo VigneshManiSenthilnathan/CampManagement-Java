@@ -3,6 +3,7 @@ package pkg_camp;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -66,18 +67,20 @@ public class Staff extends CampInfoController implements User {
     public static List<CampInfoController> staffDeleteCamp(Staff staff, List<CampInfoController> createdCamps,
             String campName) {
 
+        Iterator<CampInfoController> iterator = createdCamps.iterator();
         boolean found = false;
 
-        for (CampInfoController camp : createdCamps) {
+        while (iterator.hasNext()) {
+            CampInfoController camp = iterator.next();
             if (camp.getCampName().equalsIgnoreCase(campName) && camp.getStaffInCharge().equals(staff.getUserID())) {
                 found = true;
-                createdCamps.remove(camp);
+                iterator.remove();
                 System.out.println("Camp deleted successfully!");
             }
         }
 
         if (!found) {
-            System.out.println("No such camp in database! Check your spelling!");
+            System.out.println("No such camp in the database! Check your spelling!");
         }
 
         return createdCamps;
@@ -92,7 +95,8 @@ public class Staff extends CampInfoController implements User {
                 return;
             }
         }
-        System.out.println("No such camp in database or you don't have permission to modify visibility. Check your spelling or staff ID.");
+        System.out.println(
+                "No such camp in database or you don't have permission to modify visibility. Check your spelling or staff ID.");
     }
 
     public void displayCampVisibility(CampInfoController camp) {

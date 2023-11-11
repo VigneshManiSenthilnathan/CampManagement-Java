@@ -9,17 +9,21 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Scanner;
 
 public class CAM {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         List<Student> studentList = new ArrayList<>();
         List<Staff> staffList = new ArrayList<>();
         List<CampInfoController> createdCamps = new ArrayList<>();
+
+        // download camps from excel file
+        createdCamps = Download.loadCamps(createdCamps);
 
         // System.out.println("Current working directory: " +
         // System.getProperty("user.dir"));
@@ -258,7 +262,7 @@ public class CAM {
     }
 
     // Student Menu - after log in
-    public static void studentMenuPage(Student student, List<CampInfoController> createdCamps) {
+    public static void studentMenuPage(Student student, List<CampInfoController> createdCamps) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
 
@@ -437,7 +441,7 @@ public class CAM {
     }
 
     // Staff Menu - after log in
-    public static void staffMenuPage(Staff staff, List<CampInfoController> createdCamps) {
+    public static void staffMenuPage(Staff staff, List<CampInfoController> createdCamps) throws IOException {
 
         Scanner scanner = new Scanner(System.in);
         boolean exitStaffMenu = false;
@@ -501,7 +505,7 @@ public class CAM {
                                 System.out.println("Enter Camp Name: ");
                                 String campNameDel = scanner.next();
                                 createdCamps = Staff.staffDeleteCamp(staff, createdCamps, campNameDel);
-                                Upload.deleteCamp(campNameDel);
+                                // Upload.deleteCamp(campNameDel);
                                 break;
 
                             case 4:
@@ -557,6 +561,7 @@ public class CAM {
                     break;
 
                 case 10: // Exit Staff Menu
+                    Upload.deleteAll();
                     Upload.writeToExcel(createdCamps);
                     exitStaffMenu = true;
                     // scanner.close();

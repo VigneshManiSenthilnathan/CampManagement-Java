@@ -5,19 +5,23 @@ import java.util.Scanner;
 
 public class ModifyCamp extends Staff {
 
-    public static void modifyCamp(Staff staff, List<CampInfoController> createdCamps, String campName) {
+    public static List<CampInfoController> modifyCamp(Staff staff, List<CampInfoController> createdCamps,
+            String campName) {
 
         CampInfoController thisCamp = null;
+        boolean campExists = false;
 
         // Implement Sanity Check for camp name
         for (CampInfoController camp : createdCamps) {
             if (camp.getCampName().equals(campName)) {
                 thisCamp = camp;
+                campExists = true;
                 break;
-            } else {
-                System.out.println("Camp does not exist. Please enter a valid camp name.");
-                return;
             }
+        }
+
+        if (!campExists) {
+            System.out.println("Camp does not exist. Please enter a valid camp name.");
         }
 
         boolean done = false;
@@ -89,14 +93,16 @@ public class ModifyCamp extends Staff {
                     System.out.println("Enter New StaffInCharge: ");
                     String newstaffincharge = sc.next();
                     CampInformation.editCampDetails(thisCamp, 8, newstaffincharge);
+                    break;
                 case 10:
                     System.out.println("Exiting back to staff menu...");
-                    break;
-
+                    done = true;
+                    return createdCamps;
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
                     break;
             }
         }
+        return createdCamps;
     }
 }

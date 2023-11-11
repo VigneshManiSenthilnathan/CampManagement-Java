@@ -54,7 +54,7 @@ public abstract class Upload {
 
     // Need to figure out how to update attendees and camp committee list still.
 
-    public static void writeToExcel(List<CampInfoController> campList) {
+    public static void writeToExcel(List<CampInfoController> campList) throws IOException {
 
         String filepath = "OOPproj2002/src/pkg_camp/camps.xlsx";
 
@@ -91,7 +91,6 @@ public abstract class Upload {
             headerRow.createCell(7).setCellValue("Description");
             headerRow.createCell(8).setCellValue("Visibilty");
             headerRow.createCell(9).setCellValue("Staff In Charge");
-
             headerRow.createCell(10).setCellValue("Attendees");
             headerRow.createCell(11).setCellValue("Committee Members");
         }
@@ -103,16 +102,19 @@ public abstract class Upload {
 
             // Check if the camp already exists in the Excel sheet
             boolean campExists = false;
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                Row row = sheet.getRow(i);
-                if (row != null && row.getCell(0) != null) {
-                    String existingCampName = row.getCell(0).getStringCellValue();
-                    if (existingCampName.equals(camp.getCampName())) {
-                        campExists = true;
-                        break;
-                    }
-                }
-            }
+
+            /*
+             * for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+             * Row row = sheet.getRow(i);
+             * if (row != null && row.getCell(0) != null) {
+             * String existingCampName = row.getCell(0).getStringCellValue();
+             * if (existingCampName.equals(camp.getCampName())) {
+             * campExists = true;
+             * break;
+             * }
+             * }
+             * }
+             */
 
             if (!campExists) {
                 Row row = sheet.createRow(rowNum++);
@@ -126,15 +128,25 @@ public abstract class Upload {
                 row.createCell(7).setCellValue(camp.getDescription());
                 row.createCell(8).setCellValue(camp.getVisibility());
                 row.createCell(9).setCellValue(camp.getStaff());
-
                 row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
                 row.createCell(11).setCellValue(String.join(" ", camp.getCampCommitteeUserID()));
             }
         }
 
         try (FileOutputStream outputStream = new FileOutputStream(filepath)) {
-            workbook.write(outputStream);
+            try {
+                workbook.write(outputStream);
+                outputStream.flush();
+                outputStream.close();
+                workbook.close();
+            } catch (IOException e) {
+                outputStream.flush();
+                outputStream.close();
+                workbook.close();
+                e.printStackTrace();
+            }
         } catch (IOException e) {
+            workbook.close();
             e.printStackTrace();
         }
     }
@@ -174,6 +186,33 @@ public abstract class Upload {
 
         try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
             workbook.write(outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAll() {
+
+        String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
+
+        try (FileInputStream inputStream = new FileInputStream(new File(filePath));
+                Workbook workbook = WorkbookFactory.create(inputStream)) {
+
+            // Assuming there is only one sheet in the workbook. Modify accordingly if
+            // needed.
+            Sheet sheet = workbook.getSheetAt(0);
+
+            // Clear all the rows in the sheet
+
+            for (int i = 0; i <= sheet.getLastRowNum(); i++) {
+                sheet.removeRow(sheet.getRow(i));
+            }
+
+            // Save the changes
+            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                workbook.write(outputStream);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
