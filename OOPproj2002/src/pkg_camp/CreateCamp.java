@@ -1,5 +1,6 @@
 package pkg_camp;
 
+import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
 
@@ -9,7 +10,7 @@ public class CreateCamp extends Staff {
 
     }
 
-    public static void createNewCamp(Staff staff) {
+    public static List<CampInfoController> createNewCamp(Staff staff, List<CampInfoController> createdCamps) {
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter(System.lineSeparator());
 
@@ -58,12 +59,16 @@ public class CreateCamp extends Staff {
             }
 
             else {
-                System.out.println("Please enter a valid integer!");
+                System.out.println("Please enter a valid integer  only!");
             }
         }
 
+        sc.close();
         CampInfoController newcamp = new CampInfoController(campName, dates, registrationClosingDate, userGroup,
                 location, totalSlots, campCommitteeSlots, description, staff.getUserID(), visibility);
+
+        createdCamps.add(newcamp);
+        return createdCamps;
     }
 
 }

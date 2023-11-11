@@ -489,13 +489,13 @@ public class CAM {
                             case 2:
                                 System.out.println("Enter Camp Name: ");
                                 String campNameMod = scanner.next();
-                                ModifyCamp.modifyCamp(staff, createdCamps);
+                                ModifyCamp.modifyCamp(staff, createdCamps, campNameMod);
                                 break;
 
                             case 3:
                                 System.out.println("Enter Camp Name: ");
                                 String campNameDel = scanner.next();
-                                Staff.staffDeleteCamp(staff, createdCamps, campNameDel);
+                                createdCamps = Staff.staffDeleteCamp(staff, createdCamps, campNameDel);
                                 Upload.deleteCamp(campNameDel);
                                 break;
 
