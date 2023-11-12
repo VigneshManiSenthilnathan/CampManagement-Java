@@ -23,7 +23,7 @@ public class CAM {
         List<CampInfoController> createdCamps = new ArrayList<>();
 
         // download camps from excel file
-        createdCamps = Download.loadCamps(createdCamps);
+        // createdCamps = Download.loadCamps(createdCamps);
 
         // System.out.println("Current working directory: " +
         // System.getProperty("user.dir"));
@@ -496,10 +496,35 @@ public class CAM {
                                 break;
 
                             case 2:
+                                boolean campExists = false;
+
                                 System.out.println("Enter Camp Name: ");
                                 String campNameMod = scanner.next();
-                                ModifyCamp.modifyCamp(staff, createdCamps, campNameMod);
-                                break;
+
+                                // If camp is in createdCamps
+                                for (CampInfoController camp : createdCamps) {
+                                    if (camp.getCampName().equals(campNameMod)) {
+                                        campExists = true;
+                                        ModifyCamp.modifyCamp(staff, createdCamps, campNameMod);
+                                        break;
+                                    }
+                                }
+
+                                // If camp is in database instead of createdCamps
+                                List<String> campNames = new ArrayList<>();
+                                campNames = Upload.namesInDatabase();
+
+                                System.out.println(campNames);
+
+                                for (String campName : campNames) {
+                                    if (campName.equals(campNameMod)) {
+                                        int editChoice = Upload.getItemToEdit(campNameMod);
+                                        if (editChoice != -1) {
+                                            Upload.updateCellValue(campNameMod, editChoice);
+                                        }
+                                        break;
+                                    }
+                                }
 
                             case 3:
                                 System.out.println("Enter Camp Name: ");
@@ -561,7 +586,7 @@ public class CAM {
                     break;
 
                 case 10: // Exit Staff Menu
-                    Upload.deleteAll();
+                    // Upload.deleteAll();
                     Upload.writeToExcel(createdCamps);
                     exitStaffMenu = true;
                     // scanner.close();
