@@ -10,6 +10,7 @@ public class ModifyCamp extends Staff {
 
         CampInfoController thisCamp = null;
         boolean campExists = false;
+        
         for (CampInfoController camp : createdCamps){
             if(camp.getCampName().equals(campName)){
                 thisCamp = camp;
