@@ -10,22 +10,17 @@ public class ModifyCamp extends Staff {
 
         CampInfoController thisCamp = null;
         boolean campExists = false;
-
-        // Implement Sanity Check for camp name
-        for (CampInfoController camp : createdCamps) {
-            if (camp.getCampName().equals(campName)) {
+        for (CampInfoController camp : createdCamps){
+            if(camp.getCampName().equals(campName)){
                 thisCamp = camp;
                 campExists = true;
-                break;
             }
         }
-
-        if (!campExists) {
-            System.out.println("Camp does not exist. Please enter a valid camp name.");
+        if (campExists = false){
+            return createdCamps;
         }
 
         boolean done = false;
-
         while (!done) {
             System.out.println("(0) Change Camp Name");
             System.out.println("(1) Change Camp Dates");

@@ -26,7 +26,9 @@ public class Download {
         try {
 
             String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
+            Workbook workbook;
 
+            // Check if the Excel file already exists
             File file = new File(filePath);
             if (!file.exists()) {
                 return createdCamps;
@@ -42,7 +44,7 @@ public class Download {
             // Download --> Download excel to runtime memory (Need to check if the excel
             // exists)
 
-            Workbook workbook = WorkbookFactory.create(excelFile);
+            workbook = WorkbookFactory.create(excelFile);
             Sheet sheet = workbook.getSheet("Camps");
 
             // Check if the file is empty

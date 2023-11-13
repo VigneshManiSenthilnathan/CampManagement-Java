@@ -63,12 +63,13 @@ public abstract class Upload {
 
     public static void writeToExcel(List<CampInfoController> campList) throws IOException {
 
-        String filepath = "OOPproj2002/src/pkg_camp/camps.xlsx";
+        String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
 
         Workbook workbook;
 
         // Check if the Excel file already exists
-        File file = new File(filepath);
+        File file = new File(filePath);
+
         if (file.exists()) {
             try {
                 workbook = WorkbookFactory.create(file);
@@ -106,24 +107,38 @@ public abstract class Upload {
         int rowNum = lastRowNum + 1;
 
         for (CampInfoController camp : campList) {
-
             // Check if the camp already exists in the Excel sheet
             boolean campExists = false;
+            int rowIndex = -1;
 
-            /*
-             * for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-             * Row row = sheet.getRow(i);
-             * if (row != null && row.getCell(0) != null) {
-             * String existingCampName = row.getCell(0).getStringCellValue();
-             * if (existingCampName.equals(camp.getCampName())) {
-             * campExists = true;
-             * break;
-             * }
-             * }
-             * }
-             */
+            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+                Row row = sheet.getRow(i);
+                if (row != null && row.getCell(0) != null) {
+                    String existingCampName = row.getCell(0).getStringCellValue();
+                    if (existingCampName.equals(camp.getCampName())) {
+                        campExists = true;
+                        rowIndex = i;
+                        break;
+                    }
+                }
+            }
 
-            if (!campExists) {
+            if (campExists) {
+                // Update existing row
+                Row row = sheet.getRow(rowIndex);
+                row.createCell(1).setCellValue(camp.getCampDate());
+                row.createCell(2).setCellValue(camp.getClosing());
+                row.createCell(3).setCellValue(camp.getFaculty());
+                row.createCell(4).setCellValue(camp.getLocation());
+                row.createCell(5).setCellValue(camp.getTotalSlots());
+                row.createCell(6).setCellValue(camp.getCommitteeSlots());
+                row.createCell(7).setCellValue(camp.getDescription());
+                row.createCell(8).setCellValue(camp.getVisibility());
+                row.createCell(9).setCellValue(camp.getStaff());
+                row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
+                row.createCell(11).setCellValue(String.join(" ", camp.getCampCommitteeUserID()));
+            } else {
+                // Add new row
                 Row row = sheet.createRow(rowNum++);
                 row.createCell(0).setCellValue(camp.getCampName());
                 row.createCell(1).setCellValue(camp.getCampDate());
@@ -140,7 +155,7 @@ public abstract class Upload {
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(filepath)) {
+        try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
             try {
                 workbook.write(outputStream);
                 outputStream.flush();
@@ -191,7 +206,7 @@ public abstract class Upload {
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+        try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
             workbook.write(outputStream);
         } catch (IOException e) {
             e.printStackTrace();

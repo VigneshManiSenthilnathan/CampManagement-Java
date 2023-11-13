@@ -16,14 +16,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CAM {
+    private static List<CampInfoController> createdCamps = new ArrayList<>();
+    private static List<Staff> staffList = new ArrayList<>();
+    private static List<Student> studentList = new ArrayList<>();
+
     public static void main(String[] args) throws IOException {
-
-        List<Student> studentList = new ArrayList<>();
-        List<Staff> staffList = new ArrayList<>();
-        List<CampInfoController> createdCamps = new ArrayList<>();
-
-        // download camps from excel file
-        // createdCamps = Download.loadCamps(createdCamps);
 
         // System.out.println("Current working directory: " +
         // System.getProperty("user.dir"));
@@ -256,6 +253,10 @@ public class CAM {
 
                     }
                 }
+            }
+            else{
+                System.out.println("Closing CAM...");
+                exitmain = true;
             }
         }
         scanner.close();
@@ -497,21 +498,37 @@ public class CAM {
 
                             case 2:
                                 boolean campExists = false;
-
                                 System.out.println("Enter Camp Name: ");
                                 String campNameMod = scanner.next();
-
-                                // If camp is in createdCamps
-                                for (CampInfoController camp : createdCamps) {
-                                    if (camp.getCampName().equals(campNameMod)) {
-                                        campExists = true;
-                                        ModifyCamp.modifyCamp(staff, createdCamps, campNameMod);
-                                        break;
+                                
+                                while (!campExists) {
+                                    // Implement Sanity Check for camp name
+                                    for (CampInfoController camp : createdCamps) {
+                                        if (camp.getCampName().equals(campNameMod)) {
+                                            campExists = true;
+                                            break;
+                                        }
+                                    }
+                                
+                                    if (campExists == false){
+                                        System.out.println("Camp does not exist. Please enter a valid camp name.");
+                                        System.out.println("Type 'Exit' to go back to Staff Menu");
+                                        System.out.println("Enter Camp Name: ");
+                                        campNameMod = scanner.next();
+                                        if ("Exit".equals(campNameMod)){
+                                            break;
+                                        }
                                     }
                                 }
 
+                                if (campExists) {
+                                    ModifyCamp.modifyCamp(staff, createdCamps, campNameMod);
+                                }
+
+                                break;
+
                                 // If camp is in database instead of createdCamps
-                                List<String> campNames = new ArrayList<>();
+                                /* List<String> campNames = new ArrayList<>();
                                 campNames = Upload.namesInDatabase();
 
                                 System.out.println(campNames);
@@ -524,7 +541,7 @@ public class CAM {
                                         }
                                         break;
                                     }
-                                }
+                                } */
 
                             case 3:
                                 System.out.println("Enter Camp Name: ");
