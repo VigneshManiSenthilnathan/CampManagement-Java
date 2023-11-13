@@ -68,8 +68,7 @@ public class Download {
                     LocalDate campDates = LocalDate.parse(dates, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                     String closedate = row.getCell(2).getStringCellValue();
-                    LocalDate campRegClosingDate = LocalDate.parse(closedate,
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    LocalDate campRegClosingDate = LocalDate.parse(closedate,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                     String campFaculty = row.getCell(3).getStringCellValue();
                     String campLocation = row.getCell(4).getStringCellValue();
@@ -79,10 +78,7 @@ public class Download {
                     boolean campVisibility = row.getCell(8).getBooleanCellValue();
                     String campStaffInCharge = row.getCell(9).getStringCellValue();
 
-                    CampInfoController camp = new CampInfoController(campName, campDates, campRegClosingDate,
-                            campFaculty,
-                            campLocation, campAttendeeSlots, campCommitteeSlots, campDescription, campStaffInCharge,
-                            campVisibility);
+                    CampInfoController camp = new CampInfoController(campName, campDates, campRegClosingDate, campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription, campStaffInCharge, campVisibility);
 
                     createdCamps.add(camp);
                     System.out.println("Camp: " + campName + " loaded successfully.");

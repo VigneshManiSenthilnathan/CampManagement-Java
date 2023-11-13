@@ -22,9 +22,7 @@ public class CAM {
 
     public static void main(String[] args) throws IOException {
 
-        // System.out.println("Current working directory: " +
-        // System.getProperty("user.dir"));
-        // Student
+        // student_list.xlsx
         try {
             // reads data from file path: student_list
             FileInputStream excelFile1 = new FileInputStream(new File("OOPproj2002/src/pkg_camp/student_list.xlsx"));
@@ -37,7 +35,8 @@ public class CAM {
             // student sheet
             Sheet sheet1 = workbook1.getSheet("student");
 
-            for (Row row : sheet1) {
+            for (Row row : sheet1)
+            {
                 String userID = row.getCell(1).getStringCellValue();
                 String faculty = row.getCell(2).getStringCellValue();
 
@@ -62,7 +61,7 @@ public class CAM {
             e.printStackTrace();
         }
 
-        // Staff
+        // staff_list.xlsx
         try {
             FileInputStream excelFile2 = new FileInputStream(new File("OOPproj2002/src/pkg_camp/staff_list.xlsx"));
             Workbook workbook2 = new XSSFWorkbook(excelFile2);
@@ -90,6 +89,9 @@ public class CAM {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // camps.xlsx
+        createdCamps = Download.loadCamps(createdCamps);
 
         Scanner scanner = new Scanner(System.in);
 
