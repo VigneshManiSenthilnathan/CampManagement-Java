@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openxmlformats.schemas.drawingml.x2006.diagram.STDirection;
 
 // To store usernames and passwords
 // Extend to store studentType too?
@@ -141,6 +142,7 @@ public class Credentials {
 
     // Check if username exists
     public static boolean usernameExists(String username) {
+
         try {
             FileInputStream fis = new FileInputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx");
             Workbook workbook = new XSSFWorkbook(fis);
@@ -276,6 +278,16 @@ public class Credentials {
             System.out.println("Password updated successfully.");
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // check if the user_password excel file exists
+    public static boolean checkFileExists() {
+        File file = new File("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change the file name as needed
+        if (file.exists()) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

@@ -50,13 +50,13 @@ public class CreateCamp extends Staff {
         int totalSlots = sc.nextInt();
 
         boolean ccslots = false;
-        while(!ccslots){
+        int campCommitteeSlots = 0;
+        while (!ccslots) {
             System.out.println("Enter Camp Committee Slots Available: ");
-            int campCommitteeSlots = sc.nextInt();
-            if (campCommitteeSlots > 10){
+            campCommitteeSlots = sc.nextInt();
+            if (campCommitteeSlots > 10) {
                 System.out.println("Max Camp Committee Slots is 10!");
-            }
-            else{
+            } else {
                 ccslots = true;
             }
         }

@@ -14,8 +14,8 @@ public class CampInformation {
     private LocalDate registrationClosingDate;
     private static String userGroup;
     private String location;
-    private int totalSlots;
-    private int campCommitteeSlots;
+    protected int totalSlots;
+    protected int campCommitteeSlots;
     private String description;
     private String staffInCharge;
     private boolean visibility;
@@ -49,87 +49,6 @@ public class CampInformation {
      */
 
     // someone suggest if got better implementation pls
-
-    public static void editCampDetails(CampInformation camp, int attributeToEdit, String edit) {
-        switch (attributeToEdit) {
-            case 0:
-                camp.setCampName(edit);
-                break;
-
-            case 1:
-                try {
-                    LocalDate campDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("dd/MM/yy"));
-                    camp.setDates(campDate);
-                } catch (DateTimeParseException ex) {
-                    System.out.println("Invalid date format. Use 'dd/MM/yy'.");
-                }
-                break;
-
-            case 2:
-                try {
-                    LocalDate regClosingDate = LocalDate.parse(edit, DateTimeFormatter.ofPattern("dd/MM/yy"));
-                    camp.setRegistrationClosingDate(regClosingDate);
-                } catch (DateTimeParseException ex) {
-                    System.out.println("Invalid date format. Use 'dd/MM/yy'.");
-                }
-                break;
-
-            case 3:
-                try {
-                    camp.setUserGroup(userGroup);
-                } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: Invalid input.");
-                }
-                break;
-
-            case 4:
-                camp.setLocation(edit);
-                break;
-
-            case 5:
-                try {
-                    int slots = Integer.parseInt(edit);
-                    camp.setTotalSlots(slots);
-                } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: Invalid input.");
-                }
-                break;
-
-            case 6:
-                try {
-                    int comslots = Integer.parseInt(edit);
-                    if (comslots > 10) {
-                        System.out.println("Committee Slots exceeded! Max 10.");
-                    } else {
-                        camp.setCampCommitteeSlots(comslots);
-                    }
-                } catch (NumberFormatException nfe) {
-                    System.out.println("NumberFormat Exception: Invalid input.");
-                }
-                break;
-
-            case 7:
-                camp.setDescription(edit);
-                break;
-
-            case 8:
-                camp.setStaffInCharge(edit);
-                break;
-
-            case 9:
-                System.out.println("Quitting Program...");
-                break;
-
-            default:
-                System.out.println("Attribute does not exist.");
-        }
-
-        // switch-case to find attribute to be edited
-        // typecast String to appropriate type based on attribute chosen
-        // handle errors and return to calling function
-
-        // camp.attributeToEdit = edit;
-    }
 
     public static void toggleVisibility(CampInformation camp, int set) {
         if (set == 1) {

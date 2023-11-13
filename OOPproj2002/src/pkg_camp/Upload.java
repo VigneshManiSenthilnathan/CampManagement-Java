@@ -209,161 +209,7 @@ public abstract class Upload {
         }
     }
 
-    public static void deleteAll() {
-
-        String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
-
-        try (FileInputStream inputStream = new FileInputStream(new File(filePath));
-                Workbook workbook = WorkbookFactory.create(inputStream)) {
-
-            // Assuming there is only one sheet in the workbook. Modify accordingly if
-            // needed.
-            Sheet sheet = workbook.getSheetAt(0);
-
-            // Clear all the rows in the sheet
-
-            for (int i = 0; i <= sheet.getLastRowNum(); i++) {
-                sheet.removeRow(sheet.getRow(i));
-            }
-
-            // Save the changes
-            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                workbook.write(outputStream);
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void updateCellValue(String campName, int columnIndex) {
-
-        String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
-        String newValue = null;
-
-        Scanner scan = new Scanner(System.in);
-        scan.useDelimiter(System.lineSeparator());
-
-        try {
-            File file = new File(filePath);
-            if (!file.exists()) {
-                // Handle the case where the file doesn't exist
-                System.out.println("The Excel file doesn't exist.");
-                return;
-            }
-
-            Workbook workbook = WorkbookFactory.create(file);
-            Sheet sheet = workbook.getSheet("Camps");
-
-            boolean campFound = false;
-
-            // Get header name using a for loop
-            for (Row row : sheet) {
-                if (row.getRowNum() == 0) {
-                    Cell cell = row.getCell(columnIndex);
-                    String headerName = cell.getStringCellValue();
-                    System.out.println("Enter new " + headerName + ": ");
-                    newValue = scan.next();
-                    break;
-                }
-            }
-
-            // close workbook
-            workbook.close();
-
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                Row row = sheet.getRow(i);
-                if (row != null && row.getCell(0) != null) {
-                    String existingCampName = row.getCell(0).getStringCellValue();
-                    if (existingCampName.equals(campName)) {
-                        campFound = true;
-                        Cell cell = row.createCell(columnIndex);
-                        cell.setCellValue(newValue);
-
-                        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                            try (Workbook workbook2 = WorkbookFactory.create(file)) {
-                                workbook2.write(outputStream);
-                                System.out.println("Database successfully updated!");
-                                outputStream.flush();
-                                outputStream.close();
-                                workbook2.close();
-                            } catch (Exception e) {
-                                outputStream.flush();
-                                outputStream.close();
-                                System.out.println("Database not updated! EOFException: Inner");
-                                e.printStackTrace();
-                            }
-                        } catch (EOFException e) {
-                            System.out.println("Database not updated! EOFException: Outer");
-                            e.printStackTrace();
-                        } catch (IOException e) {
-
-                            System.out.println("Database not updated! IOException");
-                            e.printStackTrace();
-                        }
-
-                        return; // Exit the loop once the camp is updated
-                    }
-                }
-            }
-
-            workbook.close();
-
-            if (!campFound) {
-                System.out.println("Camp does not exist in database. Check camp name!");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static int getItemToEdit(String campName) {
-
-        Scanner scan = new Scanner(System.in);
-        scan.useDelimiter(System.lineSeparator());
-
-        boolean done = false;
-        int columnIndex = -1;
-
-        while (!done && columnIndex == -1) {
-            System.out.println("(0) Change Camp Name");
-            System.out.println("(1) Change Camp Dates");
-            System.out.println("(2) Change Camp Registration Closing Date");
-            System.out.println("(3) Change Viewing User Group");
-            System.out.println("(4) Change Location");
-            System.out.println("(5) Change Total Slots Available");
-            System.out.println("(6) Change Camp Committee Slots Available");
-            System.out.println("(7) Change Camp Description");
-            System.out.println("(8) Change Camp Visibility");
-            System.out.println("(9) Change StaffInCharge");
-            System.out.println("(10) Exit to Staff Menu");
-
-            try {
-                columnIndex = scan.nextInt();
-
-                if (columnIndex < 0 || columnIndex > 10) {
-                    System.out.println("Please enter a valid integer!");
-                }
-
-                else if (columnIndex == 10) {
-                    System.out.println("Exiting to Staff Menu ...");
-                    return -1;
-                }
-
-                else {
-                    done = true;
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Please enter a valid integer!");
-            }
-        }
-
-        return columnIndex;
-    }
-
-    public static List<String> namesInDatabase() {
-        List<String> names = new ArrayList<String>();
-
+    public static void updateCampNameInExcel(String oldCampName, String newCampName) {
         String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
 
         try {
@@ -372,26 +218,156 @@ public abstract class Upload {
 
             Sheet sheet = workbook.getSheet("Camps");
 
-            Iterator<Row> rowIterator = sheet.iterator();
+            for (Row row : sheet) {
+                Cell campNameCell = row.getCell(0);
+                if (campNameCell != null && campNameCell.getCellType() == CellType.STRING) {
+                    String existingCampName = campNameCell.getStringCellValue();
+                    if (existingCampName.equals(oldCampName)) {
+                        // Update the camp name in the Excel sheet
+                        campNameCell.setCellValue(newCampName);
+                        break;
+                    }
+                }
+            }
 
-            for (int i = 0; i <= sheet.getLastRowNum(); i++) {
-                Row row = rowIterator.next();
-
-                // Get the campname from the first cell of the current row
-                Cell cell = row.getCell(0);
-                String cellValue = new String(cell.getStringCellValue().getBytes(StandardCharsets.UTF_8),
-                        StandardCharsets.UTF_8);
-
-                cellValue = cellValue.replaceAll("\\P{Print}", "");
-
-                names.add(cellValue);
+            // Save the changes
+            try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                workbook.write(outputStream);
             }
 
             fis.close();
+            workbook.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        return names;
     }
+
+    /*
+     * public static void updateCellValue(String campName, int columnIndex) {
+     * 
+     * String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
+     * String newValue = null;
+     * 
+     * Scanner scan = new Scanner(System.in);
+     * scan.useDelimiter(System.lineSeparator());
+     * 
+     * try {
+     * File file = new File(filePath);
+     * if (!file.exists()) {
+     * // Handle the case where the file doesn't exist
+     * System.out.println("The Excel file doesn't exist.");
+     * return;
+     * }
+     * 
+     * Workbook workbook = WorkbookFactory.create(file);
+     * Sheet sheet = workbook.getSheet("Camps");
+     * 
+     * boolean campFound = false;
+     * 
+     * // Get header name using a for loop
+     * for (Row row : sheet) {
+     * if (row.getRowNum() == 0) {
+     * Cell cell = row.getCell(columnIndex);
+     * String headerName = cell.getStringCellValue();
+     * System.out.println("Enter new " + headerName + ": ");
+     * newValue = scan.next();
+     * break;
+     * }
+     * }
+     * 
+     * for (int i = 1; i <= sheet.getLastRowNum(); i++) {
+     * Row row = sheet.getRow(i);
+     * if (row != null && row.getCell(0) != null) {
+     * String existingCampName = row.getCell(0).getStringCellValue();
+     * if (existingCampName.equals(campName)) {
+     * campFound = true;
+     * 
+     * if (columnIndex == 0) {
+     * // If updating camp name, replace the existing name with the new one
+     * String oldCampName = row.getCell(0).getStringCellValue();
+     * row.getCell(0).setCellValue(newValue);
+     * 
+     * // Rename attendee and committee lists if they exist
+     * Row headerRow = sheet.getRow(0);
+     * int attendeeIndex = -1;
+     * int committeeIndex = -1;
+     * 
+     * // Find the indices of the attendee and committee columns
+     * for (int j = 0; j <= headerRow.getLastCellNum(); j++) {
+     * Cell headerCell = headerRow.getCell(j);
+     * if (headerCell != null && headerCell.getCellType() == CellType.STRING) {
+     * String headerCellValue = headerCell.getStringCellValue();
+     * if (headerCellValue.equals("Attendees")) {
+     * attendeeIndex = j;
+     * } else if (headerCellValue.equals("Committee Members")) {
+     * committeeIndex = j;
+     * }
+     * }
+     * }
+     * 
+     * // Update attendee list
+     * if (attendeeIndex != -1) {
+     * Cell attendeeCell = row.getCell(attendeeIndex);
+     * if (attendeeCell != null && attendeeCell.getCellType() == CellType.STRING) {
+     * String attendeeList = attendeeCell.getStringCellValue();
+     * String updatedList = attendeeList.replaceAll(oldCampName, newValue);
+     * attendeeCell.setCellValue(updatedList);
+     * }
+     * }
+     * 
+     * // Update committee list
+     * if (committeeIndex != -1) {
+     * Cell committeeCell = row.getCell(committeeIndex);
+     * if (committeeCell != null && committeeCell.getCellType() == CellType.STRING)
+     * {
+     * String committeeList = committeeCell.getStringCellValue();
+     * String updatedList = committeeList.replaceAll(oldCampName, newValue);
+     * committeeCell.setCellValue(updatedList);
+     * }
+     * }
+     * 
+     * } else {
+     * // If updating other columns, update the cell value directly
+     * Cell cell = row.createCell(columnIndex);
+     * cell.setCellValue(newValue);
+     * }
+     * 
+     * try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
+     * try (Workbook workbook2 = WorkbookFactory.create(file)) {
+     * workbook2.write(outputStream);
+     * System.out.println("Database successfully updated!");
+     * outputStream.flush();
+     * outputStream.close();
+     * workbook2.close();
+     * } catch (Exception e) {
+     * outputStream.flush();
+     * outputStream.close();
+     * System.out.println("Database not updated! EOFException: Inner");
+     * e.printStackTrace();
+     * }
+     * } catch (EOFException e) {
+     * System.out.println("Database not updated! EOFException: Outer");
+     * e.printStackTrace();
+     * } catch (IOException e) {
+     * System.out.println("Database not updated! IOException");
+     * e.printStackTrace();
+     * }
+     * 
+     * return; // Exit the loop once the camp is updated
+     * }
+     * }
+     * }
+     * 
+     * workbook.close();
+     * 
+     * if (!campFound) {
+     * System.out.println("Camp does not exist in the database. Check camp name!");
+     * }
+     * }
+     * 
+     * catch (IOException e) {
+     * e.printStackTrace();
+     * }
+     * }
+     */
 }

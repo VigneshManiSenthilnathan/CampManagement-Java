@@ -68,7 +68,8 @@ public class Download {
                     LocalDate campDates = LocalDate.parse(dates, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                     String closedate = row.getCell(2).getStringCellValue();
-                    LocalDate campRegClosingDate = LocalDate.parse(closedate,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    LocalDate campRegClosingDate = LocalDate.parse(closedate,
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
                     String campFaculty = row.getCell(3).getStringCellValue();
                     String campLocation = row.getCell(4).getStringCellValue();
@@ -78,7 +79,9 @@ public class Download {
                     boolean campVisibility = row.getCell(8).getBooleanCellValue();
                     String campStaffInCharge = row.getCell(9).getStringCellValue();
 
-                    CampInfoController camp = new CampInfoController(campName, campDates, campRegClosingDate, campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription, campStaffInCharge, campVisibility);
+                    CampInfoController camp = new CampInfoController(campName, campDates, campRegClosingDate,
+                            campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
+                            campStaffInCharge, campVisibility);
 
                     createdCamps.add(camp);
                     System.out.println("Camp: " + campName + " loaded successfully.");
@@ -94,5 +97,113 @@ public class Download {
                     + ", Message: " + e.getMessage());
         }
         return createdCamps;
+    }
+
+    // Get attributes of a user
+    public static Object createUser(String username, String type) {
+
+        boolean staff = false;
+        String password = null;
+        String faculty = null;
+
+        try {
+
+            FileInputStream fis = null;
+            Workbook workbook = null;
+            Sheet sheet = null;
+
+            if (type == "STUDENT") {
+                fis = new FileInputStream("OOPproj2002/src/pkg_camp/student_list.xlsx");
+                workbook = new XSSFWorkbook(fis);
+                sheet = workbook.getSheet("student");
+            } else if (type == "STAFF") {
+                fis = new FileInputStream("OOPproj2002/src/pkg_camp/staff_list.xlsx");
+                workbook = new XSSFWorkbook(fis);
+                sheet = workbook.getSheet("staff");
+                staff = true;
+            } else {
+                System.out.println("Invalid type!");
+                return null;
+            }
+
+            Iterator<Row> rowIterator = sheet.iterator();
+
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+
+                // Skip the header row
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+
+                // Get the username from the first cell of the current row
+                Cell cell = row.getCell(1);
+                String cellValue = cell.getStringCellValue();
+
+                if (cellValue.contains("@")) {
+                    String[] parts = cellValue.split("@");
+                    cellValue = parts[0].trim();
+                }
+
+                // Check if the username matches the input
+                if (cellValue.equals(username)) {
+
+                    Cell facultyCell = row.getCell(2);
+                    faculty = facultyCell.getStringCellValue();
+
+                    fis.close();
+                    workbook.close();
+                }
+            }
+
+            fis.close();
+            workbook.close();
+
+            FileInputStream fisPW = new FileInputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx");
+            Workbook workbookPW = new XSSFWorkbook(fisPW);
+            Sheet sheetPW = workbookPW.getSheet("UserPasswords");
+
+            Iterator<Row> rowIteratorPW = sheetPW.iterator();
+
+            while (rowIteratorPW.hasNext()) {
+                Row row = rowIteratorPW.next();
+
+                // Skip the header row
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+
+                // Get the username from the first cell of the current row
+                Cell cell = row.getCell(0);
+                String cellValue = cell.getStringCellValue();
+
+                // Check if the username matches the input
+                if (cellValue.equals(username)) {
+
+                    Cell passwordCell = row.getCell(1);
+                    password = passwordCell.getStringCellValue();
+
+                    fisPW.close();
+                    workbookPW.close();
+                }
+            }
+
+            fisPW.close();
+            workbookPW.close();
+
+            if (staff) {
+                Staff newstaff = new Staff(username, password, faculty);
+                return newstaff;
+
+            } else {
+                Student newstudent = new Student(username, password, faculty);
+                return newstudent;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

@@ -22,39 +22,45 @@ public class CAM {
 
     public static void main(String[] args) throws IOException {
 
+        boolean fileExists = Credentials.checkFileExists();
+
         // student_list.xlsx
         try {
-            // reads data from file path: student_list
-            FileInputStream excelFile1 = new FileInputStream(new File("OOPproj2002/src/pkg_camp/student_list.xlsx"));
+            if (!fileExists) {
 
-            // XSSFWorkbook constructor takes excelFile1 as parameter and init data from
-            // excel file
-            Workbook workbook1 = new XSSFWorkbook(excelFile1);
+                // reads data from file path: student_list
+                File file = new File("OOPproj2002/src/pkg_camp/student_list.xlsx");
 
-            // retrieves student sheet from workbook, sheet1 then holds a reference to
-            // student sheet
-            Sheet sheet1 = workbook1.getSheet("student");
+                FileInputStream excelFile1 = new FileInputStream(file);
 
-            for (Row row : sheet1)
-            {
-                String userID = row.getCell(1).getStringCellValue();
-                String faculty = row.getCell(2).getStringCellValue();
+                // XSSFWorkbook constructor takes excelFile1 as parameter and init data from
+                // excel file
+                Workbook workbook1 = new XSSFWorkbook(excelFile1);
 
-                if (userID.contains("@")) {
-                    String[] parts = userID.split("@");
-                    userID = parts[0].trim();
+                // retrieves student sheet from workbook, sheet1 then holds a reference to
+                // student sheet
+                Sheet sheet1 = workbook1.getSheet("student");
+
+                for (Row row : sheet1) {
+                    String userID = row.getCell(1).getStringCellValue();
+                    String faculty = row.getCell(2).getStringCellValue();
+
+                    if (userID.contains("@")) {
+                        String[] parts = userID.split("@");
+                        userID = parts[0].trim();
+                    }
+                    // System.out.println(userID);
+                    Student student = new Student(userID, "password", faculty);
+
+                    // need to also add in credentials excel: "user_passwords.xlsx"
+                    Credentials newUser = new Credentials(userID, "password");
+                    String encodedPW = Credentials.encodePassword("password");
+                    newUser.excelWriter(userID, encodedPW);
+
+                    studentList.add(student);
+                    excelFile1.close();
+                    workbook1.close();
                 }
-                // System.out.println(userID);
-                Student student = new Student(userID, "password", faculty);
-
-                // need to also add in credentials excel: "user_passwords.xlsx"
-                Credentials newUser = new Credentials(userID, "password");
-                String encodedPW = Credentials.encodePassword("password");
-                newUser.excelWriter(userID, encodedPW);
-
-                studentList.add(student);
-                excelFile1.close();
-                workbook1.close();
             }
 
         } catch (IOException e) {
@@ -63,29 +69,35 @@ public class CAM {
 
         // staff_list.xlsx
         try {
-            FileInputStream excelFile2 = new FileInputStream(new File("OOPproj2002/src/pkg_camp/staff_list.xlsx"));
-            Workbook workbook2 = new XSSFWorkbook(excelFile2);
-            Sheet sheet2 = workbook2.getSheet("staff");
 
-            for (Row row : sheet2) {
-                String userID = row.getCell(1).getStringCellValue();
-                String faculty = row.getCell(2).getStringCellValue();
+            if (!fileExists) {
+                // reads data from file path: staff_list
 
-                if (userID.contains("@")) {
-                    String[] parts = userID.split("@");
-                    userID = parts[0].trim();
+                FileInputStream excelFile2 = new FileInputStream(new File("OOPproj2002/src/pkg_camp/staff_list.xlsx"));
+                Workbook workbook2 = new XSSFWorkbook(excelFile2);
+                Sheet sheet2 = workbook2.getSheet("staff");
+
+                for (Row row : sheet2) {
+                    String userID = row.getCell(1).getStringCellValue();
+                    String faculty = row.getCell(2).getStringCellValue();
+
+                    if (userID.contains("@")) {
+                        String[] parts = userID.split("@");
+                        userID = parts[0].trim();
+                    }
+                    Staff staff = new Staff(userID, "password", faculty);
+
+                    // need to also add in credentials excel: "user_passwords.xlsx"
+                    Credentials newUser = new Credentials(userID, "password");
+                    String encodedPW = Credentials.encodePassword("password");
+                    newUser.excelWriter(userID, encodedPW);
+
+                    staffList.add(staff);
+                    excelFile2.close();
+                    workbook2.close();
                 }
-                Staff staff = new Staff(userID, "password", faculty);
-
-                // need to also add in credentials excel: "user_passwords.xlsx"
-                Credentials newUser = new Credentials(userID, "password");
-                String encodedPW = Credentials.encodePassword("password");
-                newUser.excelWriter(userID, encodedPW);
-
-                staffList.add(staff);
-                excelFile2.close();
-                workbook2.close();
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,7 +141,7 @@ public class CAM {
                     }
 
                     while (validcredentials) {
-                        Student thisStudent = null;
+                        Student thisStudent = (Student) Download.createUser(userID, "STUDENT");
                         for (Student student : studentList) {
                             if (student.getUserID().equals(userID)) {
                                 thisStudent = student;
@@ -206,14 +218,14 @@ public class CAM {
                     }
 
                     while (validcredentials) {
-                        Staff thisStaff = null;
+                        Staff thisStaff = (Staff) Download.createUser(userID, "STAFF");
                         for (Staff staff : staffList) {
                             if (staff.getUserID().equals(userID)) {
                                 thisStaff = staff;
                             }
                         }
 
-                        if (password.equals("password")) {
+                        if (password.equals("password") && thisStaff != null) {
                             // if staffID is correct and its their first time logging in,
                             // ask them to change password
                             boolean changed = false;
@@ -228,8 +240,9 @@ public class CAM {
                                     System.out.println("Password Successfully Changed!");
                                     thisStaff.setPassword(newPassword);
                                     Credentials.updatePassword(userID, newPassword);
-                                    changed = true; // exit asking them to change password
                                     staffMenuPage(thisStaff, createdCamps);
+                                    changed = true; // exit asking them to change password
+                                    validcredentials = false; // make them reenter password
                                     break;
                                 }
 
@@ -391,7 +404,7 @@ public class CAM {
                                  * }
                                  * quit = true;
                                  * break;
-                                */
+                                 */
 
                             case 3:
                                 // student.deleteEnquiry();
@@ -511,13 +524,13 @@ public class CAM {
                                             break;
                                         }
                                     }
-                                
-                                    if (campExists == false){
+
+                                    if (campExists == false) {
                                         System.out.println("Camp does not exist. Please enter a valid camp name.");
                                         System.out.println("Type 'Exit' to go back to Staff Menu");
                                         System.out.println("Enter Camp Name: ");
                                         campNameMod = scanner.next();
-                                        if ("Exit".equals(campNameMod)){
+                                        if ("Exit".equals(campNameMod)) {
                                             break;
                                         }
                                     }
