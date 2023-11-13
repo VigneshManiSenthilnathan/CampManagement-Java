@@ -7,17 +7,13 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import java.lang.String;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public abstract class Upload {
 
@@ -272,6 +268,9 @@ public abstract class Upload {
                 }
             }
 
+            // close workbook
+            workbook.close();
+
             for (int i = 1; i <= sheet.getLastRowNum(); i++) {
                 Row row = sheet.getRow(i);
                 if (row != null && row.getCell(0) != null) {
@@ -280,13 +279,26 @@ public abstract class Upload {
                         campFound = true;
                         Cell cell = row.createCell(columnIndex);
                         cell.setCellValue(newValue);
+
                         try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
-                            workbook.write(outputStream);
-                            System.out.println("Database successfully updated!");
-                            outputStream.flush();
-                            outputStream.close();
+                            try (Workbook workbook2 = WorkbookFactory.create(file)) {
+                                workbook2.write(outputStream);
+                                System.out.println("Database successfully updated!");
+                                outputStream.flush();
+                                outputStream.close();
+                                workbook2.close();
+                            } catch (Exception e) {
+                                outputStream.flush();
+                                outputStream.close();
+                                System.out.println("Database not updated! EOFException: Inner");
+                                e.printStackTrace();
+                            }
+                        } catch (EOFException e) {
+                            System.out.println("Database not updated! EOFException: Outer");
+                            e.printStackTrace();
                         } catch (IOException e) {
-                            System.out.println("Database not updated!");
+
+                            System.out.println("Database not updated! IOException");
                             e.printStackTrace();
                         }
 

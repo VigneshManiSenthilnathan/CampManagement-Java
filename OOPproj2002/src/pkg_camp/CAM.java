@@ -253,8 +253,7 @@ public class CAM {
 
                     }
                 }
-            }
-            else{
+            } else {
                 System.out.println("Closing CAM...");
                 exitmain = true;
             }
@@ -500,35 +499,33 @@ public class CAM {
                                 boolean campExists = false;
                                 System.out.println("Enter Camp Name: ");
                                 String campNameMod = scanner.next();
-                                
-                                while (!campExists) {
-                                    // Implement Sanity Check for camp name
-                                    for (CampInfoController camp : createdCamps) {
-                                        if (camp.getCampName().equals(campNameMod)) {
-                                            campExists = true;
-                                            break;
-                                        }
-                                    }
-                                
-                                    if (campExists == false){
-                                        System.out.println("Camp does not exist. Please enter a valid camp name.");
-                                        System.out.println("Type 'Exit' to go back to Staff Menu");
-                                        System.out.println("Enter Camp Name: ");
-                                        campNameMod = scanner.next();
-                                        if ("Exit".equals(campNameMod)){
-                                            break;
-                                        }
+
+                                // Implement Sanity Check for camp name
+                                for (CampInfoController camp : createdCamps) {
+                                    if (camp.getCampName().equals(campNameMod)) {
+                                        campExists = true;
+                                        break;
                                     }
                                 }
+
+                                /*
+                                 * if (campExists == false) {
+                                 * System.out.println("Camp does not exist. Please enter a valid camp name.");
+                                 * System.out.println("Type 'Exit' to go back to Staff Menu");
+                                 * System.out.println("Enter Camp Name: ");
+                                 * campNameMod = scanner.next();
+                                 * if ("Exit".equals(campNameMod)) {
+                                 * break;
+                                 * }
+                                 * }
+                                 */
 
                                 if (campExists) {
                                     ModifyCamp.modifyCamp(staff, createdCamps, campNameMod);
                                 }
 
-                                break;
-
                                 // If camp is in database instead of createdCamps
-                                /* List<String> campNames = new ArrayList<>();
+                                List<String> campNames = new ArrayList<>();
                                 campNames = Upload.namesInDatabase();
 
                                 System.out.println(campNames);
@@ -541,7 +538,9 @@ public class CAM {
                                         }
                                         break;
                                     }
-                                } */
+                                }
+
+                                break;
 
                             case 3:
                                 System.out.println("Enter Camp Name: ");
