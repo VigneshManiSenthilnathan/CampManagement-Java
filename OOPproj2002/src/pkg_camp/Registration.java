@@ -7,7 +7,7 @@ import java.lang.Boolean;
 
 public class Registration extends Student {
 
-    public void registerForCamp(Student student, List<CampInfoController> createdCamps) {
+    public void registerForCamp(Student student, List<CampController> createdCamps) {
         // Showing available camps
         int i = 1;
         boolean done = false;
@@ -15,7 +15,7 @@ public class Registration extends Student {
         while (!done) {
             // List all the camps available to join
             System.out.println("List of Camps available to join:");
-            for (CampInfoController camp : createdCamps) {
+            for (CampController camp : createdCamps) {
                 if (camp.getUserGroup().equals(this.getFaculty())
                         && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
                     boolean userAlreadyAttended = false;
@@ -40,7 +40,7 @@ public class Registration extends Student {
             Scanner register = new Scanner(System.in);
             String campname = register.nextLine();
 
-            for (CampInfoController camp : createdCamps) {
+            for (CampController camp : createdCamps) {
                 if (campname == camp.getCampName()) {
                     for (Student applicant : camp.getCampCommittee()) {
                         if (applicant.getUserID() == camp.getCampCommitteeUserID(applicant.getUserID())) {
@@ -56,11 +56,11 @@ public class Registration extends Student {
         // register.close(); //closing the scanner doesnt work
     }
 
-    public void dispRegisteredCamps(Student student, List<CampInfoController> createdCamps) {
+    public void dispRegisteredCamps(Student student, List<CampController> createdCamps) {
         // list of camps student is registered for
         int j = 1;
         System.out.println("Here are the camps you have registered for:");
-        for (CampInfoController camp : createdCamps) {
+        for (CampController camp : createdCamps) {
             if (camp.getUserGroup().equals(this.getFaculty())) {
                 for (Student attendee : camp.getAttendees()) {
                     if (this.getUserID().equals(attendee.getUserID())) {

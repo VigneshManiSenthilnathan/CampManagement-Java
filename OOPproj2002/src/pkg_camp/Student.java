@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Student implements User {
+public class Student extends CampController implements User {
     private String userID;
     private String password;
     private String faculty;
     private User STUDENT;
     private StudentType studentType;
-    private List<CampInfoController> registeredCamps;
-    private CampCommitteeMember campCommitteeRole;
 
     public Student() {
 
@@ -21,7 +19,6 @@ public class Student implements User {
         this.userID = userID;
         this.password = "password";
         this.faculty = faculty;
-        this.registeredCamps = new ArrayList<>();
     }
 
     enum StudentType {
@@ -65,18 +62,6 @@ public class Student implements User {
     // Showing available camps
     // cant have an input parameter here -> wait why not please explain with PEEL
 
-    public void viewCamps(List<CampInfoController> createdCamps) {
-        int i = 1;
-        System.out.println("List of Camps available to join:");
-        for (CampInfoController camp : createdCamps) {
-            if ((camp.getUserGroup() == this.getFaculty()) && (camp.getVisibility())
-                    && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
-                System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | "
-                        + "(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
-            }
-            i++;
-        }
-    }
 }
 
 // Register for a camp

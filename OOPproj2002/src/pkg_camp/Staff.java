@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 //extends camp for now, might need to remove if got better options
-public class Staff extends CampInfoController implements User {
+public class Staff extends CampController implements User {
 
     // Attributes of Staff
     private String userID;
@@ -35,7 +35,7 @@ public class Staff extends CampInfoController implements User {
         this.userID = userID;
         this.password = password;
         this.faculty = faculty;
-        suggestionsController = new SuggestionsController();
+        // suggestionsController = new SuggestionsController();
         // this.enquiriesHandling = new ArrayList<>();
     }
     // Implement the methods from the User interface
@@ -62,46 +62,6 @@ public class Staff extends CampInfoController implements User {
 
     public SuggestionsController getSuggestionsController() {
         return suggestionsController;
-    }
-
-    public static List<CampInfoController> staffDeleteCamp(Staff staff, List<CampInfoController> createdCamps,
-            String campName) {
-
-        Iterator<CampInfoController> iterator = createdCamps.iterator();
-        boolean found = false;
-
-        while (iterator.hasNext()) {
-            CampInfoController camp = iterator.next();
-            if (camp.getCampName().equalsIgnoreCase(campName) && camp.getStaffInCharge().equals(staff.getUserID())) {
-                found = true;
-                iterator.remove();
-                System.out.println("Camp deleted successfully!");
-            }
-        }
-
-        if (!found) {
-            System.out.println("No such camp in the database! Check your spelling!");
-        }
-
-        return createdCamps;
-    }
-
-    public void toggleCampVisibility(List<CampInfoController> camps, String campName) {
-        for (CampInfoController camp : camps) {
-            if (camp.getCampName().equalsIgnoreCase(campName) && camp.getStaffInCharge().equals(this.getUserID())) {
-                camp.toggleVisibility();
-                System.out.println("Camp visibility toggled successfully!");
-                displayCampVisibility(camp);
-                return;
-            }
-        }
-        System.out.println(
-                "No such camp in database or you don't have permission to modify visibility. Check your spelling or staff ID.");
-    }
-
-    public void displayCampVisibility(CampInfoController camp) {
-        String visibilityStatus = camp.isVisible() ? "ON" : "OFF";
-        System.out.println("Camp Visibility: " + visibilityStatus);
     }
 
     public void viewAndApproveSuggestions() {
@@ -132,8 +92,8 @@ public class Staff extends CampInfoController implements User {
         }
     }
 
-    public void generateReports(List<CampInfoController> camps, String attendeeType, String outputFileFormat) {
-        for (CampInfoController camp : camps) {
+    public void generateReports(List<CampController> camps, String attendeeType, String outputFileFormat) {
+        for (CampController camp : camps) {
             // Check if the camp was created by this staff member
             if (camp.getStaffInCharge().equals(this.getUserID())) {
                 // Filter participants based on attendee type
@@ -185,10 +145,10 @@ public class Staff extends CampInfoController implements User {
         }
     }
 
-    public void generatePerformanceReport(List<CampInfoController> camps, String outputFileFormat) {
+    public void generatePerformanceReport(List<CampController> camps, String outputFileFormat) {
         StringBuilder reportContent = new StringBuilder();
 
-        for (CampInfoController camp : camps) {
+        for (CampController camp : camps) {
             // Check if the camp was created by this staff member and has a camp committee
             if (camp.getStaffInCharge().equals(this) && !camp.getCampCommittee().isEmpty()) {
                 reportContent.append("Camp Name: ").append(camp.getCampName()).append("\n");
@@ -242,7 +202,6 @@ public class Staff extends CampInfoController implements User {
     }
 
     public void campCommitteeApproval(Student student) {
-
     }
 
     /*

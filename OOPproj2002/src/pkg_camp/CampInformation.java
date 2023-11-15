@@ -12,7 +12,7 @@ public class CampInformation {
     private String campName;
     private LocalDate dates;
     private LocalDate registrationClosingDate;
-    private static String userGroup;
+    private String userGroup;
     private String location;
     protected int totalSlots;
     protected int campCommitteeSlots;
@@ -21,7 +21,7 @@ public class CampInformation {
     private boolean visibility;
 
     private ArrayList<Student> attendees;
-    private ArrayList<Student> committee;
+    private ArrayList<Student> campCommittee;
 
     public CampInformation() {
 
@@ -40,6 +40,9 @@ public class CampInformation {
         this.description = description;
         this.staffInCharge = staffInCharge;
         this.visibility = visibility;
+
+        this.attendees = new ArrayList<>();
+        this.campCommittee = new ArrayList<>();
     }
 
     /*
@@ -138,6 +141,32 @@ public class CampInformation {
 
     public boolean getVisibility() {
         return visibility;
+    }
+
+    // Getter and setter methods for attendees
+    public List<Student> getAttendees() {
+        return attendees;
+    }
+
+    public void addAttendee(Student attendee) {
+        attendees.add(attendee);
+    }
+
+    public void removeAttendee(Student attendee) {
+        attendees.remove(attendee);
+    }
+
+    // Getter and setter methods for camp committee members
+    public List<Student> getCampCommittee() {
+        return campCommittee;
+    }
+
+    public void addCampCommitteeMember(Student committeeMember) {
+        campCommittee.add(committeeMember);
+    }
+
+    public void removeCampCommitteeMember(Student committeeMember) {
+        campCommittee.remove(committeeMember);
     }
 
     // void return as reports are generated in excel

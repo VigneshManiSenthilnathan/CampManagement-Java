@@ -22,16 +22,16 @@ public class Download {
     // class to pull data from excel file into running program
     // Load into createdCamps the camps from the excel file camps.xlsx
 
-    public static List<CampInfoController> loadCamps(List<CampInfoController> createdCamps) {
-        try {
+    public static List<Camp> loadCamps(List<Camp> createdCampsList) {
 
+        try {
             String filePath = "OOPproj2002/src/pkg_camp/camps.xlsx";
             Workbook workbook;
 
             // Check if the Excel file already exists
             File file = new File(filePath);
             if (!file.exists()) {
-                return createdCamps;
+                return createdCampsList;
             }
 
             // The FileInputStream provides the necessary stream to read the bytes from the
@@ -64,12 +64,12 @@ public class Download {
 
                 else {
                     String campName = row.getCell(0).getStringCellValue();
-                    String dates = row.getCell(1).getStringCellValue();
-                    LocalDate campDates = LocalDate.parse(dates, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
+                    String dates = row.getCell(1).getStringCellValue();
+                    LocalDate campDates = LocalDate.parse(dates, DateTimeFormatter.ofPattern("dd-MM-yy"));
+                    
                     String closedate = row.getCell(2).getStringCellValue();
-                    LocalDate campRegClosingDate = LocalDate.parse(closedate,
-                            DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    LocalDate campRegClosingDate = LocalDate.parse(closedate, DateTimeFormatter.ofPattern("dd-MM-yy"));
 
                     String campFaculty = row.getCell(3).getStringCellValue();
                     String campLocation = row.getCell(4).getStringCellValue();
@@ -79,24 +79,23 @@ public class Download {
                     boolean campVisibility = row.getCell(8).getBooleanCellValue();
                     String campStaffInCharge = row.getCell(9).getStringCellValue();
 
-                    CampInfoController camp = new CampInfoController(campName, campDates, campRegClosingDate,
+                    Camp camp = new Camp(campName, campDates, campRegClosingDate,
                             campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
                             campStaffInCharge, campVisibility);
 
-                    createdCamps.add(camp);
+                    createdCampsList.add(camp);
                     System.out.println("Camp: " + campName + " loaded successfully.");
                 }
             }
             excelFile.close();
             workbook.close();
-        }
-
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error loading camps from excel file. Exception: " + e.getClass().getSimpleName()
                     + ", Message: " + e.getMessage());
         }
-        return createdCamps;
+
+        return createdCampsList;
     }
 
     // Get attributes of a user
