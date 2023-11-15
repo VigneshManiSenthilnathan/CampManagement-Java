@@ -22,9 +22,9 @@ public class StudentMenu{
         List<Camp> createdCampsList = CAM.getCreatedCampsList();
 
         Scanner scanner = new Scanner(System.in);
-        boolean exitstudentmenu = false;
+        boolean exitStudentMenu = false;
 
-        while (!exitstudentmenu) {
+        while (!exitStudentMenu) {
             System.out.println("Student Menu:");
             System.out.println("(1) Change Password");
             System.out.println("(2) View Available Camps");
@@ -40,7 +40,6 @@ public class StudentMenu{
             scanner.useDelimiter(System.lineSeparator());
 
             switch (menu) {
-
                 case 1:
                     System.out.println("Enter new Password: ");
                     String newPassword = scanner.next();
@@ -188,14 +187,14 @@ public class StudentMenu{
 
                 case 8:
                     Upload.writeToExcel(createdCampsList);
-                    exitstudentmenu = true;
+                    exitStudentMenu = true;
                     break;
 
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
+                    break;
             }
         }
-        scanner.close();
         return;
     }
 }

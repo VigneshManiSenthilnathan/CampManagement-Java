@@ -29,7 +29,6 @@ public class StaffMenu {
             scanner.useDelimiter(System.lineSeparator());
 
             switch (menu) {
-
                 case 1: // Change password
                     System.out.println("Enter new Password: ");
                     String newPassword = scanner.next();
@@ -122,9 +121,9 @@ public class StaffMenu {
 
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
+                    break;
             }
         }
-        scanner.close();
         return;
     }
 }
