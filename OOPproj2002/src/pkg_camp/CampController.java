@@ -460,34 +460,33 @@ public class CampController {
             while (!donedelete) {
                 System.out.println("Camp to Delete (Enter EXIT to stop): ");
                 System.out.print("Camp Name: ");
-                try {
-                    String choice = scanner.nextLine();
 
-                    if (choice.toUpperCase().equals("EXIT")) {
-                        donedelete = true;
-                    }
+                String choice = scanner.nextLine();
 
-                    for (Camp camp : createdCampsList) {
-                        if (choice.equalsIgnoreCase(camp.getCampName())) {
-                            createdCampsList.remove(camp);
-                            Upload.deleteCamp(choice);
-                            System.out.println("Camp deleted successfully: " + camp.getCampName());
-                        }
-                    }
-
-                    /*
-                     * else if (choice >= 1 && choice <= i - 1) {
-                     * Camp campToDelete = createdCampsList.get(choice - 1);
-                     * createdCampsList.remove(campToDelete);
-                     * System.out.println("Camp deleted successfully: " +
-                     * campToDelete.getCampName());
-                     * 
-                     * }
-                     */
-
-                } catch (Exception e) {
-                    System.out.println("Invalid input. No camp deleted.");
+                if (choice.toUpperCase().equals("EXIT")) {
+                    donedelete = true;
                 }
+
+                for (Camp camp : createdCampsList) {
+                    if (choice.equalsIgnoreCase(camp.getCampName())) {
+                        createdCampsList.remove(camp);
+                        Upload.deleteCamp(choice);
+                        System.out.println("Camp deleted successfully: " + camp.getCampName());
+                        donedelete = true;
+                        break;
+                    }
+                }
+
+                /*
+                 * else if (choice >= 1 && choice <= i - 1) {
+                 * Camp campToDelete = createdCampsList.get(choice - 1);
+                 * createdCampsList.remove(campToDelete);
+                 * System.out.println("Camp deleted successfully: " +
+                 * campToDelete.getCampName());
+                 * 
+                 * }
+                 */
+
             }
             // Close the scanner outside the loop
             // scanner.close();

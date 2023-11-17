@@ -181,6 +181,8 @@ public abstract class Upload {
 
         Workbook workbook;
 
+        System.out.println("reached deleteCamp");
+
         try (FileInputStream fis = new FileInputStream(filePath)) {
             workbook = WorkbookFactory.create(fis);
         } catch (IOException e) {
@@ -200,16 +202,21 @@ public abstract class Upload {
             Row row = rowIterator.next();
             Cell campNameCell = row.getCell(0);
 
-            if (campNameCell != null && campNameCell.getCellType() == CellType.STRING) {
+            if (campNameCell != null) {
                 String campName = campNameCell.getStringCellValue();
+
                 if (campName.equalsIgnoreCase(campNameToDelete)) {
-                    rowIterator.remove(); // Remove the row with the matching camp name
+                    System.out.println("Deleting camp: " + campName);
+                    // Delete the row
+                    rowIterator.remove();
                 }
             }
         }
 
         try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
             workbook.write(outputStream);
+            outputStream.close();
+            workbook.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

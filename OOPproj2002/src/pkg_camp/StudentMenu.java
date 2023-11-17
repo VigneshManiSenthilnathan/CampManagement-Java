@@ -21,6 +21,10 @@ public class StudentMenu {
     public static void studentMenuPage(Student student) throws IOException {
         List<Camp> createdCampsList = CAM.getCreatedCampsList();
 
+        if (student.isCampCommitteeMember()) {
+            CampCommitteeMenu.campCommitteeMenuPage(student);
+        }
+
         Scanner scanner = new Scanner(System.in);
         boolean exitStudentMenu = false;
 
