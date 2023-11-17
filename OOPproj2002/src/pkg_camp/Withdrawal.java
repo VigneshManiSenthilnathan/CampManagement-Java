@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.lang.Boolean;
 
-public class Withdrawal extends CampController {
+public class Withdrawal {
 
     public static List<Camp> withdrawCamp(Student student, List<Camp> createdCampsList) {
         List<Camp> newList;

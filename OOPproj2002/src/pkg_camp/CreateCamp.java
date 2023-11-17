@@ -2,9 +2,9 @@ package pkg_camp;
 
 import java.util.List;
 
-public class CreateCamp extends CampController {
+public class CreateCamp {
 
-    public CreateCamp(Staff staff, List<Camp> createdCampsList) {
-        super.createNewCamp(staff, createdCampsList);
+    public static void createCamp(Staff staff, List<Camp> createdCampsList) {
+        CampController.createNewCamp(staff, createdCampsList);
     }
 }

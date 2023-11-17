@@ -76,14 +76,20 @@ public class Download {
                     int campAttendeeSlots = (int) row.getCell(5).getNumericCellValue();
                     int campCommitteeSlots = (int) row.getCell(6).getNumericCellValue();
                     String campDescription = row.getCell(7).getStringCellValue();
-                    boolean campVisibility = row.getCell(8).getBooleanCellValue();
-                    /*
-                     * String campVisibilityStr = row.getCell(8).getStringCellValue();
-                     * boolean campVisibility = true;
-                     * if (campVisibilityStr.equalsIgnoreCase("false")) {
-                     * campVisibility = false;
-                     * }
-                     */
+
+                    Cell cell = row.getCell(8);
+                    boolean campVisibility = true;
+                    if (cell.getCellType() == CellType.BOOLEAN) {
+                        campVisibility = row.getCell(8).getBooleanCellValue();
+                    }
+
+                    else if (cell.getCellType() == CellType.STRING) {
+                        String campVisibilityStr = row.getCell(8).getStringCellValue();
+                        campVisibility = true;
+                        if (campVisibilityStr.equalsIgnoreCase("false")) {
+                            campVisibility = false;
+                        }
+                    }
 
                     String campStaffInCharge = row.getCell(9).getStringCellValue();
 

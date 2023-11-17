@@ -3,8 +3,6 @@ package pkg_camp;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import pkg_camp.Student.StudentType;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,11 +17,14 @@ import java.util.Scanner;
 public class StudentMenu {
 
     public static void studentMenuPage(Student student) throws IOException {
-        List<Camp> createdCampsList = CAM.getCreatedCampsList();
+        List<Camp> createdCampsList = CampController.getCreatedCampsList();
 
-        if (student.isCampCommitteeMember()) {
-            CampCommitteeMenu.campCommitteeMenuPage(student);
-        }
+        /*
+         * if (student.isCampCommitteeMember()) {
+         * // downacasting student to campcommitteemember
+         * CampCommitteeMenu.campCommitteeMenuPage((CampCommitteeMember) student);
+         * }
+         */
 
         Scanner scanner = new Scanner(System.in);
         boolean exitStudentMenu = false;
@@ -47,14 +48,15 @@ public class StudentMenu {
             switch (menu) {
                 case 1:
                     System.out.println("Enter new Password: ");
-                    String newPassword = scanner.next();
-                    String oldPW = Credentials.getPassword(student.getUserID());
+                    String newPassword = scanner.next(); // storing of new pw
+                    String oldPW = Credentials.getPassword(student.getUserID()); // old PW
                     // Add some conditions to check
                     boolean change = false;
                     while (!change) {
-                        if (!newPassword.equals(oldPW)) {
-                            student.setPassword(newPassword);
-                            Credentials.updatePassword(student.getUserID(), newPassword);
+                        if (!newPassword.equals(oldPW)) { // comparing both pw to ensure they are not the same
+                            student.setPassword(newPassword); // changing password only if password is different
+                            Credentials.updatePassword(student.getUserID(), newPassword); // updating credientials excel
+                                                                                          // with new information
                             change = true;
                         } else {
                             System.out.println("Use a Different Password!");
@@ -74,15 +76,13 @@ public class StudentMenu {
                     int role_choice = scanner.nextInt();
 
                     if (role_choice == 1) {
-                        student.setStudentType(StudentType.ATTENDEE);
+                        createdCampsList = Registration.registerForCamp(student, createdCampsList);
                     }
 
                     else if (role_choice == 2) {
-                        student.setStudentType(StudentType.COMMITTEE);
+                        createdCampsList = Registration.registerForCampCommitee(student, createdCampsList);
+                        System.out.println("Pending Approval from Staff . . .");
                     }
-
-                    // Registration registration = new Registration();
-                    createdCampsList = Registration.registerForCamp(student, createdCampsList);
 
                     break;
 
@@ -177,7 +177,7 @@ public class StudentMenu {
                     // else show rejection message, "only camp committee members can access this"
 
                 case 9:
-                    CAM.setCreatedCampsList(createdCampsList);
+                    CampController.setCreatedCampsList(createdCampsList);
                     Upload.writeToExcel(createdCampsList);
                     exitStudentMenu = true;
                     break;

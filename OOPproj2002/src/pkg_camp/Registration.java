@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.lang.Boolean;
 
-public class Registration extends Student {
+public class Registration {
 
     public static List<Camp> registerForCamp(Student student, List<Camp> createdCamps) {
         // Showing available camps
@@ -13,26 +13,27 @@ public class Registration extends Student {
         boolean done = false;
 
         while (!done) {
+            boolean found = false;
+
             // List all the camps available to join
             System.out.println("List of Camps available to join:");
             for (Camp camp : createdCamps) {
                 if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())
-                        && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
-                    boolean userAlreadyAttended = false;
-
-                    for (Student attendee : camp.getAttendees()) {
-                        if (student.getUserID().equals(attendee.getUserID())) {
-                            userAlreadyAttended = true;
-                            break; // No need to check further, the user has attended this camp
-                        }
-                    }
-
-                    if (!userAlreadyAttended) {
-                        System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | ");
-                        System.out.println("(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
-                        i++;
-                    }
+                        && (camp.getTotalSlots() - camp.getAttendees().size()) > 0
+                        && !camp.getAttendeeUserID().contains(student.getUserID())) {
+                    found = true;
+                    System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | ");
+                    System.out.println("(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+                    i++;
                 }
+            }
+
+            System.out.println("");
+
+            if (!found) {
+                System.out.println("No camps available to join.");
+                System.out.println("");
+                return createdCamps;
             }
 
             // Register for an available Camp
@@ -42,29 +43,86 @@ public class Registration extends Student {
 
             for (Camp camp : createdCamps) {
                 if (campname.equals(camp.getCampName())) {
-
-                    /*
-                     * // Uncomment after implementing camp committee
-                     * for (Student applicant : camp.getCampCommittee()) {
-                     * if (applicant.getUserID() ==
-                     * camp.getCampCommitteeUserID(applicant.getUserID())) {
-                     * System.out.println(
-                     * "You are already a part of the committee for this camp. You cannot register for this camp."
-                     * );
-                     * done = true;
-                     * }
-                     * }
-                     */
+                    // Uncomment after implementing camp committee
+                    for (Student applicant : camp.getCampCommittee()) {
+                        if (applicant.getUserID().equals(student.getUserID())) {
+                            System.out.println(
+                                    "You are already a part of the committee for this camp. You cannot register for this camp.");
+                            done = true;
+                            return createdCamps;
+                        }
+                    }
 
                     camp.addAttendee(student);
-                    System.out.println("Registration Succsessful! Welcome to " + camp.getCampName());
+                    System.out.println("Registration Successful! Welcome to " + camp.getCampName());
                     done = true;
                     break;
                 }
             }
         }
         return createdCamps;
-        // register.close(); //closing the scanner doesnt work
+    }
+
+    // register.close(); //closing the scanner doesn't work
+
+    public static List<Camp> registerForCampCommitee(Student student, List<Camp> createdCamps) {
+        // Showing available camps
+        int i = 1;
+        boolean done = false;
+
+        while (!done) {
+            boolean found = false;
+
+            // List all the camps available for commitee
+            System.out.println("List of Camps with Committee Roles Available:");
+            for (Camp camp : createdCamps) {
+                if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())
+                        && (10 - camp.getCampCommittee().size()) > 0
+                        && !camp.getCommiteeUserID().contains(student.getUserID())) {
+                    found = true;
+                    System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | ");
+                    System.out.println("(Committee Slots left: " + (10 - camp.getCampCommittee().size()) + ")");
+                    i++;
+                }
+
+            }
+
+            System.out.println("");
+
+            if (!found) {
+                System.out.println("No camps available to join.");
+                System.out.println("");
+                return createdCamps;
+            }
+
+            // Register for an available Camp
+            System.out.println("Register as Committee Member: ");
+            Scanner register = new Scanner(System.in);
+            String campname = register.nextLine();
+
+            for (Camp camp : createdCamps) {
+                if (campname.equals(camp.getCampName())) {
+
+                    for (Student applicant : camp.getAttendees()) {
+                        if (applicant.getUserID().equals(student.getUserID())) {
+                            System.out.println("You are already a attendee for this camp!");
+                            System.out.println("You cannot register for this camp committee!");
+                            System.out.println("");
+
+                            done = true;
+                            return createdCamps;
+                        }
+                    }
+
+                    camp.addCampCommitteeMember(student);
+                    System.out.println("Registration Successful! Welcome to " + camp.getCampName());
+                    done = true;
+                    break;
+                }
+            }
+        }
+
+        return createdCamps;
     }
 
     public static void dispRegisteredCamps(Student student, List<Camp> createdCamps) {

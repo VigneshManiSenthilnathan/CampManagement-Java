@@ -1,8 +1,9 @@
 package pkg_camp;
 
+import java.time.LocalDate;
 import java.util.List;
 
-public class DeleteCamp extends CampController {
+public class DeleteCamp {
 
     public static List<Camp> deleteCamp(Staff staff, List<Camp> createdCampsList) {
         List<Camp> newCampList;

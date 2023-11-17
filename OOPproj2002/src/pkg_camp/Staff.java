@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Scanner;
 
 //extends camp for now, might need to remove if got better options
-public class Staff extends CampController implements User {
+public class Staff implements User {
 
     // Attributes of Staff
     private String userID;
@@ -123,8 +123,9 @@ public class Staff extends CampController implements User {
                     reportContent.append("Participant Name: ").append(participant.getUserID()).append("\n");
                     // might need to have a getter method for this
 
-                    reportContent.append("Participant Role: ").append(participant.getStudentType().toString())
-                            .append("\n");
+                    // reportContent.append("Participant Role:
+                    // ").append(participant.getStudentType().toString())
+                    // .append("\n");
                     // might need to have a getter method for this
 
                     // Add more participant details as needed
@@ -202,12 +203,31 @@ public class Staff extends CampController implements User {
         }
     }
 
-    public void campCommitteeApproval(Student student) {
+    public void campCommitteeRejection(String studentName, Camp camp) {\
+
+        // sanity check for whether student is in the camp committee
+        boolean studentInCampCommittee = false;
+        for (Student committeeMember : camp.getCampCommittee()) {
+            if (committeeMember.getUserID().equals(studentName)) {
+                studentInCampCommittee = true;
+                break;
+            }
+        }
+
+        if (!studentInCampCommittee) {
+            System.out.println("Student is not in the camp committee!");
+            return;
+        }
+        
+        List<Camp> createdCampsList = CampController.getCreatedCampsList();
+        
+        for (Camp thisCamp : createdCampsList) {
+            if (thisCamp.getCampName().equals(camp.getCampName())) {
+                thisCamp.removeCampCommitteeMember(studentName);
+                break;
+            }
+        }
+
     }
 
-    /*
-     * public void campCommitteeManagement(){
-     * 
-     * }
-     */
 }

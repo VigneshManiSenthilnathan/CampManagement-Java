@@ -20,8 +20,10 @@ public class CampInformation {
     private String staffInCharge;
     private boolean visibility;
 
-    private ArrayList<Student> attendees;
-    private ArrayList<Student> campCommittee;
+    private List<Student> attendees;
+    private List<Student> campCommittee;
+    private List<Enquiry> enquiryList;
+    private List<Suggestion> suggestionList;
 
     public CampInformation() {
 
@@ -43,6 +45,8 @@ public class CampInformation {
 
         this.attendees = new ArrayList<>();
         this.campCommittee = new ArrayList<>();
+        this.enquiryList = new ArrayList<>();
+        this.suggestionList = new ArrayList<>();
     }
 
     /*
@@ -167,6 +171,30 @@ public class CampInformation {
 
     public void removeCampCommitteeMember(Student committeeMember) {
         campCommittee.remove(committeeMember);
+    }
+
+    public List<Enquiry> getEnquiry() {
+        return enquiryList;
+    }
+
+    public void addEnquiry(Enquiry enquiry) {
+        enquiryList.add(enquiry);
+    }
+
+    public void removeEnquiry(Enquiry enquiry) {
+        enquiryList.remove(enquiry);
+    }
+
+    public List<Suggestion> getSuggestion() {
+        return suggestionList;
+    }
+
+    public void addSuggestion(Suggestion suggestion) {
+        suggestionList.add(suggestion);
+    }
+
+    public void removeSuggestion(Suggestion suggestion) {
+        suggestionList.remove(suggestion);
     }
 
     // void return as reports are generated in excel

@@ -17,44 +17,6 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public abstract class Upload {
 
-    /*
-     * public void updateCampName(String campName, String newName) {
-     * updateCellValue(campName, newName, 0);
-     * }
-     * 
-     * public void updateDates(String campName, String newDate) {
-     * updateCellValue(campName, newDate, 1);
-     * }
-     * 
-     * public void updateClosingDate(String campName, String newDate) {
-     * updateCellValue(campName, newDate, 2);
-     * }
-     * 
-     * public void updateFaculty(String campName, String newFaculty) {
-     * updateCellValue(campName, newFaculty, 3);
-     * }
-     * 
-     * public void updateLocation(String campName, String newLocation) {
-     * updateCellValue(campName, newLocation, 4);
-     * }
-     * 
-     * public void updateAttendeeSlots(String campName, String newSlots) {
-     * updateCellValue(campName, newSlots, 5);
-     * }
-     * 
-     * public void updateCommitteeSlots(String campName, String newSlots) {
-     * updateCellValue(campName, newSlots, 6);
-     * }
-     * 
-     * public void updateDescription(String campName, String newDesc) {
-     * updateCellValue(campName, newDesc, 7);
-     * }
-     * 
-     * public void updateStaffInCharge(String campName, String staff) {
-     * updateCellValue(campName, staff, 8);
-     * }
-     */
-
     // Need to figure out how to update attendees and camp committee list still.
 
     public static void writeToExcel(List<Camp> campList) throws IOException {

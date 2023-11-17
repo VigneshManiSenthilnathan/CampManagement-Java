@@ -4,11 +4,154 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class CampController {
+public class CampController extends Camp {
 
-    public CampController() {
+    // Constructor for CampController
+    public CampController(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
+            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
+            boolean visibility) {
+        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
+                description, staffInCharge, visibility);
+    }
+
+    public static List<Camp> getCreatedCampsList() {
+        return Camp.getCreatedCampsList();
+    }
+
+    public static void setCreatedCampsList(List<Camp> newCreatedCampsList) {
+        List<Camp> createdCampsList = Camp.getCreatedCampsList();
+        createdCampsList = newCreatedCampsList;
+    }
+
+    public String getCampName() {
+        return super.getCampName();
+    }
+
+    public void setCampName(String campName) {
+        super.setCampName(campName);
+    }
+
+    public LocalDate getDates() {
+        return super.getDates();
+    }
+
+    public void setDates(LocalDate dates) {
+        super.setDates(dates);
+    }
+
+    public LocalDate getRegistrationClosingDate() {
+        return super.getRegistrationClosingDate();
+    }
+
+    public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
+        super.setRegistrationClosingDate(registrationClosingDate);
+    }
+
+    public String getUserGroup() {
+        return super.getUserGroup();
+    }
+
+    public void setUserGroup(String userGroup) {
+        super.setUserGroup(userGroup);
+    }
+
+    public String getLocation() {
+        return super.getLocation();
+    }
+
+    public void setLocation(String location) {
+        super.setLocation(location);
+    }
+
+    public int getTotalSlots() {
+        return super.getTotalSlots();
+    }
+
+    public void setTotalSlots(int totalSlots) {
+        super.setTotalSlots(totalSlots);
+    }
+
+    public int getCampCommitteeSlots() {
+        return super.getCampCommitteeSlots();
+    }
+
+    public void setCampCommitteeSlots(int campCommitteeSlots) {
+        super.setCampCommitteeSlots(campCommitteeSlots);
+    }
+
+    public String getDescription() {
+        return super.getDescription();
+    }
+
+    public void setDescription(String description) {
+        super.setDescription(description);
+    }
+
+    public String getStaffInCharge() {
+        return super.getStaffInCharge();
+    }
+
+    public void setStaffInCharge(String staffInCharge) {
+        super.setStaffInCharge(staffInCharge);
+    }
+
+    // Override methods to get, add, and remove attendees and camp committee members
+    @Override
+    public List<Student> getAttendees() {
+        return super.getAttendees();
+    }
+
+    @Override
+    public void addAttendee(Student attendee) {
+        super.addAttendee(attendee);
+    }
+
+    @Override
+    public void removeAttendee(Student attendee) {
+        super.removeAttendee(attendee);
+    }
+
+    // For use in CampController class, withdrawCamp method
+    // We remove student from attendee list using student.getUserID()
+    public void removeAttendee(String studentUserID) {
+        for (Student attendee : super.getAttendees()) {
+            if (attendee.getUserID().equals(studentUserID)) {
+                super.removeAttendee(attendee);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public List<Student> getCampCommittee() {
+        return super.getCampCommittee();
+    }
+
+    @Override
+    public void addCampCommitteeMember(Student committeeMember) {
+        super.addCampCommitteeMember(committeeMember);
+    }
+
+    @Override
+    public void removeCampCommitteeMember(Student committeeMember) {
+        super.removeCampCommitteeMember(committeeMember);
+    }
+
+    // For use in Upload class
+    public List<String> getAttendeeUserID() {
+        // load student userID into a string list
+        ArrayList<String> attendeeNames = new ArrayList<>();
+
+        // System.out.println("reached!");
+
+        for (Student attendee : super.getAttendees()) {
+            attendeeNames.add(attendee.getUserID());
+        }
+
+        return attendeeNames;
     }
 
     public static void viewCamps(Student student, List<Camp> createdCampsList) {
@@ -68,8 +211,26 @@ public class CampController {
     }
 
     public static void viewCamps(CampCommitteeMember campCommitteeMember, List<Camp> createdCampsList) {
-        // retrieve the camp that the student is a campcommitteemember of
-        // print all the details of that 1 camp only
+        System.out.println("Details of Camp:"); // retrieve the camp details that the student is a campcommitteemember
+                                                // of
+                                                // print all the details of that 1 camp only
+        /*
+         * for (Camp camp : createdCampsList) {
+         * if (camp name == camp name of camp committee member) {
+         * System.out.println("Camp Name: " + camp.getCampName());
+         * System.out.println("Dates: " + camp.getDates());
+         * System.out.println("Registration Closing Date: " +
+         * camp.getRegistrationClosingDate());
+         * System.out.println("Location: " + camp.getLocation());
+         * System.out.println("Total Slots: " + camp.getTotalSlots());
+         * System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
+         * System.out.println("Description: " + camp.getDescription());
+         * System.out.println("Staff in Charge: " + camp.getStaffInCharge());
+         * System.out.println("Visibility: " + camp.getVisibility());
+         * System.out.println("------------------------------");
+         * }
+         * }
+         */
     }
 
     public static void viewCreatedCamps(Staff staff, List<Camp> createdCampsList) {
@@ -210,84 +371,84 @@ public class CampController {
 
         boolean done = false;
         while (!done) {
-            System.out.println("(0) Change Camp Name");
-            System.out.println("(1) Change Camp Dates");
-            System.out.println("(2) Change Camp Registration Closing Date");
-            System.out.println("(3) Change Viewing User Group");
-            System.out.println("(4) Change Location");
-            System.out.println("(5) Change Total Slots Available");
-            System.out.println("(6) Change Camp Committee Slots Available");
-            System.out.println("(7) Change Camp Description");
-            System.out.println("(8) Change Camp Visibility");
-            System.out.println("(9) Change StaffInCharge");
-            System.out.println("(10) Exit to Staff Menu");
+            System.out.println("(1) Change Camp Name");
+            System.out.println("(2) Change Camp Dates");
+            System.out.println("(3) Change Camp Registration Closing Date");
+            System.out.println("(4) Change Viewing User Group");
+            System.out.println("(5) Change Location");
+            System.out.println("(6) Change Total Slots Available");
+            System.out.println("(7) Change Camp Committee Slots Available");
+            System.out.println("(8) Change Camp Description");
+            System.out.println("(9) Change Camp Visibility");
+            System.out.println("(10) Change StaffInCharge");
+            System.out.println("(11) Exit to Staff Menu");
 
             sc.useDelimiter(System.lineSeparator());
             int choice = sc.nextInt();
 
             switch (choice) {
-                case 0:
+                case 1:
                     System.out.println("Enter New Camp Name: ");
                     String newCampName = sc.next();
                     Upload.updateCampNameInExcel(thisCamp.getCampName(), newCampName);
                     editCampDetails(thisCamp, 0, newCampName);
                     break;
 
-                case 1:
+                case 2:
                     System.out.println("Enter New Camp Dates: ");
                     String newCampDate = sc.next();
                     editCampDetails(thisCamp, 1, newCampDate);
                     break;
 
-                case 2:
+                case 3:
                     System.out.println("Enter New Camp Registration Closing Date: ");
                     String newCampRegDate = sc.next();
                     editCampDetails(thisCamp, 2, newCampRegDate);
                     break;
 
-                case 3:
+                case 4:
                     System.out.println("Enter New Camp UserGroup: ");
                     String newCampUserGrp = sc.next();
                     editCampDetails(thisCamp, 3, newCampUserGrp);
                     break;
 
-                case 4:
+                case 5:
                     System.out.println("Enter New Camp Location: ");
                     String newCampLocation = sc.next();
                     editCampDetails(thisCamp, 4, newCampLocation);
                     break;
 
-                case 5:
+                case 6:
                     System.out.println("Enter New Total Slots Available: ");
                     String newCampTotalSlots = sc.next();
                     editCampDetails(thisCamp, 5, newCampTotalSlots);
                     break;
 
-                case 6:
+                case 7:
                     System.out.println("Enter New Total Camp Committee Slots Available: ");
                     String newCampCommitteeSlots = sc.next();
                     editCampDetails(thisCamp, 6, newCampCommitteeSlots);
                     break;
 
-                case 7:
+                case 8:
                     System.out.println("Enter New Camp Description: ");
                     String newCampDescription = sc.next();
                     editCampDetails(thisCamp, 7, newCampDescription);
                     break;
 
-                case 8:
+                case 9:
                     System.out.println("Enter New Camp Visibility (Visible = 1, Invisible = 0): ");
                     int newCampVisibility = sc.nextInt();
                     CampInformation.toggleVisibility(thisCamp, newCampVisibility);
                     break;
 
-                case 9:
+                case 10:
                     System.out.println("Enter New StaffInCharge: ");
                     String newStaffIncharge = sc.next();
                     editCampDetails(thisCamp, 8, newStaffIncharge);
                     break;
 
-                case 10:
+                case 11:
                     System.out.println("Exiting back to staff menu...");
                     done = true;
                     return createdCampsList;

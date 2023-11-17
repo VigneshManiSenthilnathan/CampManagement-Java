@@ -17,19 +17,11 @@ public class CAM {
     private static List<Staff> staffList = new ArrayList<>();
     private static List<Student> studentList = new ArrayList<>();
     // private static List<CampCommittee> campCommitteeList = new ArrayList<>();
-    private static List<Camp> createdCampsList = new ArrayList<>();
-
-    public static List<Camp> getCreatedCampsList() {
-        return createdCampsList;
-    }
-
-    public static void setCreatedCampsList(List<Camp> newcreatedCampsList) {
-        CAM.createdCampsList = newcreatedCampsList;
-    }
 
     public static void main(String[] args) throws IOException {
 
         // camps.xlsx
+        List<Camp> createdCampsList = Camp.getCreatedCampsList();
         createdCampsList = Download.loadCamps(createdCampsList);
 
         // check if credientials file exists

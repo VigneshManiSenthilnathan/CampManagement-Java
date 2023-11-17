@@ -3,7 +3,7 @@ package pkg_camp;
 import java.util.List;
 import java.util.Scanner;
 
-public class ViewCamp extends CampController {
+public class ViewCamp {
 
     public static void studentMenuViewCamps(Student student, List<Camp> createdCampsList) {
         CampController.viewCamps(student, createdCampsList);
