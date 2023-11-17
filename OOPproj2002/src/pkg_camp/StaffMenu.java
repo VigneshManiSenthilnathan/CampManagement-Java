@@ -65,9 +65,7 @@ public class StaffMenu {
                                 break;
 
                             case 3:
-                                System.out.println("Enter Camp Name: ");
-                                String campNameDel = scanner.next();
-                                // DeleteCamp.deleteCamp(staff, campNameDel);
+                                createdCampsList = DeleteCamp.deleteCamp(staff, createdCampsList);
                                 break;
 
                             case 4:
@@ -114,6 +112,7 @@ public class StaffMenu {
 
                 case 9: // Exit Staff Menu
                     // Upload.deleteAll();
+                    CAM.setCreatedCampsList(createdCampsList);
                     Upload.writeToExcel(createdCampsList);
                     exitStaffMenu = true;
                     // scanner.close();

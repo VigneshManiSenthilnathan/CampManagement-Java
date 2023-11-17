@@ -18,6 +18,7 @@ import java.util.Scanner;
 public class CAM {
     private static List<Staff> staffList = new ArrayList<>();
     private static List<Student> studentList = new ArrayList<>();
+    // private static List<CampCommittee> campCommitteeList = new ArrayList<>();
     private static List<Camp> createdCampsList = new ArrayList<>();
 
     public static List<Camp> getCreatedCampsList() {

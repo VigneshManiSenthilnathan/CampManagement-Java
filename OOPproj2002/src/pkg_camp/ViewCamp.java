@@ -44,4 +44,8 @@ public class ViewCamp extends CampController {
             }
         }
     }
+
+    public static void campCommitteeMenuViewCamp(CampCommitteeMember campCommitteeMember, List<Camp> createdCampsList) {
+        CampController.viewCamps(campCommitteeMember, createdCampsList);
+    }
 }

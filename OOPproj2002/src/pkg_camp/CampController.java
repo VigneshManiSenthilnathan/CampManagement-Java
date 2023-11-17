@@ -67,6 +67,11 @@ public class CampController {
         }
     }
 
+    public static void viewCamps(CampCommitteeMember campCommitteeMember, List<Camp> createdCampsList) {
+        // retrieve the camp that the student is a campcommitteemember of
+        // print all the details of that 1 camp only
+    }
+
     public static void viewCreatedCamps(Staff staff, List<Camp> createdCampsList) {
         System.out.println("List of Camps created by " + staff.getUserID() + ":");
         for (Camp camp : createdCampsList) {
@@ -370,45 +375,53 @@ public class CampController {
         }
     }
 
-    public void withdrawCamp(Student student, List<Camp> createdCampsList) {
-        boolean registered = false;
-        int i = 1;
+    public static List<Camp> withdrawCamp(Student student, List<Camp> createdCampsList) {
+        Scanner withdrawScanner = new Scanner(System.in);
 
-        System.out.println("List of Camps available to withdraw:");
-        for (Camp camp : createdCampsList) {
-            if (camp.getUserGroup().equals(student.getFaculty())) {
-                for (Student attendee : camp.getAttendees()) {
-                    if (student.getUserID().equals(attendee.getUserID())) {
-                        registered = true;
-                        break; // No need to check attendees list further
-                    }
-                }
-                if (registered) {
+        boolean done = false;
+
+        while (!done) {
+            int i = 1;
+            System.out.println("List of Camps available to withdraw:");
+
+            for (Camp camp : createdCampsList) {
+                if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())
+                        && camp.getAttendeeUserID().contains(student.getUserID())) {
                     System.out.println(i + ". " + camp.getCampName());
+                    System.out.println("");
                     i++;
                 }
             }
-        }
 
-        // withdraw from an available Camp
-        System.out.println("Withdraw from Camp: ");
-        Scanner withdrawScanner = new Scanner(System.in);
-        String campname = withdrawScanner.nextLine();
+            // Withdraw from an available Camp
+            System.out.println("Withdraw from Camp (Type 'EXIT' to stop): ");
+            System.out.print("Camp Name: ");
+            String campname = withdrawScanner.nextLine();
 
-        for (Camp camp : createdCampsList) {
-            if (campname.equals(camp.getCampName())) { // Corrected the comparison
-                if (camp.getAttendees().contains(student)) {
-                    camp.removeAttendee(student);
-                    System.out.println("Withdrawal successful!");
-                } else {
-                    System.out.println("You are not registered for this camp.");
+            if (campname.toUpperCase().equals("EXIT")) {
+                done = true;
+            } else {
+                boolean withdrawalSuccessful = false;
+
+                for (Camp camp : createdCampsList) {
+                    if (campname.equals(camp.getCampName())
+                            && camp.getAttendeeUserID().contains(student.getUserID())) {
+
+                        camp.removeAttendee(student.getUserID());
+                        System.out.println("Withdrawal successful from " + camp.getCampName());
+                        withdrawalSuccessful = true;
+                        return createdCampsList;
+                    }
                 }
-                break; // No need to continue checking other camps
+
+                if (!withdrawalSuccessful) {
+                    System.out.println("Invalid camp name or you are not registered for this camp.");
+                }
             }
         }
-
-        // Close the scanner
-        withdrawScanner.close();
+        return createdCampsList;
+        // Dont close the scanner
+        // withdrawScanner.close();
     }
 
     public static List<Camp> deleteCamp(Staff staff, List<Camp> createdCampsList) {
@@ -445,27 +458,39 @@ public class CampController {
             Scanner scanner = new Scanner(System.in);
 
             while (!donedelete) {
-                System.out.print("Camp to Delete (Enter 0 to exit): ");
+                System.out.println("Camp to Delete (Enter EXIT to stop): ");
+                System.out.print("Camp Name: ");
                 try {
-                    int choice = scanner.nextInt();
-                    scanner.nextLine(); // Consume the newline character
+                    String choice = scanner.nextLine();
 
-                    if (choice == 0) {
+                    if (choice.toUpperCase().equals("EXIT")) {
                         donedelete = true;
-                    } else if (choice >= 1 && choice <= i - 1) {
-                        Camp campToDelete = createdCampsList.get(choice - 1);
-                        createdCampsList.remove(campToDelete);
-                        System.out.println("Camp deleted successfully: " + campToDelete.getCampName());
-
-                    } else {
-                        System.out.println("Invalid choice. No camp deleted.");
                     }
+
+                    for (Camp camp : createdCampsList) {
+                        if (choice.equalsIgnoreCase(camp.getCampName())) {
+                            createdCampsList.remove(camp);
+                            Upload.deleteCamp(choice);
+                            System.out.println("Camp deleted successfully: " + camp.getCampName());
+                        }
+                    }
+
+                    /*
+                     * else if (choice >= 1 && choice <= i - 1) {
+                     * Camp campToDelete = createdCampsList.get(choice - 1);
+                     * createdCampsList.remove(campToDelete);
+                     * System.out.println("Camp deleted successfully: " +
+                     * campToDelete.getCampName());
+                     * 
+                     * }
+                     */
+
                 } catch (Exception e) {
                     System.out.println("Invalid input. No camp deleted.");
                 }
             }
             // Close the scanner outside the loop
-            scanner.close();
+            // scanner.close();
             return createdCampsList;
         }
     }

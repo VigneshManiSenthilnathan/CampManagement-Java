@@ -42,7 +42,7 @@ public class Camp extends CampInformation {
 
     // Override methods to get, add, and remove attendees and camp committee members
     @Override
-    public List<Student> getAttendees() {
+    public ArrayList<Student> getAttendees() {
         return attendees;
     }
 
@@ -54,6 +54,17 @@ public class Camp extends CampInformation {
     @Override
     public void removeAttendee(Student attendee) {
         attendees.remove(attendee);
+    }
+
+    // For use in CampController class, withdrawCamp method
+    // We remove student from attendee list using student.getUserID()
+    public void removeAttendee(String studentUserID) {
+        for (Student attendee : attendees) {
+            if (attendee.getUserID().equals(studentUserID)) {
+                attendees.remove(attendee);
+                break;
+            }
+        }
     }
 
     @Override
@@ -76,7 +87,7 @@ public class Camp extends CampInformation {
         // load student userID into a string list
         ArrayList<String> attendeeNames = new ArrayList<>();
 
-        System.out.println("reached!");
+        // System.out.println("reached!");
 
         for (Student attendee : attendees) {
             attendeeNames.add(attendee.getUserID());

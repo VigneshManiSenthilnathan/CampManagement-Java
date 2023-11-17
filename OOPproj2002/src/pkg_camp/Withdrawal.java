@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.lang.Boolean;
 
-public class Withdrawal extends Student {
-    // since student can join multiple camp, need to let them choose which to
-    // withdraw
-    // I forgot to account for that in the CAM
-    public Withdrawal(Staff staff, List<Camp> createdCampsList) {
-        CampController.createNewCamp(staff, createdCampsList);
+public class Withdrawal extends CampController {
+
+    public static List<Camp> withdrawCamp(Student student, List<Camp> createdCampsList) {
+        List<Camp> newList;
+        newList = CampController.withdrawCamp(student, createdCampsList);
+        return newList;
     }
 }
+
+// withdraw from ntu

@@ -59,7 +59,7 @@ public class CampInformation {
         } else if (set == 0) {
             camp.visibility = false;
         } else {
-            System.out.println("Invalid integer input!");
+            System.out.println("Invalid integer input!"); // if integer wrong
             System.out.println("To Set Visible Enter: 1");
             System.out.println("To Set Invisible Enter: 0");
         }

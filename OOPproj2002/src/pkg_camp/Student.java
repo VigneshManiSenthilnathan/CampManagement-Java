@@ -8,8 +8,7 @@ public class Student extends CampController implements User {
     private String userID;
     private String password;
     private String faculty;
-    private String STUDENT;
-    private StudentType studentType;
+    private boolean isCampCommitteeMember;
 
     public Student() {
 
@@ -19,10 +18,7 @@ public class Student extends CampController implements User {
         this.userID = userID;
         this.password = "password";
         this.faculty = faculty;
-    }
-
-    enum StudentType {
-        ATTENDEE, COMMITTEE
+        this.isCampCommitteeMember = false;
     }
 
     // Implement the methods from the User interface
@@ -39,6 +35,10 @@ public class Student extends CampController implements User {
         return password;
     }
 
+    public boolean isCampCommitteeMember() {
+        return isCampCommitteeMember;
+    }
+
     public void setPassword(String newPassword) {
         this.password = newPassword;
     }
@@ -47,17 +47,7 @@ public class Student extends CampController implements User {
         return faculty;
     }
 
-    public void setStudentType(StudentType type) {
-        if (type == StudentType.ATTENDEE || type == StudentType.COMMITTEE) {
-            this.studentType = type;
-        } else {
-            System.out.println("Invalid Student Type!");
-        }
-    }
-
-    public StudentType getStudentType() {
-        return this.studentType;
-    }
+    public void setCampCommittee
 
     // New camp methods
     // Showing available camps

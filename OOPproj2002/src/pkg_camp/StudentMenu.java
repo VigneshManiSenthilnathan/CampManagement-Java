@@ -26,14 +26,15 @@ public class StudentMenu {
 
         while (!exitStudentMenu) {
             System.out.println("Student Menu:");
-            System.out.println("(1) Change Password");
-            System.out.println("(2) View Available Camps");
-            System.out.println("(3) Register for a Camp");
+            System.out.println("(1) Change Password"); // done
+            System.out.println("(2) View Available Camps"); // done
+            System.out.println("(3) Register for a Camp"); // done
             System.out.println("(4) Submit Enquiry");
             System.out.println("(5) View, Edit or Delete your Enquiry");
-            System.out.println("(6) Check Registered Camps");
-            System.out.println("(7) Withdraw from a Camp");
-            System.out.println("(8) Exit Menu");
+            System.out.println("(6) Check Registered Camps"); // done
+            System.out.println("(7) Withdraw from a Camp"); // done
+            System.out.println("(8) Show Camp Committee Menu For Camp Committee Members");
+            System.out.println("(9) Exit Menu"); // done
             System.out.print("Input Choice: ");
 
             int menu = scanner.nextInt();
@@ -163,30 +164,15 @@ public class StudentMenu {
                     break;
 
                 case 7:
-                    boolean quit1 = false;
-                    System.out.println("Camps you have registered for: ");
-                    Registration.dispRegisteredCamps(student, createdCampsList);
-
-                    System.out.println("Choose the camp you would like to withdraw from: ");
-                    int withdrawIndex = scanner.nextInt();
-
-                    System.out.println("Are you sure you want to withdraw from the camp(Y/N)?");
-                    while (quit1 != true) {
-                        String Decision = scanner.nextLine().toUpperCase();
-                        char c = Decision.charAt(0);
-                        if (c == 'Y') {
-                            // student.withdraw();
-                            break;
-                        } else if (c == 'N') {
-                            break;
-                        } else {
-                            System.out.println("Error Please enter either Y or N");
-                            continue;
-                        }
-                    }
+                    createdCampsList = Withdrawal.withdrawCamp(student, createdCampsList);
                     break;
 
                 case 8:
+                    // if retrieved student name matches with campcommittee member file, call
+                    // campcommitteemenu
+                    // else show rejection message, "only camp committee members can access this"
+
+                case 9:
                     CAM.setCreatedCampsList(createdCampsList);
                     Upload.writeToExcel(createdCampsList);
                     exitStudentMenu = true;

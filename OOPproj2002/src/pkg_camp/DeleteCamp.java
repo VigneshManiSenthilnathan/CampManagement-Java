@@ -4,7 +4,9 @@ import java.util.List;
 
 public class DeleteCamp extends CampController {
 
-    public static void deleteCamp(Staff staff, List<Camp> createdCampsList) {
-        CampController.deleteCamp(staff, createdCampsList);
+    public static List<Camp> deleteCamp(Staff staff, List<Camp> createdCampsList) {
+        List<Camp> newCampList;
+        newCampList = CampController.deleteCamp(staff, createdCampsList);
+        return newCampList;
     }
 }
