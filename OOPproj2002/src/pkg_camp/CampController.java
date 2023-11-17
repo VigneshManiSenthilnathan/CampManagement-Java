@@ -11,28 +11,38 @@ public class CampController {
     public CampController() {
     }
 
-    public static void viewCamps(Student student, List<Camp> createdCampsList){
+    public static void viewCamps(Student student, List<Camp> createdCampsList) {
         int i = 1;
-        System.out.println("List of Camps available to join:");
-        for (Camp camp : createdCampsList) {
-            if ((camp.getUserGroup().toUpperCase() == student.getFaculty()) && (camp.getVisibility())
-                    && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
-                System.out.println("Camp " + i + ": " + camp.getCampName() + " [Camp Description: " + camp.getDescription() + "] (Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
-            i++;
-            }
-        }
-        System.out.println("Type 'Exit' to go back to Student Menu");
-        Scanner sc = new Scanner(System.in);
-        String exit = sc.nextLine();
-        if (exit.equals("Exit")){
+
+        // check if createdCampsList is empty
+        if (createdCampsList.isEmpty()) {
+            System.out.println("No camps available");
             return;
         }
-        else {
+
+        System.out.println("List of Camps available to join:");
+
+        for (Camp camp : createdCampsList) {
+            if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty())) && (camp.getVisibility())
+                    && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
+                System.out.println(
+                        "Camp " + i + ": " + camp.getCampName() + " [Camp Description: " + camp.getDescription()
+                                + "] (Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+                i++;
+            }
+        }
+
+        System.out.println("Type 'EXIT' to go back to Student Menu");
+        Scanner sc = new Scanner(System.in);
+        String exit = sc.nextLine().toUpperCase();
+        if (exit.equals("EXIT")) {
+            return;
+        } else {
             System.out.println("Invalid Input");
         }
     }
 
-    public static void viewCamps(Staff staff, List<Camp> createdCampsList){
+    public static void viewCamps(Staff staff, List<Camp> createdCampsList) {
         System.out.println("List of ALL Camps:");
         for (Camp camp : createdCampsList) {
             System.out.println("Camp Name: " + camp.getCampName());
@@ -45,6 +55,15 @@ public class CampController {
             System.out.println("Staff in Charge: " + camp.getStaffInCharge());
             System.out.println("Visibility: " + camp.getVisibility());
             System.out.println("------------------------------");
+        }
+
+        System.out.println("Type 'EXIT' to go back to Staff Menu");
+        Scanner sc = new Scanner(System.in);
+        String exit = sc.nextLine().toUpperCase();
+        if (exit.equals("EXIT")) {
+            return;
+        } else {
+            System.out.println("Invalid Input");
         }
     }
 
@@ -63,6 +82,15 @@ public class CampController {
                 System.out.println("Visibility: " + camp.getVisibility());
                 System.out.println("------------------------------");
             }
+        }
+
+        System.out.println("Type 'EXIT' to go back to Staff Menu");
+        Scanner sc = new Scanner(System.in);
+        String exit = sc.nextLine().toUpperCase();
+        if (exit.equals("EXIT")) {
+            return;
+        } else {
+            System.out.println("Invalid Input");
         }
     }
 
@@ -140,7 +168,8 @@ public class CampController {
             }
         }
 
-        Camp newcamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description, staff.getUserID(), visibility);
+        Camp newcamp = new Camp(campName, dates, registrationClosingDate, userGroup, location, totalSlots,
+                campCommitteeSlots, description, staff.getUserID(), visibility);
         createdCampsList.add(newcamp);
 
         return createdCampsList;
@@ -155,7 +184,7 @@ public class CampController {
         // Implement Sanity Check for camp name
         Camp thisCamp = null;
         boolean campExists = false;
-        while(!campExists){           
+        while (!campExists) {
             for (Camp camp : createdCampsList) {
                 if (camp.getCampName().equals(campName)) {
                     thisCamp = camp;
@@ -246,7 +275,7 @@ public class CampController {
                     int newCampVisibility = sc.nextInt();
                     CampInformation.toggleVisibility(thisCamp, newCampVisibility);
                     break;
-                    
+
                 case 9:
                     System.out.println("Enter New StaffInCharge: ");
                     String newStaffIncharge = sc.next();
@@ -263,7 +292,7 @@ public class CampController {
                     break;
             }
         }
-    return createdCampsList;
+        return createdCampsList;
     }
 
     public static void editCampDetails(Camp camp, int attributeToEdit, String edit) {
@@ -338,6 +367,106 @@ public class CampController {
 
             default:
                 System.out.println("Attribute does not exist.");
+        }
+    }
+
+    public void withdrawCamp(Student student, List<Camp> createdCampsList) {
+        boolean registered = false;
+        int i = 1;
+
+        System.out.println("List of Camps available to withdraw:");
+        for (Camp camp : createdCampsList) {
+            if (camp.getUserGroup().equals(student.getFaculty())) {
+                for (Student attendee : camp.getAttendees()) {
+                    if (student.getUserID().equals(attendee.getUserID())) {
+                        registered = true;
+                        break; // No need to check attendees list further
+                    }
+                }
+                if (registered) {
+                    System.out.println(i + ". " + camp.getCampName());
+                    i++;
+                }
+            }
+        }
+
+        // withdraw from an available Camp
+        System.out.println("Withdraw from Camp: ");
+        Scanner withdrawScanner = new Scanner(System.in);
+        String campname = withdrawScanner.nextLine();
+
+        for (Camp camp : createdCampsList) {
+            if (campname.equals(camp.getCampName())) { // Corrected the comparison
+                if (camp.getAttendees().contains(student)) {
+                    camp.removeAttendee(student);
+                    System.out.println("Withdrawal successful!");
+                } else {
+                    System.out.println("You are not registered for this camp.");
+                }
+                break; // No need to continue checking other camps
+            }
+        }
+
+        // Close the scanner
+        withdrawScanner.close();
+    }
+
+    public static List<Camp> deleteCamp(Staff staff, List<Camp> createdCampsList) {
+
+        if (createdCampsList.isEmpty()) {
+            System.out.println("There are no available camps to delete!");
+            return createdCampsList;
+        }
+
+        int i = 1;
+        for (Camp camp : createdCampsList) {
+            if (camp.getStaffInCharge().equals(staff.getUserID())) {
+                System.out.println(i + ". " + camp.getCampName());
+                i++;
+            }
+        }
+
+        if (i == 1) {
+            System.out.println("You haven't created any camps to delete.");
+            return createdCampsList;
+        }
+
+        else {
+            System.out.println("List of Camps available to delete:");
+            i = 1;
+            for (Camp camp : createdCampsList) {
+                if (camp.getStaffInCharge().equals(staff.getUserID())) {
+                    System.out.println(i + ". " + camp.getCampName());
+                    i++;
+                }
+            }
+
+            boolean donedelete = false;
+            Scanner scanner = new Scanner(System.in);
+
+            while (!donedelete) {
+                System.out.print("Camp to Delete (Enter 0 to exit): ");
+                try {
+                    int choice = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
+
+                    if (choice == 0) {
+                        donedelete = true;
+                    } else if (choice >= 1 && choice <= i - 1) {
+                        Camp campToDelete = createdCampsList.get(choice - 1);
+                        createdCampsList.remove(campToDelete);
+                        System.out.println("Camp deleted successfully: " + campToDelete.getCampName());
+
+                    } else {
+                        System.out.println("Invalid choice. No camp deleted.");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Invalid input. No camp deleted.");
+                }
+            }
+            // Close the scanner outside the loop
+            scanner.close();
+            return createdCampsList;
         }
     }
 }

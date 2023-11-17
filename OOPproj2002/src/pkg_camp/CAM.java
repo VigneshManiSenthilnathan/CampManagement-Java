@@ -24,11 +24,16 @@ public class CAM {
         return createdCampsList;
     }
 
+    public static void setCreatedCampsList(List<Camp> newcreatedCampsList) {
+        CAM.createdCampsList = newcreatedCampsList;
+    }
+
     public static void main(String[] args) throws IOException {
 
         // camps.xlsx
         createdCampsList = Download.loadCamps(createdCampsList);
 
+        // check if credientials file exists
         boolean fileExists = Credentials.checkFileExists();
 
         // student_list.xlsx
@@ -182,11 +187,12 @@ public class CAM {
 
                         // userID and password is correct, not their first time logging in
                         else if (!password.equals("password")) {
-                            System.out.println("Staff Login Successful!");
+                            System.out.println("Student Login Successful!");
 
                             // Redirect to student menu method below
                             StudentMenu.studentMenuPage(thisStudent);
                             exitstudentlogin = true;
+
                             break;
                         }
 
@@ -196,7 +202,7 @@ public class CAM {
                         }
                     }
                 }
-            } 
+            }
 
             else if (choice == 2) {
                 boolean exitstafflogin = false;
@@ -272,8 +278,8 @@ public class CAM {
                         }
                     }
                 }
-            } 
-            
+            }
+
             else {
                 System.out.println("Closing CAM...");
                 exitmain = true;

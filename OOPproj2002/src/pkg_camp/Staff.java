@@ -56,8 +56,9 @@ public class Staff extends CampController implements User {
         return faculty;
     }
 
-    public User getUserType() {
-        return STAFF;
+    @Override
+    public String getUserType() {
+        return "Staff";
     }
 
     public SuggestionsController getSuggestionsController() {

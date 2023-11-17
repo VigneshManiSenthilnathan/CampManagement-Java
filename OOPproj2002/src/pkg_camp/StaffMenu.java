@@ -86,8 +86,8 @@ public class StaffMenu {
                     // staff.toggleCampVisibility(createdCamps, campNameVisibility);
                     break;
 
-                case 4: // View all camps
-                    ViewCamp.viewCamps(staff, createdCampsList);
+                case 4: // View camps
+                    ViewCamp.staffMenuViewCamps(staff, createdCampsList);
                     break;
 
                 case 5: // View or Reply enquiries

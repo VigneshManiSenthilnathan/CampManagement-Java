@@ -67,7 +67,7 @@ public class Download {
 
                     String dates = row.getCell(1).getStringCellValue();
                     LocalDate campDates = LocalDate.parse(dates, DateTimeFormatter.ofPattern("dd-MM-yy"));
-                    
+
                     String closedate = row.getCell(2).getStringCellValue();
                     LocalDate campRegClosingDate = LocalDate.parse(closedate, DateTimeFormatter.ofPattern("dd-MM-yy"));
 
@@ -77,13 +77,72 @@ public class Download {
                     int campCommitteeSlots = (int) row.getCell(6).getNumericCellValue();
                     String campDescription = row.getCell(7).getStringCellValue();
                     boolean campVisibility = row.getCell(8).getBooleanCellValue();
+                    /*
+                     * String campVisibilityStr = row.getCell(8).getStringCellValue();
+                     * boolean campVisibility = true;
+                     * if (campVisibilityStr.equalsIgnoreCase("false")) {
+                     * campVisibility = false;
+                     * }
+                     */
+
                     String campStaffInCharge = row.getCell(9).getStringCellValue();
 
-                    Camp camp = new Camp(campName, campDates, campRegClosingDate,
-                            campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
-                            campStaffInCharge, campVisibility);
+                    // Load space seperated string and convert to list for attendees
+                    String campAttendees = null;
 
-                    createdCampsList.add(camp);
+                    if (row.getCell(10) != null) {
+                        campAttendees = row.getCell(10).getStringCellValue();
+                    } else {
+                        System.out.println("No attendees");
+                    }
+
+                    ArrayList<Student> attendees = new ArrayList<Student>();
+                    if (campAttendees != null && campAttendees != "") {
+                        String[] campAttendeesList = campAttendees.split(" ");
+                        for (String attendeeUserID : campAttendeesList) {
+                            attendees.add((Student) createUser(attendeeUserID, "STUDENT"));
+                        }
+                    }
+
+                    // Load space seperated string and convert to list for campcommittee
+                    String campCommittee = null;
+                    if (row.getCell(11) != null) {
+                        campCommittee = row.getCell(11).getStringCellValue();
+                    }
+
+                    ArrayList<Student> comm = new ArrayList<Student>();
+                    if (campCommittee != null && campCommittee != "") {
+                        String[] campCommitteeList = campCommittee.split(" ");
+                        for (String commMemUserID : campCommitteeList) {
+                            comm.add((Student) createUser(commMemUserID, "STUDENT"));
+                        }
+                    }
+
+                    if (campAttendees != null && campAttendees != "") {
+                        // Both Attendees and Committee lists are available
+                        if (campCommittee != null && campCommittee != "") {
+                            Camp camp = new Camp(campName, campDates, campRegClosingDate,
+                                    campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
+                                    campStaffInCharge, campVisibility, attendees, comm);
+                            createdCampsList.add(camp);
+                        }
+                        // Only Attendees list is available
+                        else {
+                            Camp camp = new Camp(campName, campDates, campRegClosingDate,
+                                    campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
+                                    campStaffInCharge, campVisibility, attendees);
+                            createdCampsList.add(camp);
+                        }
+                    }
+
+                    // Neither available
+                    else {
+                        Camp camp = new Camp(campName, campDates, campRegClosingDate,
+                                campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
+                                campStaffInCharge, campVisibility);
+                        createdCampsList.add(camp);
+                    }
+
                     System.out.println("Camp: " + campName + " loaded successfully.");
                 }
             }

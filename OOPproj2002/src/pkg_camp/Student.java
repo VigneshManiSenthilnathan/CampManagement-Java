@@ -8,7 +8,7 @@ public class Student extends CampController implements User {
     private String userID;
     private String password;
     private String faculty;
-    private User STUDENT;
+    private String STUDENT;
     private StudentType studentType;
 
     public Student() {
@@ -30,6 +30,11 @@ public class Student extends CampController implements User {
         return userID;
     }
 
+    @Override
+    public String getUserType() {
+        return "STUDENT";
+    }
+
     public String getPassword() {
         return password;
     }
@@ -40,10 +45,6 @@ public class Student extends CampController implements User {
 
     public String getFaculty() {
         return faculty;
-    }
-
-    public User getUserClass() {
-        return STUDENT;
     }
 
     public void setStudentType(StudentType type) {

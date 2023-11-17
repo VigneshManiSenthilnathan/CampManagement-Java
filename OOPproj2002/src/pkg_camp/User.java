@@ -8,4 +8,6 @@ public interface User {
     void setPassword(String newPassword);
 
     String getFaculty();
+
+    String getUserType();
 }

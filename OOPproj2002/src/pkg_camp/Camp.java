@@ -10,14 +10,36 @@ public class Camp extends CampInformation {
     private ArrayList<Student> campCommittee;
 
     public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
-                int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
-        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots, description,
+            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
+        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
+                description,
                 staffInCharge, visibility);
         this.attendees = new ArrayList<>();
         this.campCommittee = new ArrayList<>();
     }
 
-    
+    // Overloaded Constructor
+    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
+            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility,
+            ArrayList<Student> attendees) {
+        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
+                description,
+                staffInCharge, visibility);
+        this.attendees = attendees;
+        this.campCommittee = new ArrayList<>();
+    }
+
+    // Overloaded Constructor
+    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
+            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility,
+            ArrayList<Student> attendees, ArrayList<Student> campCommittee) {
+        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
+                description,
+                staffInCharge, visibility);
+        this.attendees = attendees;
+        this.campCommittee = campCommittee;
+    }
+
     // Override methods to get, add, and remove attendees and camp committee members
     @Override
     public List<Student> getAttendees() {
@@ -47,5 +69,19 @@ public class Camp extends CampInformation {
     @Override
     public void removeCampCommitteeMember(Student committeeMember) {
         campCommittee.remove(committeeMember);
+    }
+
+    // For use in Upload class
+    public ArrayList<String> getAttendeeUserID() {
+        // load student userID into a string list
+        ArrayList<String> attendeeNames = new ArrayList<>();
+
+        System.out.println("reached!");
+
+        for (Student attendee : attendees) {
+            attendeeNames.add(attendee.getUserID());
+        }
+
+        return attendeeNames;
     }
 }

@@ -77,14 +77,16 @@ public abstract class Upload {
             workbook = new XSSFWorkbook();
         }
 
-        Sheet sheet = workbook.getSheet("Camps");
+        Sheet sheet_camps = workbook.getSheet("Camps");
+        // Sheet sheet_attendees = workbook.getSheet("Attendees");
 
+        // Camps Sheet
         // If the sheet doesn't exist, create it
-        if (sheet == null) {
-            sheet = workbook.createSheet("Camps");
+        if (sheet_camps == null) {
+            sheet_camps = workbook.createSheet("Camps");
 
             // Create header row
-            Row headerRow = sheet.createRow(0);
+            Row headerRow = sheet_camps.createRow(0);
             headerRow.createCell(0).setCellValue("Camp Name");
             headerRow.createCell(1).setCellValue("Date");
             headerRow.createCell(2).setCellValue("Closing");
@@ -96,19 +98,19 @@ public abstract class Upload {
             headerRow.createCell(8).setCellValue("Visibilty");
             headerRow.createCell(9).setCellValue("Staff In Charge");
             headerRow.createCell(10).setCellValue("Attendees");
-            headerRow.createCell(11).setCellValue("Committee Members");
+            headerRow.createCell(11).setCellValue("Camp Committee");
         }
 
-        int lastRowNum = sheet.getLastRowNum();
-        int rowNum = lastRowNum + 1;
+        int lastRowNumCamp = sheet_camps.getLastRowNum();
+        int rowNumCamp = lastRowNumCamp + 1;
 
         for (Camp camp : campList) {
             // Check if the camp already exists in the Excel sheet
             boolean campExists = false;
             int rowIndex = -1;
 
-            for (int i = 1; i <= sheet.getLastRowNum(); i++) {
-                Row row = sheet.getRow(i);
+            for (int i = 1; i <= sheet_camps.getLastRowNum(); i++) {
+                Row row = sheet_camps.getRow(i);
                 if (row != null && row.getCell(0) != null) {
                     String existingCampName = row.getCell(0).getStringCellValue();
                     if (existingCampName.equals(camp.getCampName())) {
@@ -121,9 +123,10 @@ public abstract class Upload {
 
             if (campExists) {
                 // Update existing row
-                Row row = sheet.getRow(rowIndex);
+                Row row = sheet_camps.getRow(rowIndex);
                 row.createCell(1).setCellValue(camp.getDates().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
-                row.createCell(2).setCellValue(camp.getRegistrationClosingDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
+                row.createCell(2).setCellValue(
+                        camp.getRegistrationClosingDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
                 row.createCell(3).setCellValue(camp.getUserGroup());
                 row.createCell(4).setCellValue(camp.getLocation());
                 row.createCell(5).setCellValue(camp.getTotalSlots());
@@ -131,14 +134,16 @@ public abstract class Upload {
                 row.createCell(7).setCellValue(camp.getDescription());
                 row.createCell(8).setCellValue(camp.getVisibility());
                 row.createCell(9).setCellValue(camp.getStaffInCharge());
-                // row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
-                // row.createCell(11).setCellValue(String.join(" ", camp.getCampCommitteeUserID()));
+                row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
+                // row.createCell(11).setCellValue(String.join(" ",
+                // camp.getCampCommitteeUserID()));
             } else {
                 // Add new row
-                Row row = sheet.createRow(rowNum++);
+                Row row = sheet_camps.createRow(rowNumCamp++);
                 row.createCell(0).setCellValue(camp.getCampName());
                 row.createCell(1).setCellValue(camp.getDates().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
-                row.createCell(2).setCellValue(camp.getRegistrationClosingDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
+                row.createCell(2).setCellValue(
+                        camp.getRegistrationClosingDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")));
                 row.createCell(3).setCellValue(camp.getUserGroup());
                 row.createCell(4).setCellValue(camp.getLocation());
                 row.createCell(5).setCellValue(camp.getTotalSlots());
@@ -146,8 +151,9 @@ public abstract class Upload {
                 row.createCell(7).setCellValue(camp.getDescription());
                 row.createCell(8).setCellValue(camp.getVisibility());
                 row.createCell(9).setCellValue(camp.getStaffInCharge());
-                // row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
-                // row.createCell(11).setCellValue(String.join(" ", camp.getCampCommitteeUserID()));
+                row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
+                // row.createCell(11).setCellValue(String.join(" ",
+                // camp.getCampCommitteeUserID()));
             }
         }
 

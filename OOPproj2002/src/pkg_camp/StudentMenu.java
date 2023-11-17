@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 // Student Menu - after log in
-public class StudentMenu{
+public class StudentMenu {
 
     public static void studentMenuPage(Student student) throws IOException {
         List<Camp> createdCampsList = CAM.getCreatedCampsList();
@@ -58,7 +58,7 @@ public class StudentMenu{
                     break;
 
                 case 2:
-                    ViewCamp.viewCamps(student, createdCampsList);
+                    ViewCamp.studentMenuViewCamps(student, createdCampsList);
                     break;
 
                 case 3:
@@ -70,15 +70,15 @@ public class StudentMenu{
 
                     if (role_choice == 1) {
                         student.setStudentType(StudentType.ATTENDEE);
-                    } 
-                    
+                    }
+
                     else if (role_choice == 2) {
                         student.setStudentType(StudentType.COMMITTEE);
                     }
 
-                    Registration registration = new Registration();
-                    System.out.println("Send Enquiry To:");
-                    // registration.registerForCamp(student, createdCampsList);
+                    // Registration registration = new Registration();
+                    createdCampsList = Registration.registerForCamp(student, createdCampsList);
+
                     break;
 
                 case 4:
@@ -125,26 +125,26 @@ public class StudentMenu{
                                 quit = true;
                                 break;
 
-                            case 2: 
+                            case 2:
                                 /*
-                                System.out.println("Choose the enquiry to edit below")
-                                List<EnquiryController> enqToEdit = student.getEnquiries()
-                                System.out.println(enqToEdit)
-                                int editIndex = scanner.nextInt()
-                                System.out.println("Enter your new message: ")
-                                String newMsg = scanner.next()
-                                
-                                * or (EnquiryController enq : enqToEdit)
-                                int i = 0
-                                // Account for entry of i > length of enquiry lis
-                                if (i == editIndex)
-                                student.editEnquiry(enq, newMsg)
-                                
-                                
-                                * ++
-                                
-                                quit = true
-                                */
+                                 * System.out.println("Choose the enquiry to edit below")
+                                 * List<EnquiryController> enqToEdit = student.getEnquiries()
+                                 * System.out.println(enqToEdit)
+                                 * int editIndex = scanner.nextInt()
+                                 * System.out.println("Enter your new message: ")
+                                 * String newMsg = scanner.next()
+                                 * 
+                                 * or (EnquiryController enq : enqToEdit)
+                                 * int i = 0
+                                 * // Account for entry of i > length of enquiry lis
+                                 * if (i == editIndex)
+                                 * student.editEnquiry(enq, newMsg)
+                                 * 
+                                 * 
+                                 * ++
+                                 * 
+                                 * quit = true
+                                 */
                                 break;
 
                             case 3:
@@ -159,12 +159,13 @@ public class StudentMenu{
 
                 case 6:
                     // Check the camp student is registered in and display it
+                    Registration.dispRegisteredCamps(student, createdCampsList);
                     break;
 
                 case 7:
                     boolean quit1 = false;
                     System.out.println("Camps you have registered for: ");
-                    // System.out.print(student.getEnquiries());
+                    Registration.dispRegisteredCamps(student, createdCampsList);
 
                     System.out.println("Choose the camp you would like to withdraw from: ");
                     int withdrawIndex = scanner.nextInt();
@@ -186,6 +187,7 @@ public class StudentMenu{
                     break;
 
                 case 8:
+                    CAM.setCreatedCampsList(createdCampsList);
                     Upload.writeToExcel(createdCampsList);
                     exitStudentMenu = true;
                     break;
