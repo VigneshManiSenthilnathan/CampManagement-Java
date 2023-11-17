@@ -198,6 +198,8 @@ public abstract class Upload {
         }
 
         Iterator<Row> rowIterator = sheet.iterator();
+        List<Row> rowsToRemove = new ArrayList<>();
+
         while (rowIterator.hasNext()) {
             Row row = rowIterator.next();
             Cell campNameCell = row.getCell(0);
@@ -207,13 +209,18 @@ public abstract class Upload {
 
                 if (campName.equalsIgnoreCase(campNameToDelete)) {
                     System.out.println("Deleting camp: " + campName);
-                    // Delete the row
-                    rowIterator.remove();
+                    // Collect the row to be removed
+                    rowsToRemove.add(row);
                 }
             }
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
+        // Remove the collected rows outside the loop
+        for (Row rowToRemove : rowsToRemove) {
+            sheet.removeRow(rowToRemove);
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
             workbook.write(outputStream);
             outputStream.close();
             workbook.close();

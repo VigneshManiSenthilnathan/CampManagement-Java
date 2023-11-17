@@ -469,8 +469,8 @@ public class CampController {
 
                 for (Camp camp : createdCampsList) {
                     if (choice.equalsIgnoreCase(camp.getCampName())) {
-                        createdCampsList.remove(camp);
                         Upload.deleteCamp(choice);
+                        createdCampsList.remove(camp);
                         System.out.println("Camp deleted successfully: " + camp.getCampName());
                         donedelete = true;
                         break;
