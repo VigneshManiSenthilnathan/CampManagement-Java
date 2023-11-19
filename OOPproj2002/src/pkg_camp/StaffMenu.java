@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class StaffMenu {
     public static void staffMenuPage(Staff staff) throws IOException {
 
-        List<Camp> createdCampsList = CampController.getCreatedCampsList();
+        List<Camp> createdCampsList = CampsList.getCreatedCampsList();
 
         Scanner scanner = new Scanner(System.in);
         boolean exitStaffMenu = false;
@@ -58,15 +58,15 @@ public class StaffMenu {
 
                         switch (choice) {
                             case 1:
-                                CreateCamp.createCamp(staff, createdCampsList);
+                                CampController.createNewCamp(staff);
                                 break;
 
                             case 2:
-                                ModifyCamp.modifyCamp(staff, createdCampsList);
+                                CampController.modifyCamp(staff);
                                 break;
 
                             case 3:
-                                createdCampsList = DeleteCamp.deleteCamp(staff, createdCampsList);
+                                CampController.deleteCamp(staff);
                                 break;
 
                             case 4:
@@ -86,7 +86,7 @@ public class StaffMenu {
                     break;
 
                 case 4: // View camps
-                    ViewCamp.staffMenuViewCamps(staff, createdCampsList);
+                    ViewCamp.staffViewCamps(staff);
                     break;
 
                 case 5: // Manage Camp Committee
@@ -161,7 +161,7 @@ public class StaffMenu {
 
                 case 10: // Exit Staff Menu
                     // Upload.deleteAll();
-                    CampController.setCreatedCampsList(createdCampsList);
+                    CampsList.setCreatedCampsList(createdCampsList);
                     Upload.writeToExcel(createdCampsList);
                     exitStaffMenu = true;
                     // scanner.close();

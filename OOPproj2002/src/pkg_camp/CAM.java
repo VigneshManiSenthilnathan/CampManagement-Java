@@ -34,10 +34,12 @@ public class CAM {
 
     public static void main(String[] args) throws IOException {
 
-        // gets data from camps.xlsx
+        // Move to after credentials load (around line 127)
         List<Camp> createdCampsList = CampsList.getCreatedCampsList();
         createdCampsList = Download.loadCamps(createdCampsList);
-        printAttendeesForAllCamps(createdCampsList);
+        CampsList.setCreatedCampsList(createdCampsList);
+
+        printAttendeesForAllCamps(CampsList.getCreatedCampsList());
 
         // check if credientials file exists
         boolean fileExists = Credentials.checkFileExists();

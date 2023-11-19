@@ -4,147 +4,139 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Camp extends CampInformation {
+public class Camp {
 
     private List<Student> attendees;
     private List<Student> campCommittee;
 
-    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
-            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
-        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
-                description, staffInCharge, visibility);
+    private CampInformation campInformation;
+
+    public Camp(CampInformation campInformation) {
+        this.campInformation = campInformation;
         this.attendees = new ArrayList<>();
         this.campCommittee = new ArrayList<>();
     }
 
-    // Overloaded Constructor
-    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
-            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility,
-            List<Student> attendees) {
-        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
-                description, staffInCharge, visibility);
+    public Camp(CampInformation campInformation, List<Student> attendees) {
+        this.campInformation = campInformation;
         this.attendees = attendees;
         this.campCommittee = new ArrayList<>();
     }
 
-    // Overloaded Constructor
-    public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
-            int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility,
-            List<Student> attendees, List<Student> campCommittee) {
-        super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
-                description, staffInCharge, visibility);
+    public Camp(CampInformation campInformation, List<Student> attendees, List<Student> campCommittee) {
+        this.campInformation = campInformation;
         this.attendees = attendees;
         this.campCommittee = campCommittee;
     }
 
-    public String getCampName() {
-        return super.getCampName();
-    }
+    /*
+     * public String getCampName() {
+     * return super.getCampName();
+     * }
+     * 
+     * public void setCampName(String campName) {
+     * super.setCampName(campName);
+     * }
+     * 
+     * public LocalDate getDates() {
+     * return super.getDates();
+     * }
+     * 
+     * public void setDates(LocalDate dates) {
+     * super.setDates(dates);
+     * }
+     * 
+     * public LocalDate getRegistrationClosingDate() {
+     * return super.getRegistrationClosingDate();
+     * }
+     * 
+     * public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
+     * super.setRegistrationClosingDate(registrationClosingDate);
+     * }
+     * 
+     * public String getUserGroup() {
+     * return super.getUserGroup();
+     * }
+     * 
+     * public void setUserGroup(String userGroup) {
+     * super.setUserGroup(userGroup);
+     * }
+     * 
+     * public String getLocation() {
+     * return super.getLocation();
+     * }
+     * 
+     * public void setLocation(String location) {
+     * super.setLocation(location);
+     * }
+     * 
+     * public int getTotalSlots() {
+     * return super.getTotalSlots();
+     * }
+     * 
+     * public void setTotalSlots(int totalSlots) {
+     * super.setTotalSlots(totalSlots);
+     * }
+     * 
+     * public int getCampCommitteeSlots() {
+     * return super.getCampCommitteeSlots();
+     * }
+     * 
+     * public void setCampCommitteeSlots(int campCommitteeSlots) {
+     * super.setCampCommitteeSlots(campCommitteeSlots);
+     * }
+     * 
+     * public String getDescription() {
+     * return super.getDescription();
+     * }
+     * 
+     * public void setDescription(String description) {
+     * super.setDescription(description);
+     * }
+     * 
+     * public String getStaffInCharge() {
+     * return super.getStaffInCharge();
+     * }
+     * 
+     * public void setStaffInCharge(String staffInCharge) {
+     * super.setStaffInCharge(staffInCharge);
+     * }
+     * 
+     * public List<Enquiry> getEnquiries() {
+     * return super.getEnquiry();
+     * }
+     * 
+     * public void addEnquiries(Enquiry enquiries) {
+     * super.addEnquiry(enquiries);
+     * }
+     * 
+     * public void removeEnquiry(Enquiry enquiry) {
+     * super.removeEnquiry(enquiry);
+     * }
+     * 
+     * public List<Suggestion> getSuggestions() {
+     * return super.getSuggestion();
+     * }
+     * 
+     * public void addSuggestions(Suggestion suggestions) {
+     * super.addSuggestion(suggestions);
+     * }
+     * 
+     * public void removeSuggestion(Suggestion suggestion) {
+     * super.removeSuggestion(suggestion);
+     * }
+     */
 
-    public void setCampName(String campName) {
-        super.setCampName(campName);
-    }
+    // methods to get, add, and remove attendees and camp committe members
 
-    public LocalDate getDates() {
-        return super.getDates();
-    }
-
-    public void setDates(LocalDate dates) {
-        super.setDates(dates);
-    }
-
-    public LocalDate getRegistrationClosingDate() {
-        return super.getRegistrationClosingDate();
-    }
-
-    public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
-        super.setRegistrationClosingDate(registrationClosingDate);
-    }
-
-    public String getUserGroup() {
-        return super.getUserGroup();
-    }
-
-    public void setUserGroup(String userGroup) {
-        super.setUserGroup(userGroup);
-    }
-
-    public String getLocation() {
-        return super.getLocation();
-    }
-
-    public void setLocation(String location) {
-        super.setLocation(location);
-    }
-
-    public int getTotalSlots() {
-        return super.getTotalSlots();
-    }
-
-    public void setTotalSlots(int totalSlots) {
-        super.setTotalSlots(totalSlots);
-    }
-
-    public int getCampCommitteeSlots() {
-        return super.getCampCommitteeSlots();
-    }
-
-    public void setCampCommitteeSlots(int campCommitteeSlots) {
-        super.setCampCommitteeSlots(campCommitteeSlots);
-    }
-
-    public String getDescription() {
-        return super.getDescription();
-    }
-
-    public void setDescription(String description) {
-        super.setDescription(description);
-    }
-
-    public String getStaffInCharge() {
-        return super.getStaffInCharge();
-    }
-
-    public void setStaffInCharge(String staffInCharge) {
-        super.setStaffInCharge(staffInCharge);
-    }
-
-    public List<Enquiry> getEnquiries() {
-        return super.getEnquiry();
-    }
-
-    public void addEnquiries(Enquiry enquiries) {
-        super.addEnquiry(enquiries);
-    }
-
-    public void removeEnquiry(Enquiry enquiry) {
-        super.removeEnquiry(enquiry);
-    }
-
-    public List<Suggestion> getSuggestions() {
-        return super.getSuggestion();
-    }
-
-    public void addSuggestions(Suggestion suggestions) {
-        super.addSuggestion(suggestions);
-    }
-
-    public void removeSuggestion(Suggestion suggestion) {
-        super.removeSuggestion(suggestion);
-    }
-
-    // Override methods to get, add, and remove attendees and camp committee members
-    @Override
     public List<Student> getAttendees() {
-        return super.getAttendees();
+        return attendees;
     }
 
-    @Override
     public void addAttendee(Student attendee) {
         attendees.add(attendee);
     }
 
-    @Override
     public void removeAttendee(Student attendee) {
         attendees.remove(attendee);
     }
@@ -160,21 +152,104 @@ public class Camp extends CampInformation {
         }
     }
 
-    @Override
     public List<Student> getCampCommittee() {
-        return super.getCampCommittee();
+        return campCommittee;
     }
 
-    @Override
     public void addCampCommitteeMember(Student committeeMember) {
         // System.out.println(committeeMember.getUserID());
         campCommittee.add(committeeMember);
     }
 
-    @Override
     public void removeCampCommitteeMember(Student committeeMember) {
         campCommittee.remove(committeeMember);
     }
+
+    // Getter Methods
+
+    public String getCampName() {
+        return campInformation.getCampName();
+    }
+
+    public LocalDate getDates() {
+        return campInformation.getDates();
+    }
+
+    public LocalDate getRegistrationClosingDate() {
+        return campInformation.getRegistrationClosingDate();
+    }
+
+    public String getUserGroup() {
+        return campInformation.getUserGroup();
+    }
+
+    public String getLocation() {
+        return campInformation.getLocation();
+    }
+
+    public int getTotalSlots() {
+        return campInformation.getTotalSlots();
+    }
+
+    public int getCampCommitteeSlots() {
+        return campInformation.getCampCommitteeSlots();
+    }
+
+    public String getDescription() {
+        return campInformation.getDescription();
+    }
+
+    public String getStaffInCharge() {
+        return campInformation.getStaffInCharge();
+    }
+
+    public boolean getVisibility() {
+        return campInformation.getVisibility();
+    }
+
+    // Setter Methods
+
+    public void setCampName(String campName) {
+        campInformation.setCampName(campName);
+    }
+
+    public void setDates(LocalDate dates) {
+        campInformation.setDates(dates);
+    }
+
+    public void setRegistrationClosingDate(LocalDate registrationClosingDate) {
+        campInformation.setRegistrationClosingDate(registrationClosingDate);
+    }
+
+    public void setUserGroup(String userGroup) {
+        campInformation.setUserGroup(userGroup);
+    }
+
+    public void setLocation(String location) {
+        campInformation.setLocation(location);
+    }
+
+    public void setTotalSlots(int totalSlots) {
+        campInformation.setTotalSlots(totalSlots);
+    }
+
+    public void setCampCommitteeSlots(int campCommitteeSlots) {
+        campInformation.setCampCommitteeSlots(campCommitteeSlots);
+    }
+
+    public void setDescription(String description) {
+        campInformation.setDescription(description);
+    }
+
+    public void setStaffInCharge(String staffInCharge) {
+        campInformation.setStaffInCharge(staffInCharge);
+    }
+
+    public void setVisibility(boolean visibility) {
+        campInformation.setVisibility(visibility);
+    }
+
+    // Other Methods
 
     // For use in Upload class
     public List<String> getAttendeeUserID() {
@@ -213,6 +288,8 @@ public class Camp extends CampInformation {
     }
 
     public int getRemainingSlots() {
-        return super.getTotalSlots() - super.getAttendees().size() - super.getCampCommittee().size();
+        int totalSlots = campInformation.getTotalSlots();
+        int occupiedSlots = getAttendees().size() + getCampCommittee().size();
+        return totalSlots - occupiedSlots;
     }
 }

@@ -97,8 +97,7 @@ public abstract class Upload {
                 row.createCell(8).setCellValue(camp.getVisibility());
                 row.createCell(9).setCellValue(camp.getStaffInCharge());
                 row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
-                // row.createCell(11).setCellValue(String.join(" ",
-                // camp.getCampCommitteeUserID()));
+                row.createCell(11).setCellValue(String.join(" ", camp.getCommiteeUserID()));
             } else {
                 // Add new row
                 Row row = sheet_camps.createRow(rowNumCamp++);
@@ -114,8 +113,7 @@ public abstract class Upload {
                 row.createCell(8).setCellValue(camp.getVisibility());
                 row.createCell(9).setCellValue(camp.getStaffInCharge());
                 row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
-                // row.createCell(11).setCellValue(String.join(" ",
-                // camp.getCampCommitteeUserID()));
+                row.createCell(11).setCellValue(String.join(" ", camp.getCommiteeUserID()));
             }
         }
 

@@ -30,8 +30,9 @@ public class CampInformation {
     }
 
     public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
-            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
-    
+            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
+            boolean visibility) {
+
         this.campName = campName;
         this.dates = dates;
         this.registrationClosingDate = registrationClosingDate;
@@ -42,31 +43,8 @@ public class CampInformation {
         this.description = description;
         this.staffInCharge = staffInCharge;
         this.visibility = visibility;
-
-        this.attendees = new ArrayList<>();
-        this.campCommittee = new ArrayList<>();
-        this.enquiryList = new ArrayList<>();
-        this.suggestionList = new ArrayList<>();
-    }
-
-    /*
-     * Shall we use an index here?
-     * int parameter to represent attribute to edit
-     * (i.e.) 0 = campName, 1 = dates ...
-     */
-
-    // someone suggest if got better implementation pls
-
-    public static void toggleVisibility(CampInformation camp, int set) {
-        if (set == 1) {
-            camp.visibility = true;
-        } else if (set == 0) {
-            camp.visibility = false;
-        } else {
-            System.out.println("Invalid integer input!"); // if integer wrong
-            System.out.println("To Set Visible Enter: 1");
-            System.out.println("To Set Invisible Enter: 0");
-        }
+        // this.enquiryList = new ArrayList<>();
+        // this.suggestionList = new ArrayList<>();
     }
 
     // Setter methods for CampInformation attributes
@@ -104,6 +82,10 @@ public class CampInformation {
 
     public void setStaffInCharge(String staffInCharge) {
         this.staffInCharge = staffInCharge;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
     }
 
     // Getter methods for CampInformation attributes
@@ -152,6 +134,10 @@ public class CampInformation {
         return attendees;
     }
 
+    public void setAttendees(List<Student> studentList) {
+        this.attendees = studentList;
+    }
+
     public void addAttendee(Student attendee) {
         attendees.add(attendee);
     }
@@ -163,6 +149,10 @@ public class CampInformation {
     // Getter and setter methods for camp committee members
     public List<Student> getCampCommittee() {
         return campCommittee;
+    }
+
+    public void setCampCommittee(List<Student> commList) {
+        this.campCommittee = commList;
     }
 
     public void addCampCommitteeMember(Student committeeMember) {
@@ -200,7 +190,7 @@ public class CampInformation {
     public int getRemainingSlots() {
         int totalAttendees = getAttendees().size();
         int totalCommitteeMembers = getCampCommittee().size();
-        
+
         return getTotalSlots() - totalAttendees - totalCommitteeMembers;
     }
 

@@ -130,27 +130,35 @@ public class Download {
                     }
 
                     if (campAttendees != null && campAttendees != "") {
+
                         // Both Attendees and Committee lists are available
                         if (campCommittee != null && campCommittee != "") {
-                            Camp camp = new Camp(campName, campDates, campRegClosingDate,
+                            CampInformation campinfo = new CampInformation(campName, campDates, campRegClosingDate,
                                     campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
-                                    campStaffInCharge, campVisibility, attendees, comm);
+                                    campStaffInCharge, campVisibility);
+
+                            Camp camp = new Camp(campinfo, attendees, comm);
                             createdCampsList.add(camp);
                         }
+
                         // Only Attendees list is available
                         else {
-                            Camp camp = new Camp(campName, campDates, campRegClosingDate,
+                            CampInformation campinfo = new CampInformation(campName, campDates, campRegClosingDate,
                                     campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
-                                    campStaffInCharge, campVisibility, attendees);
+                                    campStaffInCharge, campVisibility);
+
+                            Camp camp = new Camp(campinfo, attendees);
                             createdCampsList.add(camp);
                         }
                     }
 
                     // Neither available
                     else {
-                        Camp camp = new Camp(campName, campDates, campRegClosingDate,
+                        CampInformation campinfo = new CampInformation(campName, campDates, campRegClosingDate,
                                 campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
                                 campStaffInCharge, campVisibility);
+
+                        Camp camp = new Camp(campinfo);
                         createdCampsList.add(camp);
                     }
 
@@ -265,7 +273,7 @@ public class Download {
                 return newstaff;
 
             } else {
-                Student newstudent = new Student(username, password, faculty);
+                Student newstudent = new CampCommitteeMember(username, password, faculty);
                 return newstudent;
             }
 

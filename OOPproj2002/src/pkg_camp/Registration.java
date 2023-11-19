@@ -18,7 +18,7 @@ public class Registration {
             System.out.println("List of Camps available to join:");
             for (Camp camp : createdCamps) {
                 int i = 1;
-                if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase()) && camp.getVisibility() 
+                if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase()) && camp.getVisibility()
                         && (camp.getTotalSlots() - camp.getAttendees().size()) > 0
                         && !camp.getAttendeeUserID().contains(student.getUserID())) {
                     found = true;
@@ -73,7 +73,7 @@ public class Registration {
 
     // register.close(); //closing the scanner doesn't work
 
-    public static List<Camp> registerForCampCommitee(Student student, List<Camp> createdCamps) {
+    public static void registerForCampCommitee(Student student) {
         // Showing available camps
         int i = 1;
         boolean done = false;
@@ -83,7 +83,7 @@ public class Registration {
 
             // List all the camps available for commitee
             System.out.println("List of Camps with Committee Roles Available:");
-            for (Camp camp : createdCamps) {
+            for (Camp camp : CampsList.getCreatedCampsList()) {
                 if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())
                         && (10 - camp.getCampCommittee().size()) > 0
                         && !camp.getCommiteeUserID().contains(student.getUserID())) {
@@ -100,7 +100,7 @@ public class Registration {
             if (!found) {
                 System.out.println("No camps available to join.");
                 System.out.println("");
-                return createdCamps;
+                return;
             }
 
             // Register for an available Camp
@@ -108,7 +108,7 @@ public class Registration {
             Scanner register = new Scanner(System.in);
             String campname = register.nextLine();
 
-            for (Camp camp : createdCamps) {
+            for (Camp camp : CampsList.getCreatedCampsList()) {
                 if (campname.equals(camp.getCampName())) {
 
                     for (Student applicant : camp.getAttendees()) {
@@ -118,7 +118,6 @@ public class Registration {
                             System.out.println("");
 
                             done = true;
-                            return createdCamps;
                         }
                     }
 
@@ -129,8 +128,7 @@ public class Registration {
                 }
             }
         }
-
-        return createdCamps;
+        return;
     }
 
     public static void dispRegisteredCamps(Student student, List<Camp> createdCamps) {

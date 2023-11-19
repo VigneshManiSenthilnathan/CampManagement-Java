@@ -17,7 +17,8 @@ import java.util.Scanner;
 public class StudentMenu {
 
     public static void studentMenuPage(Student student) throws IOException {
-        List<Camp> createdCampsList = CampController.getCreatedCampsList();
+
+        List<Camp> createdCampsList = CampsList.getCreatedCampsList();
 
         /*
          * if (student.isCampCommitteeMember()) {
@@ -65,7 +66,7 @@ public class StudentMenu {
                     break;
 
                 case 2:
-                    ViewCamp.studentMenuViewCamps(student, createdCampsList);
+                    ViewCamp.studentViewCamps(student);
                     break;
 
                 case 3:
@@ -76,11 +77,11 @@ public class StudentMenu {
                     int role_choice = scanner.nextInt();
 
                     if (role_choice == 1) {
-                        createdCampsList = Registration.registerForCamp(student, createdCampsList);
+                        Registration.registerForCamp(student, createdCampsList);
                     }
 
                     else if (role_choice == 2) {
-                        createdCampsList = Registration.registerForCampCommitee(student, createdCampsList);
+                        Registration.registerForCampCommitee(student);
                         System.out.println("Pending Approval from Staff . . .");
                     }
 
@@ -168,17 +169,35 @@ public class StudentMenu {
                     break;
 
                 case 7:
-                    createdCampsList = Withdrawal.withdrawCamp(student, createdCampsList);
+                    Withdrawal.withdrawCamp(student);
                     break;
 
                 case 8:
                     // if retrieved student name matches with campcommittee member file, call
                     // campcommitteemenu
                     // else show rejection message, "only camp committee members can access this"
+                    for (Camp camp : createdCampsList) {
+                        for (Student comm : camp.getCampCommittee()) {
+                            if (comm.getUserID().equals(student.getUserID())) {
+                                System.out.println("Entering Camp Committee Menu");
+                                System.out.println("");
+
+                                // Downcast and enter
+                                if (comm instanceof CampCommitteeMember) {
+                                    CampCommitteeMember newcomm = (CampCommitteeMember) comm;
+                                    CampCommitteeMenu.campCommitteeMenuPage(newcomm, camp);
+                                }
+
+                            }
+                        }
+                    }
+
+                    System.out.println("Invalid access, only camp committee members can access this");
+                    break;
 
                 case 9:
-                    CampController.setCreatedCampsList(createdCampsList);
-                    Upload.writeToExcel(createdCampsList);
+                    CampsList.setCreatedCampsList(createdCampsList);
+                    Upload.writeToExcel(CampsList.getCreatedCampsList());
                     exitStudentMenu = true;
                     break;
 

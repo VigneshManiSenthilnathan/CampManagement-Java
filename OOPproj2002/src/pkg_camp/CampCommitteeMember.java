@@ -9,9 +9,9 @@ public class CampCommitteeMember extends Student {
     private List<String> suggestions;
     private int points;
 
-    public CampCommitteeMember(String userID, String password, String faculty, CampInformation campDetails) {
+    public CampCommitteeMember(String userID, String password, String faculty) {
         super(userID, password, faculty);
-        this.campDetails = campDetails;
+        // this.campDetails = campDetails;
         this.suggestions = new ArrayList<>();
         this.points = 0;
     }
@@ -53,15 +53,16 @@ public class CampCommitteeMember extends Student {
         points += additionalPoints;
     }
 
-    /* 
-    public void suggestionAccepted() {
-        points += 2; // Award two points for an accepted suggestion
-    } maybe can implement this if want
-    */
+    /*
+     * public void suggestionAccepted() {
+     * points += 2; // Award two points for an accepted suggestion
+     * } maybe can implement this if want
+     */
 
     public void generateReport(String filter) {
         // Generate a report based on the filter (attendee, camp committee, etc.)
         // Implement the report generation logic here
-        // what do they mean by generate report of the camps they have created, since when campcommittee can create camps
+        // what do they mean by generate report of the camps they have created, since
+        // when campcommittee can create camps
     }
 }
