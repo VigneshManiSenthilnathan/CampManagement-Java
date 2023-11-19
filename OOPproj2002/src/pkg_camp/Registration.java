@@ -9,7 +9,6 @@ public class Registration {
 
     public static List<Camp> registerForCamp(Student student, List<Camp> createdCamps) {
         // Showing available camps
-        int i = 1;
         boolean done = false;
 
         while (!done) {
@@ -18,7 +17,8 @@ public class Registration {
             // List all the camps available to join
             System.out.println("List of Camps available to join:");
             for (Camp camp : createdCamps) {
-                if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())
+                int i = 1;
+                if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase()) && camp.getVisibility() 
                         && (camp.getTotalSlots() - camp.getAttendees().size()) > 0
                         && !camp.getAttendeeUserID().contains(student.getUserID())) {
                     found = true;
@@ -41,8 +41,12 @@ public class Registration {
             Scanner register = new Scanner(System.in);
             String campname = register.nextLine();
 
+            boolean campNameExists = false;
+
             for (Camp camp : createdCamps) {
                 if (campname.equals(camp.getCampName())) {
+                    campNameExists = true;
+
                     // Uncomment after implementing camp committee
                     for (Student applicant : camp.getCampCommittee()) {
                         if (applicant.getUserID().equals(student.getUserID())) {
@@ -58,6 +62,10 @@ public class Registration {
                     done = true;
                     break;
                 }
+            }
+
+            if (!campNameExists) {
+                System.out.println("Invalid camp name. Please enter a valid camp name.");
             }
         }
         return createdCamps;

@@ -34,7 +34,7 @@ public class Credentials {
 
     // Security Concern to return password directly.
     // Return the encoded password thats stored in excel
-    public static String getPassword(String username) {
+    public static final String getPassword(String username) {
         try {
             File file = new File("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change the file name as needed
             if (!file.exists()) {
@@ -82,7 +82,7 @@ public class Credentials {
      * }
      */
 
-    public void setPassword(String newPassword) {
+    public final void setPassword(String newPassword) {
 
         String encodedNewPW = encodePassword(newPassword);
         Credentials.password = encodedNewPW;
@@ -90,7 +90,7 @@ public class Credentials {
     }
 
     // Run this in the main function to verify existing accounts
-    public static boolean verifyPassword(String inputUsername, String inputPassword) {
+    public final static boolean verifyPassword(String inputUsername, String inputPassword) {
         if (usernameExists(inputUsername) == false) {
             System.out.println("Username does not exist!");
             return false;
@@ -111,7 +111,7 @@ public class Credentials {
     }
 
     // To encode a password input
-    public static String encodePassword(String password) {
+    public static final String encodePassword(String password) {
         try {
             // Create a MessageDigest instance for SHA-256
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
@@ -141,7 +141,7 @@ public class Credentials {
     }
 
     // Check if username exists
-    public static boolean usernameExists(String username) {
+    public static final boolean usernameExists(String username) {
 
         try {
             FileInputStream fis = new FileInputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx");
@@ -178,7 +178,7 @@ public class Credentials {
     }
 
     // Write to excel
-    public void excelWriter(String username, String password) {
+    public final void excelWriter(String username, String password) {
 
         // Check if the Excel file exists
         File file = new File("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change the file name as needed

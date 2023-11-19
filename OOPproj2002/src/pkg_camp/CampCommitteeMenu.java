@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class CampCommitteeMenu {
     public static void campCommitteeMenuPage(CampCommitteeMember campCommitteeMember) throws IOException {
-        List<Camp> createdCampsList = CampController.getCreatedCampsList();
+        List<Camp> createdCampsList = CampsList.getCreatedCampsList();
         Scanner scanner = new Scanner(System.in);
         boolean exitCampCommitteeMenu = false;
 

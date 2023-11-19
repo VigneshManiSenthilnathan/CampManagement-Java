@@ -18,11 +18,26 @@ public class CAM {
     private static List<Student> studentList = new ArrayList<>();
     // private static List<CampCommittee> campCommitteeList = new ArrayList<>();
 
+    public static void printAttendeesForAllCamps(List<Camp> createdCampsList) {
+        for (Camp camp : createdCampsList) {
+            System.out.println("Camp Name: " + camp.getCampName());
+            System.out.println("Attendees:");
+
+            List<Student> attendees = camp.getAttendees();
+            for (Student attendee : attendees) {
+                System.out.println(" - " + attendee.getUserID());
+            }
+
+            System.out.println("-------------------------");
+        }
+    }
+
     public static void main(String[] args) throws IOException {
 
-        // camps.xlsx
-        List<Camp> createdCampsList = Camp.getCreatedCampsList();
+        // gets data from camps.xlsx
+        List<Camp> createdCampsList = CampsList.getCreatedCampsList();
         createdCampsList = Download.loadCamps(createdCampsList);
+        printAttendeesForAllCamps(createdCampsList);
 
         // check if credientials file exists
         boolean fileExists = Credentials.checkFileExists();
@@ -129,7 +144,7 @@ public class CAM {
                     String userID = scanner.next();
 
                     if (!Credentials.usernameExists(userID)) {
-                        System.out.print("Invalid Username");
+                        System.out.println("Invalid Username");
                         break;
                     }
 
@@ -164,9 +179,10 @@ public class CAM {
                                     System.out.println("Password Successfully Changed!");
                                     thisStudent.setPassword(newPassword);
                                     Credentials.updatePassword(userID, newPassword);
-                                    StudentMenu.studentMenuPage(thisStudent);
                                     changed = true; // exit asking them to change password
                                     validcredentials = false; // make them reenter password
+                                    StudentMenu.studentMenuPage(thisStudent);
+                                    exitstudentlogin = true;
                                     break;
                                 }
 

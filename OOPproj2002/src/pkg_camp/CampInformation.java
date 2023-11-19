@@ -30,8 +30,8 @@ public class CampInformation {
     }
 
     public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
-            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,
-            boolean visibility) {
+            String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
+    
         this.campName = campName;
         this.dates = dates;
         this.registrationClosingDate = registrationClosingDate;
@@ -195,6 +195,13 @@ public class CampInformation {
 
     public void removeSuggestion(Suggestion suggestion) {
         suggestionList.remove(suggestion);
+    }
+
+    public int getRemainingSlots() {
+        int totalAttendees = getAttendees().size();
+        int totalCommitteeMembers = getCampCommittee().size();
+        
+        return getTotalSlots() - totalAttendees - totalCommitteeMembers;
     }
 
     // void return as reports are generated in excel

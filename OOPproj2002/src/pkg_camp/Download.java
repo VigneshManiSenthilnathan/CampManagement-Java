@@ -102,10 +102,15 @@ public class Download {
                         System.out.println("No attendees");
                     }
 
-                    ArrayList<Student> attendees = new ArrayList<Student>();
-                    if (campAttendees != null && campAttendees != "") {
+                    if (campAttendees != null) {
+                        campAttendees = campAttendees.trim();
+                    }
+
+                    List<Student> attendees = new ArrayList<Student>();
+                    if (campAttendees != null && !campAttendees.isEmpty()) {
                         String[] campAttendeesList = campAttendees.split(" ");
                         for (String attendeeUserID : campAttendeesList) {
+                            System.out.println("Attendee UserID: " + attendeeUserID);
                             attendees.add((Student) createUser(attendeeUserID, "STUDENT"));
                         }
                     }
@@ -176,11 +181,11 @@ public class Download {
             Workbook workbook = null;
             Sheet sheet = null;
 
-            if (type == "STUDENT") {
+            if (type.equals("STUDENT")) {
                 fis = new FileInputStream("OOPproj2002/src/pkg_camp/student_list.xlsx");
                 workbook = new XSSFWorkbook(fis);
                 sheet = workbook.getSheet("student");
-            } else if (type == "STAFF") {
+            } else if (type.equals("STAFF")) {
                 fis = new FileInputStream("OOPproj2002/src/pkg_camp/staff_list.xlsx");
                 workbook = new XSSFWorkbook(fis);
                 sheet = workbook.getSheet("staff");

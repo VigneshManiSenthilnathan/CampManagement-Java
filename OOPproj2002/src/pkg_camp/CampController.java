@@ -17,15 +17,6 @@ public class CampController extends Camp {
                 description, staffInCharge, visibility);
     }
 
-    public static List<Camp> getCreatedCampsList() {
-        return Camp.getCreatedCampsList();
-    }
-
-    public static void setCreatedCampsList(List<Camp> newCreatedCampsList) {
-        List<Camp> createdCampsList = Camp.getCreatedCampsList();
-        createdCampsList = newCreatedCampsList;
-    }
-
     public String getCampName() {
         return super.getCampName();
     }
@@ -154,6 +145,10 @@ public class CampController extends Camp {
         return attendeeNames;
     }
 
+    public int getRemainingSlots() {
+        return super.getTotalSlots() - super.getAttendees().size() - super.getCampCommittee().size();
+    }
+
     public static void viewCamps(Student student, List<Camp> createdCampsList) {
         int i = 1;
 
@@ -165,14 +160,23 @@ public class CampController extends Camp {
 
         System.out.println("List of Camps available to join:");
 
+        boolean found = false;
         for (Camp camp : createdCampsList) {
-            if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty())) && (camp.getVisibility())
-                    && (camp.getTotalSlots() - camp.getAttendees().size()) > 0) {
-                System.out.println(
-                        "Camp " + i + ": " + camp.getCampName() + " [Camp Description: " + camp.getDescription()
-                                + "] (Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+            if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())) && (camp.getVisibility())
+                    && (camp.getRemainingSlots()) > 0 && !camp.getAttendeeUserID().contains(student.getUserID())) {
+                System.out.println(i + ": " + camp.getCampName() + " [Camp Description: " + camp.getDescription()
+                        + "] (Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
                 i++;
+                found = true;
             }
+        }
+
+        System.out.println("");
+
+        if (!found) {
+            System.out.println("No camps available to view.");
+            System.out.println("");
+            return;
         }
 
         System.out.println("Type 'EXIT' to go back to Student Menu");

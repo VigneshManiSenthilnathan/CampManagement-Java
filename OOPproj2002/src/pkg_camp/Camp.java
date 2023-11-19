@@ -8,13 +8,11 @@ public class Camp extends CampInformation {
 
     private List<Student> attendees;
     private List<Student> campCommittee;
-    private static List<Camp> createdCampsList = new ArrayList<>();
 
     public Camp(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup, String location,
             int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility) {
         super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
-                description,
-                staffInCharge, visibility);
+                description, staffInCharge, visibility);
         this.attendees = new ArrayList<>();
         this.campCommittee = new ArrayList<>();
     }
@@ -24,8 +22,7 @@ public class Camp extends CampInformation {
             int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility,
             List<Student> attendees) {
         super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
-                description,
-                staffInCharge, visibility);
+                description, staffInCharge, visibility);
         this.attendees = attendees;
         this.campCommittee = new ArrayList<>();
     }
@@ -35,18 +32,9 @@ public class Camp extends CampInformation {
             int totalSlots, int campCommitteeSlots, String description, String staffInCharge, boolean visibility,
             List<Student> attendees, List<Student> campCommittee) {
         super(campName, dates, registrationClosingDate, userGroup, location, totalSlots, campCommitteeSlots,
-                description,
-                staffInCharge, visibility);
+                description, staffInCharge, visibility);
         this.attendees = attendees;
         this.campCommittee = campCommittee;
-    }
-
-    public static List<Camp> getCreatedCampsList() {
-        return createdCampsList;
-    }
-
-    public static void setCreatedCampsList(List<Camp> newcreatedCampsList) {
-        createdCampsList = newcreatedCampsList;
     }
 
     public String getCampName() {
@@ -224,4 +212,7 @@ public class Camp extends CampInformation {
         }
     }
 
+    public int getRemainingSlots() {
+        return super.getTotalSlots() - super.getAttendees().size() - super.getCampCommittee().size();
+    }
 }
