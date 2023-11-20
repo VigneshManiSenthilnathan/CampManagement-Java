@@ -64,10 +64,13 @@ public class Suggestion {
         this.approved = true;
     }
 
-    public Suggestion setSuggestionString(String newStr) {
-        this.suggestionString = newStr;
-        return this;
+    public void setSuggestionString(String newstr) {
+        this.suggestionString = newstr;
     }
+    // public Suggestion setSuggestionString(String newStr) {
+    // this.suggestionString = newStr;
+    // return this;
+    // }
 }
 
 // Old implementation below
