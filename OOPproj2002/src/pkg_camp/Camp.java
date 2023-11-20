@@ -8,28 +8,90 @@ public class Camp {
 
     private List<Student> attendees;
     private List<Student> campCommittee;
-
+    private List<Enquiry> enquiryList;
+    private List<Suggestion> suggestionList;
     private CampInformation campInformation;
 
     public Camp(CampInformation campInformation) {
         this.campInformation = campInformation;
         this.attendees = new ArrayList<>();
         this.campCommittee = new ArrayList<>();
-    }
-
-    public Camp(CampInformation campInformation, List<Student> attendees) {
-        this.campInformation = campInformation;
-        this.attendees = attendees;
-        this.campCommittee = new ArrayList<>();
-    }
-
-    public Camp(CampInformation campInformation, List<Student> attendees, List<Student> campCommittee) {
-        this.campInformation = campInformation;
-        this.attendees = attendees;
-        this.campCommittee = campCommittee;
+        this.enquiryList = new ArrayList<>();
+        this.suggestionList = new ArrayList<>();
     }
 
     /*
+     * public Camp(CampInformation campInformation, List<Student> attendees) {
+     * this.campInformation = campInformation;
+     * this.attendees = attendees;
+     * this.campCommittee = new ArrayList<>();
+     * this.enquiryList = new ArrayList<>();
+     * this.suggestionList = new ArrayList<>();
+     * }
+     * 
+     * public Camp(CampInformation campInformation, List<Student> campCommittee) {
+     * this.campInformation = campInformation;
+     * this.attendees = new ArrayList<>();
+     * this.campCommittee = campCommittee;
+     * this.enquiryList = new ArrayList<>();
+     * this.suggestionList = new ArrayList<>();
+     * }
+     * 
+     * public Camp(CampInformation campInformation, List<Enquiry> enquiryList) {
+     * this.campInformation = campInformation;
+     * this.attendees = new ArrayList<>();
+     * this.campCommittee = new ArrayList<>();
+     * this.enquiryList = enquiryList;
+     * this.suggestionList = new ArrayList<>();
+     * }
+     * 
+     * public Camp(CampInformation campInformation, List<Suggestion>
+     * suggestionsList) {
+     * this.campInformation = campInformation;
+     * this.attendees = new ArrayList<>();
+     * this.campCommittee = new ArrayList<>();
+     * this.enquiryList = new ArrayList<>();
+     * this.suggestionList = suggestionsList;
+     * }
+     * 
+     * public Camp(CampInformation campInformation, List<Student> attendees) {
+     * this.campInformation = campInformation;
+     * this.attendees = attendees;
+     * this.campCommittee = new ArrayList<>();
+     * this.enquiryList = new ArrayList<>();
+     * this.suggestionList = new ArrayList<>();
+     * }
+     * 
+     * public Camp(CampInformation campInformation, List<Student> attendees,
+     * List<Student> campCommittee) {
+     * this.campInformation = campInformation;
+     * this.attendees = attendees;
+     * this.campCommittee = campCommittee;
+     * this.enquiryList = new ArrayList<>();
+     * this.suggestionList = new ArrayList<>();
+     * }
+     * 
+     * public Camp(CampInformation campInformation, List<Student> attendees,
+     * List<Student> campCommittee,
+     * List<Enquiry> enquiryList) {
+     * this.campInformation = campInformation;
+     * this.attendees = attendees;
+     * this.campCommittee = campCommittee;
+     * this.enquiryList = enquiryList;
+     * this.suggestionList = new ArrayList<>();
+     * }
+     * 
+     * public Camp(CampInformation campInformation, List<Student> attendees,
+     * List<Student> campCommittee,
+     * List<Enquiry> enquiryList, List<Suggestion> suggestionsList) {
+     * this.campInformation = campInformation;
+     * this.attendees = attendees;
+     * this.campCommittee = campCommittee;
+     * this.enquiryList = enquiryList;
+     * this.suggestionList = suggestionsList;
+     * }/*
+     * 
+     * /*
      * public String getCampName() {
      * return super.getCampName();
      * }
@@ -106,14 +168,6 @@ public class Camp {
      * return super.getEnquiry();
      * }
      * 
-     * public void addEnquiries(Enquiry enquiries) {
-     * super.addEnquiry(enquiries);
-     * }
-     * 
-     * public void removeEnquiry(Enquiry enquiry) {
-     * super.removeEnquiry(enquiry);
-     * }
-     * 
      * public List<Suggestion> getSuggestions() {
      * return super.getSuggestion();
      * }
@@ -127,6 +181,32 @@ public class Camp {
      * }
      */
 
+    // methods to get, add, and remove enquiries
+    public List<Enquiry> getEnquiryList() {
+        return enquiryList;
+    }
+
+    public void addEnquiry(Enquiry enquiry) {
+        enquiryList.add(enquiry);
+    }
+
+    public void delEnquiry(Enquiry enquiry) {
+        enquiryList.remove(enquiry);
+    }
+
+    // methods to get, add, and remove suggestions
+    public List<Suggestion> getSuggestionList() {
+        return suggestionList;
+    }
+
+    public void addSuggestion(Suggestion suggestion) {
+        suggestionList.add(suggestion);
+    }
+
+    public void delSuggestion(Suggestion suggestion) {
+        suggestionList.remove(suggestion);
+    }
+
     // methods to get, add, and remove attendees and camp committe members
 
     public List<Student> getAttendees() {
@@ -135,6 +215,10 @@ public class Camp {
 
     public void addAttendee(Student attendee) {
         attendees.add(attendee);
+    }
+
+    public void addAttendee(List<Student> attendeeList) {
+        this.attendees = attendeeList;
     }
 
     public void removeAttendee(Student attendee) {
@@ -159,6 +243,10 @@ public class Camp {
     public void addCampCommitteeMember(Student committeeMember) {
         // System.out.println(committeeMember.getUserID());
         campCommittee.add(committeeMember);
+    }
+
+    public void addCampCommitteeMember(List<Student> committeeMemberList) {
+        this.campCommittee = committeeMemberList;
     }
 
     public void removeCampCommitteeMember(Student committeeMember) {

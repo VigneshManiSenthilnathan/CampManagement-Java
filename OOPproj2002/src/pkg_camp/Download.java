@@ -129,38 +129,48 @@ public class Download {
                         }
                     }
 
+                    CampInformation campinfo = new CampInformation(campName, campDates, campRegClosingDate,
+                            campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
+                            campStaffInCharge, campVisibility);
+
+                    Camp camp;
+
                     if (campAttendees != null && campAttendees != "") {
 
                         // Both Attendees and Committee lists are available
                         if (campCommittee != null && campCommittee != "") {
-                            CampInformation campinfo = new CampInformation(campName, campDates, campRegClosingDate,
-                                    campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
-                                    campStaffInCharge, campVisibility);
 
-                            Camp camp = new Camp(campinfo, attendees, comm);
+                            camp = new Camp(campinfo);
+
+                            camp.addAttendee(attendees);
+                            camp.addCampCommitteeMember(comm);
                             createdCampsList.add(camp);
                         }
 
                         // Only Attendees list is available
                         else {
-                            CampInformation campinfo = new CampInformation(campName, campDates, campRegClosingDate,
-                                    campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
-                                    campStaffInCharge, campVisibility);
-
-                            Camp camp = new Camp(campinfo, attendees);
+                            camp = new Camp(campinfo);
+                            camp.addAttendee(attendees);
                             createdCampsList.add(camp);
                         }
                     }
 
-                    // Neither available
-                    else {
-                        CampInformation campinfo = new CampInformation(campName, campDates, campRegClosingDate,
-                                campFaculty, campLocation, campAttendeeSlots, campCommitteeSlots, campDescription,
-                                campStaffInCharge, campVisibility);
-
-                        Camp camp = new Camp(campinfo);
+                    // Only Committee list is available
+                    else if (campCommittee != null && campCommittee != "") {
+                        camp = new Camp(campinfo);
+                        camp.addCampCommitteeMember(comm);
                         createdCampsList.add(camp);
                     }
+
+                    // Neither available
+                    else {
+                        camp = new Camp(campinfo);
+                        createdCampsList.add(camp);
+                    }
+
+                    // Check if the camp has enquiries or suggestions lists and load them
+                    camp = loadEnquiries(camp);
+                    camp = loadSuggestions(camp);
 
                     System.out.println("Camp: " + campName + " loaded successfully.");
                 }
@@ -174,6 +184,178 @@ public class Download {
         }
 
         return createdCampsList;
+    }
+
+    public static Camp loadEnquiries(Camp camp) {
+
+        try {
+            String filePath = "OOPproj2002/src/pkg_camp/enquiries.xlsx";
+            Workbook workbook;
+
+            // Check if the Excel file already exists
+            File file = new File(filePath);
+            if (!file.exists()) {
+                return camp;
+            }
+
+            // The FileInputStream provides the necessary stream to read the bytes from the
+            // file which is required for operations like reading an Excel workbook.
+
+            FileInputStream excelFile = new FileInputStream(new File(filePath));
+
+            // Upload --> Upload runtime memory to excel (Already have camps.xlsx, if not
+            // create new one)
+            // Download --> Download excel to runtime memory (Need to check if the excel
+            // exists)
+
+            workbook = WorkbookFactory.create(excelFile);
+            Sheet sheet = workbook.getSheet("Enquiries");
+
+            // Check if the file is empty
+            if (sheet.getLastRowNum() <= 0) { // Assuming the header is in the first row
+                excelFile.close();
+                workbook.close();
+                throw new IOException("The supplied file is empty.");
+            } else {
+                System.out.println(sheet.getLastRowNum());
+            }
+
+            for (Row row : sheet) {
+                // ignore the initial header row
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+
+                else {
+
+                    // iterate through the rows to check if the first column entry is equal to
+                    // camp.getCampName()
+                    // if yes, then add the enquiry to the camp's enquiry list
+                    // if no, then continue to the next row
+
+                    Enquiry enquiry = null;
+
+                    String campName = row.getCell(0).getStringCellValue();
+                    if (campName.equals(camp.getCampName())) {
+
+                        String sender = row.getCell(1).getStringCellValue();
+                        String message = row.getCell(2).getStringCellValue();
+                        String receiverStr = row.getCell(3).getStringCellValue();
+
+                        String receiverType = row.getCell(4).getStringCellValue();
+
+                        String reply = row.getCell(5).getStringCellValue();
+
+                        // check if reply is empty or null
+                        if (reply == null || reply.isEmpty()) {
+                            enquiry = new Enquiry(sender, campName, message);
+                        }
+
+                        else {
+                            enquiry = new Enquiry(sender, campName, message, receiverStr, receiverType, reply);
+                        }
+
+                        camp.addEnquiry(enquiry);
+
+                    }
+                }
+            }
+            excelFile.close();
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading enquiries from excel file. Exception: " + e.getClass().getSimpleName()
+                    + ", Message: " + e.getMessage());
+        }
+
+        return camp;
+    }
+
+    public static Camp loadSuggestions(Camp camp) {
+
+        try {
+            String filePath = "OOPproj2002/src/pkg_camp/suggestions.xlsx";
+            Workbook workbook;
+
+            // Check if the Excel file already exists
+            File file = new File(filePath);
+            if (!file.exists()) {
+                return camp;
+            }
+
+            // The FileInputStream provides the necessary stream to read the bytes from the
+            // file which is required for operations like reading an Excel workbook.
+
+            FileInputStream excelFile = new FileInputStream(new File(filePath));
+
+            // Upload --> Upload runtime memory to excel (Already have camps.xlsx, if not
+            // create new one)
+            // Download --> Download excel to runtime memory (Need to check if the excel
+            // exists)
+
+            workbook = WorkbookFactory.create(excelFile);
+            Sheet sheet = workbook.getSheet("Suggestions");
+
+            // Check if the file is empty
+            if (sheet.getLastRowNum() <= 0) { // Assuming the header is in the first row
+                excelFile.close();
+                workbook.close();
+                throw new IOException("The supplied file is empty.");
+            } else {
+                System.out.println(sheet.getLastRowNum());
+            }
+
+            for (Row row : sheet) {
+                // ignore the initial header row
+                if (row.getRowNum() == 0) {
+                    continue;
+                }
+
+                else {
+
+                    Suggestion suggestion = null;
+                    boolean approvalExists = false;
+                    boolean approval = true;
+
+                    String campName = row.getCell(0).getStringCellValue();
+                    String commMember = row.getCell(1).getStringCellValue();
+                    String suggestionMsg = row.getCell(2).getStringCellValue();
+
+                    Cell cell = row.getCell(3);
+                    if (cell != null) {
+                        approvalExists = true;
+                        if (cell.getCellType() == CellType.BOOLEAN) {
+                            approval = row.getCell(8).getBooleanCellValue();
+                        }
+
+                        else if (cell.getCellType() == CellType.STRING) {
+                            String approvalStr = row.getCell(8).getStringCellValue();
+                            if (approvalStr.equalsIgnoreCase("false")) {
+                                approval = false;
+                            }
+                        }
+                    }
+
+                    if (approvalExists) {
+                        suggestion = new Suggestion(commMember, suggestionMsg, campName, approval);
+                        camp.addSuggestion(suggestion);
+                    }
+
+                    else {
+                        suggestion = new Suggestion(commMember, suggestionMsg, campName);
+                        camp.addSuggestion(suggestion);
+                    }
+                }
+            }
+            excelFile.close();
+            workbook.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error loading suggestions from excel file. Exception: " + e.getClass().getSimpleName()
+                    + ", Message: " + e.getMessage());
+        }
+
+        return camp;
     }
 
     // Get attributes of a user

@@ -86,6 +86,6 @@ public class CreateCamp {
                 staff.getUserID(), visibility);
 
         Camp newcamp = new Camp(campinfo);
-        CampsList.appendToList(newcamp);
+        CampsList.appendToCampsList(newcamp);
     }
 }

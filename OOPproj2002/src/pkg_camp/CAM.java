@@ -5,18 +5,12 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Scanner;
 
 public class CAM {
-    private static List<Staff> staffList = new ArrayList<>();
-    private static List<Student> studentList = new ArrayList<>();
-    // private static List<CampCommittee> campCommitteeList = new ArrayList<>();
 
     public static void printAttendeesForAllCamps(List<Camp> createdCampsList) {
         for (Camp camp : createdCampsList) {
@@ -34,6 +28,9 @@ public class CAM {
 
     public static void main(String[] args) throws IOException {
 
+        List<Student> studentList;
+        List<Staff> staffList;
+
         // Move to after credentials load (around line 127)
         List<Camp> createdCampsList = CampsList.getCreatedCampsList();
         createdCampsList = Download.loadCamps(createdCampsList);
@@ -46,6 +43,9 @@ public class CAM {
 
         // student_list.xlsx
         try {
+
+            studentList = StudentsList.getStudentList();
+
             if (!fileExists) {
 
                 // reads data from file path: student_list
@@ -83,12 +83,15 @@ public class CAM {
                 }
             }
 
+            StudentsList.setStudentsList(studentList);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // staff_list.xlsx
         try {
+            staffList = StaffsList.getStaffList();
 
             if (!fileExists) {
                 // reads data from file path: staff_list
@@ -106,6 +109,7 @@ public class CAM {
                         userID = parts[0].trim();
                     }
                     Staff staff = new Staff(userID, "password", faculty);
+                    StaffsList.appendToStaffList(staff);
 
                     // need to also add in credentials excel: "user_passwords.xlsx"
                     Credentials newUser = new Credentials(userID, "password");
@@ -117,6 +121,8 @@ public class CAM {
                     workbook2.close();
                 }
             }
+
+            StaffsList.setStaffsList(staffList);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,7 +143,7 @@ public class CAM {
             if (choice == 1) {
                 boolean exitstudentlogin = false;
                 boolean validcredentials = false;
-                int errorCount = 0;
+                int errorCount = 3;
 
                 while (!exitstudentlogin) {
                     scanner.useDelimiter(System.lineSeparator());
@@ -145,22 +151,48 @@ public class CAM {
                     System.out.print("UserID: ");
                     String userID = scanner.next();
 
-                    if (!Credentials.usernameExists(userID)) {
-                        System.out.println("Invalid Username");
-                        break;
+                    while (errorCount > 0) {
+                        if (!Credentials.usernameExists(userID.toUpperCase())) {
+                            errorCount--;
+                            System.out.println(
+                                    "Invalid Username, try again. You have " + errorCount + 1 + " tries left.");
+                            System.out.println("UserID: ");
+                            userID = scanner.next(); // Loop check if invalid username
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (errorCount == 0) {
+                        System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
+                        return;
                     }
 
                     System.out.print("Password (default: password): ");
+                    errorCount = 3;
                     String password = scanner.next();
 
                     // Credentials check
-                    if (Credentials.verifyPassword(userID, password)) {
-                        validcredentials = true;
+                    while (errorCount > 0) {
+                        if (Credentials.verifyPassword(userID, password)) {
+                            validcredentials = true;
+                            break;
+                        } else {
+                            errorCount--;
+                            System.out.println(
+                                    "Try again, re-type password. You have " + errorCount + 1 + " tries left.");
+                            password = scanner.next();
+                        } // Loop check if invalid password
+                    }
+
+                    if (errorCount <= 0) {
+                        System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
+                        return;
                     }
 
                     while (validcredentials) {
                         Student thisStudent = (Student) Download.createUser(userID, "STUDENT");
-                        for (Student student : studentList) {
+                        for (Student student : StudentsList.getStudentList()) {
                             if (student.getUserID().equals(userID)) {
                                 thisStudent = student;
                             }
@@ -216,6 +248,7 @@ public class CAM {
             else if (choice == 2) {
                 boolean exitstafflogin = false;
                 boolean validcredentials = false;
+                int errorCount = 3;
 
                 while (!exitstafflogin) {
                     scanner.useDelimiter(System.lineSeparator());
@@ -223,22 +256,63 @@ public class CAM {
                     System.out.print("UserID: ");
                     String userID = scanner.next();
 
-                    if (!Credentials.usernameExists(userID)) {
-                        System.out.print("Invalid Username");
-                        break;
+                    while (errorCount > 0) {
+                        if (!Credentials.usernameExists(userID.toUpperCase())) {
+                            errorCount--;
+                            System.out.println(
+                                    "Invalid Username, try again. You have " + errorCount + 1 + " tries left.");
+                            System.out.println("UserID: ");
+                            userID = scanner.next(); // Loop check if invalid username
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (errorCount == 0) {
+                        System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
+                        return;
                     }
 
                     System.out.print("Password (default: password): ");
                     String password = scanner.next();
+                    errorCount = 3;
 
                     // Credentials check
-                    if (Credentials.verifyPassword(userID, password)) {
-                        validcredentials = true;
+                    while (errorCount > 0) {
+                        if (Credentials.verifyPassword(userID, password)) {
+                            validcredentials = true;
+                            break;
+                        } else {
+                            errorCount--;
+                            System.out.println(
+                                    "Try again, re-type password. You have " + errorCount + 1 + " tries left.");
+                            password = scanner.next();
+                        } // Loop check if invalid password
                     }
+
+                    if (errorCount <= 0) {
+                        System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
+                        return;
+                    }
+
+                    /*
+                     * if (!Credentials.usernameExists(userID)) {
+                     * System.out.print("Invalid Username");
+                     * break;
+                     * }
+                     * 
+                     * System.out.print("Password (default: password): ");
+                     * String password = scanner.next();
+                     * 
+                     * // Credentials check
+                     * if (Credentials.verifyPassword(userID, password)) {
+                     * validcredentials = true;
+                     * }
+                     */
 
                     while (validcredentials) {
                         Staff thisStaff = (Staff) Download.createUser(userID, "STAFF");
-                        for (Staff staff : staffList) {
+                        for (Staff staff : StaffsList.getStaffList()) {
                             if (staff.getUserID().equals(userID)) {
                                 thisStaff = staff;
                             }
@@ -249,8 +323,10 @@ public class CAM {
                             // ask them to change password
                             boolean changed = false;
                             while (!changed) {
-                                System.out.println("Change your password: ");
+                                System.out.println("Change your password. Password cannot be the same as before: ");
                                 String newPassword = scanner.next();
+                                System.out.println("Please type your new password again: ");
+                                String newPassword2 = scanner.next();
 
                                 // if newPassword is not the same as old password
                                 // "password", change the password to newPassword
@@ -265,8 +341,17 @@ public class CAM {
                                     break;
                                 }
 
-                                else { // if they input the same password, ask them to input again
+                                else if (newPassword == "password") { // if they input the same password, ask them to
+                                                                      // input again
                                     System.out.println("Use a Different Password!");
+                                }
+
+                                else if (newPassword != newPassword2) {
+                                    System.out.println("You have re-entered the wrong password. Please try again");
+                                }
+
+                                else {
+                                    System.out.println("Please try again.");
                                 }
                             }
                         }

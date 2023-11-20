@@ -1,11 +1,10 @@
 package pkg_camp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
+
+// entity - stores information
 
 public class CampInformation {
 
@@ -24,10 +23,6 @@ public class CampInformation {
     private List<Student> campCommittee;
     private List<Enquiry> enquiryList;
     private List<Suggestion> suggestionList;
-
-    public CampInformation() {
-
-    }
 
     public CampInformation(String campName, LocalDate dates, LocalDate registrationClosingDate, String userGroup,
             String location, int totalSlots, int campCommitteeSlots, String description, String staffInCharge,

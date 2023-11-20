@@ -39,7 +39,7 @@ public class StudentMenu {
             System.out.println("(5) View, Edit or Delete your Enquiry");
             System.out.println("(6) Check Registered Camps"); // done
             System.out.println("(7) Withdraw from a Camp"); // done
-            System.out.println("(8) Show Camp Committee Menu For Camp Committee Members");
+            System.out.println("(8) Show Camp Committee Menu For Camp Committee Members"); // done
             System.out.println("(9) Exit Menu"); // done
             System.out.print("Input Choice: ");
 
@@ -48,119 +48,71 @@ public class StudentMenu {
 
             switch (menu) {
                 case 1:
-                    System.out.println("Enter new Password: ");
-                    String newPassword = scanner.next(); // storing of new pw
-                    String oldPW = Credentials.getPassword(student.getUserID()); // old PW
-                    // Add some conditions to check
-                    boolean change = false;
-                    while (!change) {
-                        if (!newPassword.equals(oldPW)) { // comparing both pw to ensure they are not the same
+                    String newPassword;
+                    String newPassword2;
+                    while (true) {
+                        while (true) {
+                            System.out.println("Enter new Password: ");
+                            newPassword = scanner.next(); // storing of new pw
+                            System.out.println("Re-type new Password: ");
+                            newPassword2 = scanner.next();
+                            if (newPassword.equals(newPassword2)) {
+                                break;
+                            } else {
+                                System.out.println("You have re-typed the wrong password. Please try again.");
+                            }
+                        }
+
+                        String oldPW = Credentials.getPassword(student.getUserID()); // old PW
+                        if (newPassword.equals(oldPW)) {
+                            System.out.println("Use a different password. Please try again.");
+                            continue;
+                        } else {
                             student.setPassword(newPassword); // changing password only if password is different
                             Credentials.updatePassword(student.getUserID(), newPassword); // updating credientials excel
                                                                                           // with new information
-                            change = true;
-                        } else {
-                            System.out.println("Use a Different Password!");
+                            break;
                         }
                     }
+
                     break;
 
                 case 2:
-                    ViewCamp.studentViewCamps(student);
+                    CampController.viewCamps(student);
                     break;
 
                 case 3:
-                    System.out.println("Registering as:");
-                    System.out.println("(1) Attendee");
-                    System.out.println("(2) Camp Committee Member");
+                    while (true) {
+                        System.out.println("Registering as:");
+                        System.out.println("(1) Attendee");
+                        System.out.println("(2) Camp Committee Member");
 
-                    int role_choice = scanner.nextInt();
+                        int role_choice = scanner.nextInt();
 
-                    if (role_choice == 1) {
-                        Registration.registerForCamp(student, createdCampsList);
+                        if (role_choice == 1) {
+                            CampController.registerForCamp(student, createdCampsList);
+                            break;
+                        }
+
+                        else if (role_choice == 2) {
+                            CampController.registerForCampCommitee(student);
+                            System.out.println("Pending Approval from Staff . . .");
+                            break;
+                        }
+
+                        else {
+                            System.out.println("Please press either 1 or 2");
+                            continue;
+                        }
                     }
-
-                    else if (role_choice == 2) {
-                        Registration.registerForCampCommitee(student);
-                        System.out.println("Pending Approval from Staff . . .");
-                    }
-
                     break;
 
                 case 4:
-                    System.out.print("Send Enquiry To:");
-                    System.out.println("(1) Camp Staff");
-                    System.out.println("(2) Camp Committee Member");
-
-                    int choice = scanner.nextInt();
-
-                    System.out.println("Enter your enquiry!");
-                    String enquiryMade = scanner.next();
-
-                    switch (choice) {
-                        case 1:
-                            // enquiry.addEnquiry(student.getUserID(), "STAFF", enquiryMade);
-                            break;
-
-                        case 2:
-                            // enquiry.addEnquiry(student.getUserID(), "COMMITTEE", enquiryMade);
-                            break;
-
-                        default:
-                            System.out.println("Enter a valid number! [1] or [2] only");
-                            System.out.println("Enter 4 again to retry!");
-                            break;
-                    }
-
+                    EnquiryController.submitEnquiry(student);
                     break;
 
                 case 5:
-                    boolean quit = false;
-                    while (!quit) {
-                        System.out.println("Choose your option below");
-                        System.out.println("Press [1] to view");
-                        System.out.println("Press [2] to edit");
-                        System.out.println("Press [3] to delete");
-
-                        int option = scanner.nextInt();
-
-                        switch (option) {
-                            case 1:
-                                // List<String> enqList = enquiry.getEnquiriesBySender(student.getUserID());
-                                // enqList.forEach(System.out::println);
-                                quit = true;
-                                break;
-
-                            case 2:
-                                /*
-                                 * System.out.println("Choose the enquiry to edit below")
-                                 * List<EnquiryController> enqToEdit = student.getEnquiries()
-                                 * System.out.println(enqToEdit)
-                                 * int editIndex = scanner.nextInt()
-                                 * System.out.println("Enter your new message: ")
-                                 * String newMsg = scanner.next()
-                                 * 
-                                 * or (EnquiryController enq : enqToEdit)
-                                 * int i = 0
-                                 * // Account for entry of i > length of enquiry lis
-                                 * if (i == editIndex)
-                                 * student.editEnquiry(enq, newMsg)
-                                 * 
-                                 * 
-                                 * ++
-                                 * 
-                                 * quit = true
-                                 */
-                                break;
-
-                            case 3:
-                                // student.deleteEnquiry();
-                                quit = true;
-                                break;
-                            default:
-                                System.out.println("Invalid choice. Please choose a valid option.");
-                        }
-                    }
+                    EnquiryController.modifyEnquiry(student);
                     break;
 
                 case 6:

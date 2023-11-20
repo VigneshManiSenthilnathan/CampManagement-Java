@@ -5,41 +5,32 @@ import java.util.List;
 
 public class SuggestionController {
 
-    public void addSuggestion(Suggestion suggestion) {
-        // get the list first, then append to the end of the list
-        suggestion.add(suggestion);
+    public static void submitSuggestion(CampCommitteeMember campCommitteeMember) {
+        SubmitSuggestion.submitSuggestion(campCommitteeMember);
     }
 
-    public List<Suggestion> getAllSuggestions() {
-        // getSuggestionList
+    public static void ViewSuggestion(Staff staff) {
+        ViewSuggestion.staffViewSuggestion(staff);
     }
 
-    public static class Suggestion {
-        private String campName;
-        private String suggestedDetails;
-        private boolean isAccepted;
+    public static void staffApproveSuggestion(Staff staff) {
+        // Suggestion.staffApproveSuggestion(staff);
+    }
 
-        public Suggestion(String campName, String suggestedDetails) {
-            this.campName = campName;
-            this.suggestedDetails = suggestedDetails;
-            this.isAccepted = false;
-        }
+    public static void ViewSuggestion(CampCommitteeMember campCommitteeMember) {
+        ViewSuggestion.campCommitteeViewSuggestion(campCommitteeMember);
+    }
 
-        public String getCampName() {
-            return campName;
-        }
+    public static void EditSuggestion(CampCommitteeMember campCommitteeMember) {
+        EditSuggestion.editSuggestion(campCommitteeMember);
+    }
 
-        public String getSuggestedDetails() {
-            return suggestedDetails;
-        }
+    public static void DeleteSuggestion(CampCommitteeMember campCommitteeMember) {
+        DeleteSuggestion.deleteSuggestion(campCommitteeMember);
+    }
 
-        public boolean isAccepted() {
-            return isAccepted;
-        }
-
-        public void acceptSuggestion() {
-            isAccepted = true;
-        }
+    public static void campCommitteeAddPoints(CampCommitteeMember campCommitteeMember) {
+        // Suggestion.campCommitteeAddPoints(campCommitteeMember);
     }
 }
 

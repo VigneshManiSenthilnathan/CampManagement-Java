@@ -65,133 +65,47 @@ public class Staff implements User {
         return suggestionController;
     }
 
-    public void viewAndApproveSuggestions() {
-        List<SuggestionController.Suggestion> suggestion = suggestionController.getAllSuggestions();
-
-        if (suggestion.isEmpty()) {
-            System.out.println("No suggestions available for review.");
-        } else {
-            System.out.println("List of Suggestions:");
-            for (int i = 0; i < suggestion.size(); i++) {
-                SuggestionController.Suggestion suggestion = suggestion.get(i);
-                System.out.println((i + 1) + ". Camp Name: " + suggestion.getCampName());
-                System.out.println("   Suggested Details: " + suggestion.getSuggestedDetails());
-                System.out.println("   Status: " + (suggestion.isAccepted() ? "Accepted" : "Pending"));
-            }
-
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Enter the number of the suggestion to approve (or 0 to exit):");
-            int choice = scanner.nextInt();
-
-            if (choice > 0 && choice <= suggestion.size()) {
-                SuggestionController.Suggestion selectedSuggestion = suggestion.get(choice - 1);
-                selectedSuggestion.acceptSuggestion();
-                System.out.println("Suggestion approved successfully!");
-            } else if (choice != 0) {
-                System.out.println("Invalid choice. Please try again.");
-            }
-        }
-    }
-
-    public void generateReports(List<CampController> camps, String attendeeType, String outputFileFormat) {
-        for (CampController camp : camps) {
-            // Check if the camp was created by this staff member
-            if (camp.getStaffInCharge().equals(this.getUserID())) {
-                // Filter participants based on attendee type
-                List<Student> participants;
-                if ("attendee".equals(attendeeType)) {
-                    participants = camp.getAttendees();
-                } else if ("campCommittee".equals(attendeeType)) {
-                    participants = camp.getCampCommittee();
-                } else {
-                    // Handle other attendee types or show an error message
-                    continue;
-                }
-
-                // Generate the report content
-                StringBuilder reportContent = new StringBuilder();
-                reportContent.append("Camp Name: ").append(camp.getCampName()).append("\n");
-                reportContent.append("Camp Date: ").append(camp.getDates()).append("\n");
-                reportContent.append("Location: ").append(camp.getLocation()).append("\n");
-                reportContent.append("Description: ").append(camp.getDescription()).append("\n");
-                reportContent.append("Staff in Charge: ").append(camp.getStaffInCharge()).append("\n");
-
-                // might need to have a getter method for this
-
-                // Add participants to the report
-                for (Student participant : participants) {
-                    reportContent.append("Participant Name: ").append(participant.getUserID()).append("\n");
-                    // might need to have a getter method for this
-
-                    // reportContent.append("Participant Role:
-                    // ").append(participant.getStudentType().toString())
-                    // .append("\n");
-                    // might need to have a getter method for this
-
-                    // Add more participant details as needed
-
-                    // Add a separator between participants
-                    reportContent.append("------------------------\n");
-                }
-
-                // Output the report to a file in the specified format (txt or csv)
-                String outputFileName = camp.getCampName() + "_attendance_report." + outputFileFormat;
-                try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName))) {
-                    writer.write(reportContent.toString());
-                    System.out.println("Attendance report generated: " + outputFileName);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    System.err.println("Error: Unable to write the attendance report.");
-                }
-            }
-        }
-    }
-
-    public void generatePerformanceReport(List<CampController> camps, String outputFileFormat) {
-        StringBuilder reportContent = new StringBuilder();
-
-        for (CampController camp : camps) {
-            // Check if the camp was created by this staff member and has a camp committee
-            if (camp.getStaffInCharge().equals(this) && !camp.getCampCommittee().isEmpty()) {
-                reportContent.append("Camp Name: ").append(camp.getCampName()).append("\n");
-                reportContent.append("Camp Date: ").append(camp.getDates()).append("\n");
-                reportContent.append("Location: ").append(camp.getLocation()).append("\n");
-
-                // Add camp committee members to the report
-                List<Student> campCommitteeMembers = camp.getCampCommittee();
-                for (Student committeeMember : campCommitteeMembers) {
-
-                    // same getter method
-                    reportContent.append("Committee Member Name: ").append(committeeMember.getUserID()).append("\n");
-                    // Add more committee member details as needed
-
-                    // Add a separator between committee members
-                    reportContent.append("------------------------\n");
-                }
-
-                // Add a separator between camps
-                reportContent.append("========================================\n");
-            }
-        }
-
-        // Output the performance report to a file in the specified format (txt or csv)
-        String outputFileName = "camp_committee_performance_report." + outputFileFormat;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName))) {
-            writer.write(reportContent.toString());
-            System.out.println("Performance report generated: " + outputFileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error: Unable to write the performance report.");
-        }
-    }
+    /*
+     * public void viewAndApproveSuggestions() {
+     * List<SuggestionController> suggestion =
+     * suggestionController.getSuggestionList();
+     * 
+     * if (suggestion.isEmpty()) {
+     * System.out.println("No suggestions available for review.");
+     * } else {
+     * System.out.println("List of Suggestions:");
+     * for (int i = 0; i < suggestion.size(); i++) {
+     * SuggestionController.Suggestion suggestion = suggestion.get(i);
+     * System.out.println((i + 1) + ". Camp Name: " + suggestion.getCampName());
+     * System.out.println("   Suggested Details: " +
+     * suggestion.getSuggestedDetails());
+     * System.out.println("   Status: " + (suggestion.isAccepted() ? "Accepted" :
+     * "Pending"));
+     * }
+     * 
+     * Scanner scanner = new Scanner(System.in);
+     * System.out.
+     * println("Enter the number of the suggestion to approve (or 0 to exit):");
+     * int choice = scanner.nextInt();
+     * 
+     * if (choice > 0 && choice <= suggestion.size()) {
+     * SuggestionController.Suggestion selectedSuggestion = suggestion.get(choice -
+     * 1);
+     * selectedSuggestion.acceptSuggestion();
+     * System.out.println("Suggestion approved successfully!");
+     * } else if (choice != 0) {
+     * System.out.println("Invalid choice. Please try again.");
+     * }
+     * }
+     * }
+     */
 
     public void enquiriesHandling() {
 
-    }
-
-    public void viewAndReplyToEnquiries() {
         // Iterate through the enquiries and display them
-        for (EnquiryController enquiry : enquiries) {
+        for (
+
+        EnquiryController enquiry : enquiries) {
             System.out.println("Sender: " + enquiry.getSender().getUserID());
             System.out.println("Message: " + enquiry.getMessage());
 

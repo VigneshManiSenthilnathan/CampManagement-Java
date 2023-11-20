@@ -8,7 +8,6 @@ public class Student implements User {
     private String userID;
     private String password;
     private String faculty;
-    // private boolean isCampCommitteeMember;
 
     public Student() {
     }
@@ -17,8 +16,18 @@ public class Student implements User {
         this.userID = userID;
         this.password = "password";
         this.faculty = faculty;
-        // this.isCampCommitteeMember = false;
+        // this.enquiryList = enquiryList;
     }
+
+    /*
+     * public Student(String userID, String password, String faculty) {
+     * this.userID = userID;
+     * this.password = "password";
+     * this.faculty = faculty;
+     * // this.isCampCommitteeMember = false;
+     * this.enquiryList = new ArrayList<>();
+     * }
+     */
 
     // Implement the methods from the User interface
     public String getUserID() {
@@ -49,6 +58,18 @@ public class Student implements User {
     }
 
     /*
+     * public List<Enquiry> getEnquiryList() {
+     * return enquiryList;
+     * }
+     * 
+     * public void addEnquiry(Enquiry enquiry) {
+     * enquiryList.add(enquiry);
+     * }
+     * 
+     * public void delEnquiry(Enquiry enquiry){
+     * enquiryList.remove(enquiry);
+     * }
+     * 
      * public void setRole(int role) {
      * if (role == 1) {
      * this.isCampCommitteeMember = true;

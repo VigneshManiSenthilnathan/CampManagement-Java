@@ -6,19 +6,16 @@ import java.util.List;
 public class CampCommitteeMember extends Student {
     private Student student;
     private CampInformation campDetails;
-    private List<String> suggestions;
     private int points;
 
     public CampCommitteeMember(String userID, String password, String faculty) {
         super(userID, password, faculty);
         // this.campDetails = campDetails;
-        this.suggestions = new ArrayList<>();
         this.points = 0;
     }
 
     public CampCommitteeMember(CampInformation campDetails) {
         this.campDetails = campDetails;
-        this.suggestions = new ArrayList<>();
         this.points = 0;
 
     }
@@ -29,20 +26,6 @@ public class CampCommitteeMember extends Student {
 
     public void setCampDetails(CampInformation campDetails) {
         this.campDetails = campDetails;
-    }
-
-    public List<String> getSuggestions() {
-        return suggestions;
-    }
-
-    public void submitSuggestion(String suggestion) {
-        suggestions.add(suggestion);
-    }
-
-    public void viewSuggestions() {
-        for (String suggestion : suggestions) {
-            System.out.println(suggestion);
-        }
     }
 
     public int getPoints() {

@@ -51,4 +51,8 @@ public class Withdrawal {
             }
         }
     }
+
+    public static void withdrawCampCommittee(CampCommitteeMember committeeMember, Camp camp) {
+        camp.removeCampCommitteeMember(committeeMember);
+    }
 }

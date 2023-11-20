@@ -116,7 +116,7 @@ public class ViewCamp {
 
                 case 3:
                     viewcamps = true;
-                    break;
+                    return;
 
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
@@ -125,24 +125,21 @@ public class ViewCamp {
         }
     }
 
-    public static void campCommitteeViewCamp(CampCommitteeMember campCommitteeMember) {
-        /*
-         * System.out.println("Details of Camp:");
-         * for (Camp camp : CampsList.getCreatedCampsList()) {
-         * if (camp.getCampName == camp name of camp committee member) {
-         * System.out.println("Camp Name: " + camp.getCampName());
-         * System.out.println("Dates: " + camp.getDates());
-         * System.out.println("Registration Closing Date: " +
-         * camp.getRegistrationClosingDate());
-         * System.out.println("Location: " + camp.getLocation());
-         * System.out.println("Total Slots: " + camp.getTotalSlots());
-         * System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
-         * System.out.println("Description: " + camp.getDescription());
-         * System.out.println("Staff in Charge: " + camp.getStaffInCharge());
-         * System.out.println("Visibility: " + camp.getVisibility());
-         * System.out.println("------------------------------");
-         * }
-         * }
-         */
+    public static void campCommitteeViewCamp(CampCommitteeMember campCommitteeMember, Camp camp) {
+        System.out.println("Details of Your Camp:");
+        for (Camp availcamp : CampsList.getCreatedCampsList()) {
+            if (availcamp.getCampName().equals(camp.getCampName())) { // solid vignesh only did this 1 line ha ha
+                System.out.println("Camp Name: " + camp.getCampName());
+                System.out.println("Dates: " + camp.getDates());
+                System.out.println("Registration Closing Date: " + availcamp.getRegistrationClosingDate());
+                System.out.println("Location: " + camp.getLocation());
+                System.out.println("Total Slots: " + camp.getTotalSlots());
+                System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
+                System.out.println("Description: " + camp.getDescription());
+                System.out.println("Staff in Charge: " + camp.getStaffInCharge());
+                System.out.println("Visibility: " + camp.getVisibility());
+                System.out.println("------------------------------");
+            }
+        }
     }
 }

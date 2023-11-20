@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.openxmlformats.schemas.drawingml.x2006.diagram.STDirection;
 
 // To store usernames and passwords
 // Extend to store studentType too?
