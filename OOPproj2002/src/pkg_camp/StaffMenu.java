@@ -103,7 +103,7 @@ public class StaffMenu {
                         break;
 
                     case 7:
-                        // Approve suggestion
+                        SuggestionController.ApproveSuggestion(staff);
 
                     case 8: // Generate camp report
 

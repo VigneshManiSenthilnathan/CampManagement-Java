@@ -19,7 +19,7 @@ public class Suggestion {
     private String studentID;
     private String suggestionString;
     private String campName;
-    private boolean approved;
+    private boolean approved = false;
 
     // Constructor to upload, have to pass in student ID, campName, suggestion
     public Suggestion(String studentID, String suggestionString, String campName) {
@@ -57,6 +57,7 @@ public class Suggestion {
     // Methods
 
     public boolean isApproved() {
+        approved = true;
         return approved;
     }
 

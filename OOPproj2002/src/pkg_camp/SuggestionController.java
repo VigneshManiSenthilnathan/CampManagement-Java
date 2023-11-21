@@ -13,8 +13,8 @@ public class SuggestionController {
         ViewSuggestion.staffViewSuggestion(staff);
     }
 
-    public static void staffApproveSuggestion(Staff staff) {
-        // Suggestion.staffApproveSuggestion(staff);
+    public static void ApproveSuggestion(Staff staff) {
+        ApproveSuggestion.approveSuggestion(staff);
     }
 
     public static void ViewSuggestion(CampCommitteeMember campCommitteeMember) {
