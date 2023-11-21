@@ -155,16 +155,19 @@ public class CAM {
                     while (errorCount > 0) {
                         if (!Credentials.usernameExists(userID.toUpperCase())) {
                             System.out.println(
-                                    "Invalid Username, try again. You have " + (errorCount - 1) + " tries left.");
+                                    "Invalid Username, try again. You have " + errorCount + " tries left.");
                             System.out.println("UserID: ");
-                            userID = scanner.next().toUpperCase();// Loop check if invalid username
+                            userID = scanner.next().toUpperCase();// Loop check if invalid username   
+                            if(errorCount == 0){
+                                break;
+                            }
                             errorCount--;
                         } else {
                             break;
                         }
                     }
 
-                    if (errorCount == 0) {
+                    if (errorCount == -1) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
                     }
@@ -180,18 +183,25 @@ public class CAM {
                             break;
                         } else {
                             System.out.println(
-                                    "Try again, re-type password. You have " + (errorCount - 1) + " tries left.");
+                                    "Try again, re-type password. You have " + errorCount + " tries left.");
                             System.out.println("Password: ");
                             password = scanner.next();
+                            if(errorCount == 0){
+                                break;
+                            }
                             errorCount--;
                         } // Loop check if invalid password
                     }
 
-                    if (errorCount == 0) {
+                    if (errorCount == -1) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
                     }
-
+                    else{
+                        validcredentials = true;
+                    }
+                    
+                    
                     while (validcredentials) {
                         Student thisStudent = (Student) Download.createUser(userID, "STUDENT");
                         for (Student student : StudentsList.getStudentList()) {
@@ -263,13 +273,16 @@ public class CAM {
                             System.out.println("Invalid Username, try again. You have " + errorCount + " tries left.");
                             System.out.println("UserID: ");
                             userID = scanner.next().toUpperCase(); // Loop check if invalid username
+                            if(errorCount == 0){
+                                break;
+                            }
                             errorCount--;
                         } else {
                             break;
                         }
                     }
 
-                    if (errorCount == 0) {
+                    if (errorCount == -1) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
                     }
@@ -283,17 +296,24 @@ public class CAM {
                         if (Credentials.verifyPassword(userID, password)) {
                             validcredentials = true;
                             break;
-                        } else {
+                        } 
+                        else {
                             System.out.println("Try again, re-type password. You have " + errorCount + " tries left.");
                             System.out.println("Password: ");
                             password = scanner.next();
+                            if(errorCount == 0){
+                                break;
+                            }
                             errorCount--;
                         } // Loop check if invalid password
                     }
 
-                    if (errorCount == 0) {
+                    if (errorCount == -1) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
+                    }
+                    else{
+                        validcredentials = true;
                     }
 
                     /*
