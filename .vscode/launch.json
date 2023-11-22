@@ -3,13 +3,6 @@
   "configurations": [
     {
       "type": "java",
-      "name": "Enquiry",
-      "request": "launch",
-      "mainClass": "pkg_camp.Enquiry",
-      "projectName": "CampManagement-Java_4d510701"
-    },
-    {
-      "type": "java",
       "name": "CAM",
       "request": "launch",
       "mainClass": "pkg_camp.CAM",

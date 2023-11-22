@@ -30,22 +30,6 @@ public class StaffMenu {
 
                 switch (menu) {
                     case 1: // Change password
-                        /*
-                         * System.out.println("Enter new Password: ");
-                         * String newPassword = scanner.next();
-                         * String oldPW = Credentials.getPassword(staff.getUserID());
-                         * // Add some conditions to check
-                         * boolean change = false;
-                         * while (!change) {
-                         * if (!newPassword.equals(oldPW)) {
-                         * staff.setPassword(newPassword);
-                         * Credentials.updatePassword(staff.getUserID(), newPassword);
-                         * change = true;
-                         * } else {
-                         * System.out.println("Use a Different Password!");
-                         * }
-                         * }
-                         */
                         ManageCredentials.changePassword(staff);
                         break;
 

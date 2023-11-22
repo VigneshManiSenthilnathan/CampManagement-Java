@@ -117,14 +117,14 @@ public class Staff implements User {
         }
     }
 
-    public void campCommitteeRejection(String studentName, Camp camp) {\
+    public void campCommitteeRejection(String studentName, Camp camp) {
 
         // sanity check for whether student is in the camp committee
         boolean studentInCampCommittee = false;
         for (Student committeeMember : camp.getCampCommittee()) {
             if (committeeMember.getUserID().equals(studentName)) {
                 studentInCampCommittee = true;
-                break;
+                return;
             }
         }
 
@@ -133,12 +133,12 @@ public class Staff implements User {
             return;
         }
         
-        List<Camp> createdCampsList = CampController.getCreatedCampsList();
+        List<Camp> createdCampsList = CampsList.getCreatedCampsList();
         
         for (Camp thisCamp : createdCampsList) {
             if (thisCamp.getCampName().equals(camp.getCampName())) {
                 thisCamp.removeCampCommitteeMember(studentName);
-                break;
+                return;
             }
         }
 

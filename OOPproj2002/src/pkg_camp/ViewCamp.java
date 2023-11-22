@@ -37,8 +37,8 @@ public class ViewCamp {
 
         System.out.println("Type 'EXIT' to go back to Student Menu");
         Scanner sc = new Scanner(System.in);
-        String exit = sc.nextLine().toUpperCase();
-        if (exit.equals("EXIT")) {
+        String exit = sc.nextLine();
+        if (exit.equalsIgnoreCase("EXIT")) {
             return;
         } else {
             System.out.println("Invalid Input");
@@ -79,9 +79,9 @@ public class ViewCamp {
 
                     System.out.println("Type 'EXIT' to go back to Staff Menu");
                     Scanner sc1 = new Scanner(System.in);
-                    String exit = sc1.nextLine().toUpperCase();
-                    if (exit.equals("EXIT")) {
-                        return;
+                    String exit = sc1.nextLine();
+                    if (exit.equalsIgnoreCase("EXIT")) {
+                        break;
                     } else {
                         System.out.println("Invalid Input");
                     }
@@ -106,9 +106,9 @@ public class ViewCamp {
 
                     System.out.println("Type 'EXIT' to go back to Staff Menu");
                     Scanner sc2 = new Scanner(System.in);
-                    exit = sc2.nextLine().toUpperCase();
-                    if (exit.equals("EXIT")) {
-                        return;
+                    exit = sc2.nextLine();
+                    if (exit.equalsIgnoreCase("EXIT")) {
+                        break;
                     } else {
                         System.out.println("Invalid Input");
                     }
@@ -116,7 +116,7 @@ public class ViewCamp {
 
                 case 3:
                     viewcamps = true;
-                    return;
+                    break;
 
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
@@ -126,7 +126,16 @@ public class ViewCamp {
     }
 
     public static void campCommitteeViewCamp(CampCommitteeMember campCommitteeMember, Camp camp) {
-        System.out.println("Details of Your Camp:");
+
+        // check if createdCampsList is empty
+        if (CampsList.getCreatedCampsList().isEmpty()) {
+            System.out.println("No camps available");
+            return;
+        }
+
+        boolean found = false;
+
+        System.out.println("Details of Your Camps:");
         for (Camp availcamp : CampsList.getCreatedCampsList()) {
             if (availcamp.getCampName().equals(camp.getCampName())) { // solid vignesh only did this 1 line ha ha
                 System.out.println("Camp Name: " + camp.getCampName());
