@@ -1,14 +1,6 @@
 package pkg_camp;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Scanner;
@@ -48,33 +40,7 @@ public class StudentMenu {
 
             switch (menu) {
                 case 1:
-                    String newPassword;
-                    String newPassword2;
-                    while (true) {
-                        while (true) {
-                            System.out.println("Enter new Password: ");
-                            newPassword = scanner.next(); // storing of new pw
-                            System.out.println("Re-type new Password: ");
-                            newPassword2 = scanner.next();
-                            if (newPassword.equals(newPassword2)) {
-                                break;
-                            } else {
-                                System.out.println("You have re-typed the wrong password. Please try again.");
-                            }
-                        }
-
-                        String oldPW = Credentials.getPassword(student.getUserID()); // old PW
-                        if (newPassword.equals(oldPW)) {
-                            System.out.println("Use a different password. Please try again.");
-                            continue;
-                        } else {
-                            student.setPassword(newPassword); // changing password only if password is different
-                            Credentials.updatePassword(student.getUserID(), newPassword); // updating credientials excel
-                                                                                          // with new information
-                            break;
-                        }
-                    }
-
+                    ManageCredentials.changePassword(student);
                     break;
 
                 case 2:
@@ -111,7 +77,39 @@ public class StudentMenu {
                     break;
 
                 case 5:
-                    EnquiryController.modifyEnquiry(student);
+                    boolean modifyDone = false;
+
+                    while (!modifyDone) {
+                        System.out.println("[1] View all Enquiries");
+                        System.out.println("[2] Modify Enquiry");
+                        System.out.println("[3] Delete Enquiry");
+                        System.out.println("[4] Exit");
+
+                        Scanner sc = new Scanner(System.in);
+                        int choice = sc.nextInt();
+
+                        switch (choice) {
+                            case 1:
+                                EnquiryController.viewEnquiry(student);
+                                break;
+
+                            case 2:
+                                EnquiryController.modifyEnquiry(student);
+                                break;
+
+                            case 3:
+                                EnquiryController.deleteEnquiry(student);
+                                break;
+
+                            case 4:
+                                modifyDone = true;
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice. Please choose a valid option.");
+                                break;
+                        }
+                    }
                     break;
 
                 case 6:
@@ -150,6 +148,7 @@ public class StudentMenu {
                     CampsList.setCreatedCampsList(createdCampsList);
                     Upload.writeToExcel(CampsList.getCreatedCampsList());
                     Upload.suggestionsWriter();
+                    Upload.enquiriesWriter();
                     exitStudentMenu = true;
                     break;
 

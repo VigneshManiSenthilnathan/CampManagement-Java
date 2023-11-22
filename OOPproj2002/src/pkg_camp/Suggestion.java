@@ -1,16 +1,5 @@
 package pkg_camp;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public class Suggestion {
 
     // Attributes
@@ -22,7 +11,7 @@ public class Suggestion {
     private boolean approved = false;
 
     // Constructor to upload, have to pass in student ID, campName, suggestion
-    public Suggestion(String studentID, String suggestionString, String campName) {
+    public Suggestion(String studentID, String campName, String suggestionString) {
         this.studentID = studentID;
         this.suggestionString = suggestionString;
         this.campName = campName;
@@ -30,7 +19,7 @@ public class Suggestion {
 
     // Constructor to download from excel, pass in same things + whether it's
     // approved
-    public Suggestion(String studentID, String suggestionString, String campName, boolean approved) {
+    public Suggestion(String studentID, String campName, String suggestionString, boolean approved) {
         this.studentID = studentID;
         this.suggestionString = suggestionString;
         this.campName = campName;

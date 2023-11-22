@@ -17,14 +17,13 @@ public class Staff implements User {
     private String userID;
     private String password;
     private String faculty;
-    private User STAFF;
     private ArrayList<EnquiryController> enquiries; // enquires related to THIS staff
     private SuggestionController suggestionController;
 
     // Attributes of Staff Methods
-    private List<String> createdCampName;
-    private List<CampInformation> createdCamps;
-    private List<EnquiryController> enquiriesHandling;
+    //private List<String> createdCampName;
+    //private List<CampInformation> createdCamps;
+    //private List<EnquiryController> enquiriesHandling;
 
     // Constructor
     public Staff() {
@@ -121,10 +120,9 @@ public class Staff implements User {
 
         // sanity check for whether student is in the camp committee
         boolean studentInCampCommittee = false;
-        for (Student committeeMember : camp.getCampCommittee()) {
-            if (committeeMember.getUserID().equals(studentName)) {
+        for (String committeeMember : camp.getCommiteeUserID()) {
+            if (committeeMember.toUpperCase().equals(studentName.toUpperCase())) {
                 studentInCampCommittee = true;
-                return;
             }
         }
 
@@ -133,13 +131,11 @@ public class Staff implements User {
             return;
         }
         
-        List<Camp> createdCampsList = CampsList.getCreatedCampsList();
-        
-        for (Camp thisCamp : createdCampsList) {
-            if (thisCamp.getCampName().equals(camp.getCampName())) {
-                thisCamp.removeCampCommitteeMember(studentName);
-                return;
-            }
+        else{
+            // remove student from camp committee
+            camp.removeCampCommitteeMember(studentName.toUpperCase());
+            System.out.println("Student has been removed from the camp committee!");
+            return;    
         }
     }
 }

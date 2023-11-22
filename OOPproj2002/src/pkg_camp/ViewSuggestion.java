@@ -1,14 +1,5 @@
 package pkg_camp;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class ViewSuggestion {
@@ -17,26 +8,48 @@ public class ViewSuggestion {
         System.out.println("Your suggestions:");
 
         // Check for empty list
+        if (CampsList.getCreatedCampsList().isEmpty()) {
+            System.out.println("No suggestions available");
+            return;
+        }
 
         // Get only the suggestions from the camp committee member
         int i = 1;
-        for (Camp camp : CampsList.getCreatedCampsList()) {
-            for (Suggestion suggestion : camp.getSuggestionList()) {
-                if (suggestion.getStudentID().equals(campCommitteeMember.getUserID())) {
-                    System.out.println(i + ". [Camp: " + suggestion.getSuggestionString() + "] Suggestion: "
-                            + suggestion.getCampName());
-                    i++;
 
-                    System.out.println("Press EXIT to quit");
-                    Scanner scan = new Scanner(System.in);
-                    String exit = scan.nextLine();
-                    if (exit.equalsIgnoreCase(exit)) {
-                        return;
+        for (Camp camp : CampsList.getCreatedCampsList()) {
+
+            if (camp.getSuggestionList().size() > 0) {
+
+                System.out.println("");
+
+                System.out.println("Camp: " + camp.getCampName());
+                System.out.println("");
+
+                for (Suggestion suggestion : camp.getSuggestionList()) {
+                    if (suggestion.getStudentID().equalsIgnoreCase(campCommitteeMember.getUserID())) {
+                        System.out.println(i + " . Suggestion: "
+                                + suggestion.getSuggestionString());
+                        i++;
                     }
                 }
+
+                System.out.println("End of suggestions for camp: " + camp.getCampName());
+                System.out.println("//////////////////////////////////////////");
+                System.out.println("");
+
             }
         }
 
+    }
+
+    System.out.println("Enter EXIT to quit");
+
+    Scanner scan = new Scanner(System.in);
+    String exit = scan.nextLine();
+
+    if(exit.equalsIgnoreCase("exit"))
+    {
+        return;
     }
 
     public static void viewSuggestion(Staff staff) {
@@ -44,22 +57,21 @@ public class ViewSuggestion {
         System.out.println("All suggestions:");
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
-            for (Suggestion suggestion : camp.getSuggestionList()) {
-                if (camp.getStaffInCharge().equals(staff.getUserID())) {
-                    System.out.println(i + ". [Camp: " + suggestion.getSuggestionString() + "] Suggestion: "
-                            + suggestion.getCampName());
-                    i++;
+            if (camp.getStaffInCharge().equals(staff.getUserID())) {
+                for (Suggestion suggestion : camp.getSuggestionList()) {
 
-                    System.out.println("Press EXIT to quit");
+                    System.out.println(
+                            i + ". [Camp: " + camp.getCampName() + "] Suggestion: " + suggestion.getSuggestionString());
+                    i++;
+                    System.out.println("Press EXIT to return to previous menu: ");
                     Scanner scan = new Scanner(System.in);
                     String exit = scan.nextLine();
-                    if (exit.equalsIgnoreCase(exit)) {
+                    String variable = "exit";
+                    if (variable.equalsIgnoreCase(exit)) {
                         return;
                     }
-
                 }
             }
-
         }
     }
 

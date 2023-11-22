@@ -1,14 +1,5 @@
 package pkg_camp;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class DeleteSuggestion {
@@ -19,16 +10,37 @@ public class DeleteSuggestion {
 
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
-            for (Suggestion suggestion : camp.getSuggestionList()) {
-                System.out.println(i + ". [Camp: " + suggestion.getCampName() + "] Suggestion: "
-                        + suggestion.getSuggestionString());
-                i++;
+
+            System.out.println("");
+
+            System.out.println("Camp: " + camp.getCampName());
+            System.out.println("");
+
+            if (camp.getSuggestionList().size() > 0) {
+
+                for (Suggestion suggestion : camp.getSuggestionList()) {
+                    if (camp.getCampCommitteeList().contains(campCommitteeMember)
+                            && (suggestion.getStudentID().equals(campCommitteeMember.getUserID()))) {
+                        System.out.println(i + ". Suggestion: "
+                                + suggestion.getSuggestionString());
+                        i++;
+                    }
+                }
+
             }
+
+            System.out.println("End of suggestions for camp: " + camp.getCampName());
+            System.out.println("//////////////////////////////////////////");
+            System.out.println("");
         }
 
-        System.out.println("Enter the suggestion number that you wish to delete: ");
+        System.out.println("Enter the suggestion number that you wish to delete, or press 0 to exit: ");
         Scanner sc = new Scanner(System.in);
         int suggestionNumber = sc.nextInt();
+
+        if (suggestionNumber == 0) {
+            return;
+        }
 
         for (Camp camp : CampsList.getCreatedCampsList()) {
             if (suggestionNumber >= 1 && suggestionNumber <= camp.getSuggestionList().size()) {

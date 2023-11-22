@@ -76,15 +76,42 @@ public class StaffMenu {
                         break;
 
                     case 5: // View or Reply enquiries
-                        // staff.viewAndReplyToEnquiries();
+                        boolean enquiryDone = false;
+
+                        while (!enquiryDone) {
+                            System.out.println("[1] View all Enquiries");
+                            System.out.println("[2] Modify Enquiry");
+                            System.out.println("[3] Delete Enquiry");
+                            System.out.println("[4] Exit");
+
+                            Scanner sc = new Scanner(System.in);
+                            int choice = sc.nextInt();
+
+                            switch (choice) {
+                                case 1:
+                                    EnquiryController.viewEnquiry(staff);
+                                    break;
+
+                                case 2:
+                                    EnquiryController.replyEnquiry(staff);
+                                    break;
+                                case 4:
+                                    enquiryDone = true;
+                                    break;
+
+                                default:
+                                    System.out.println("Invalid choice. Please choose a valid option.");
+                                    break;
+                            }
+                        }
                         break;
 
                     case 6: // Camp suggestions
-                        SuggestionController.ViewSuggestion(staff);
+                        SuggestionController.viewSuggestion(staff);
                         break;
 
                     case 7:
-                        SuggestionController.ApproveSuggestion(staff);
+                        SuggestionController.approveSuggestion(staff);
                         break;
 
                     case 8: // Generate camp report
@@ -96,12 +123,13 @@ public class StaffMenu {
                         break;
 
                     case 10: // Exit Staff Menu
-                        // Upload.deleteAll();
+
                         CampsList.setCreatedCampsList(createdCampsList);
                         Upload.writeToExcel(createdCampsList);
                         Upload.suggestionsWriter();
+                        Upload.enquiriesWriter();
                         exitStaffMenu = true;
-                        // scanner.close();
+
                         break;
 
                     default:

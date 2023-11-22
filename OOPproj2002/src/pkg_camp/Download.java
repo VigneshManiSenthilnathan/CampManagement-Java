@@ -1,18 +1,13 @@
 package pkg_camp;
 
-import java.io.*;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Date;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import org.apache.poi.ss.usermodel.*;
@@ -312,10 +307,8 @@ public class Download {
                 }
 
                 else {
-
                     Suggestion suggestion = null;
-                    boolean approvalExists = false;
-                    boolean approval = true;
+                    boolean approval = false;
 
                     String campName = row.getCell(0).getStringCellValue();
                     String commMember = row.getCell(1).getStringCellValue();
@@ -331,22 +324,25 @@ public class Download {
                             String approvalStr = row.getCell(3).getStringCellValue();
                             if (approvalStr.equalsIgnoreCase("false")) {
                                 approval = false;
-                            }
-                            else if (approvalStr.equalsIgnoreCase("true")){
+                            } else if (approvalStr.equalsIgnoreCase("true")) {
                                 approval = true;
                             }
                         }
+                        suggestion = new Suggestion(commMember, campName, suggestionMsg, approval);
+
+                        if (campName.equals(camp.getCampName())) {
+                            camp.addSuggestion(suggestion);
+                        }
                     }
-                    suggestion = new Suggestion(commMember, suggestionMsg, campName, approval);
-                    camp.addSuggestion(suggestion);
                 }
             }
             excelFile.close();
             workbook.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error loading suggestions from excel file. Exception: " + e.getClass().getSimpleName()
-                    + ", Message: " + e.getMessage());
+            System.out
+                    .println("Error loading suggestions from excel file. Exception: " + e.getClass().getSimpleName()
+                            + ", Message: " + e.getMessage());
         }
 
         return camp;

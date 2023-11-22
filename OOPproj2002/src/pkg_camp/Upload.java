@@ -3,17 +3,12 @@ package pkg_camp;
 import java.io.*;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Scanner;
 import java.lang.String;
-import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 public class Upload {
 
@@ -268,9 +263,8 @@ public class Upload {
 
         for (Camp camp : CampsList.getCreatedCampsList()) {
             if (camp.getEnquiryList().size() > 0) {
-                for (Enquiry enquiry : camp.getEnquiryList()) {
-                    allEnquiries.add(enquiry);
-                }
+                allEnquiries.addAll(camp.getEnquiryList());
+
             }
         }
 
@@ -343,7 +337,8 @@ public class Upload {
 
         }
 
-        try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
+        try (
+                FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
             try {
                 workbook.write(outputStream);
                 outputStream.flush();
@@ -364,19 +359,20 @@ public class Upload {
     public static void suggestionsWriter() throws IOException {
 
         String filePath = "OOPproj2002/src/pkg_camp/suggestions.xlsx";
-
         Workbook workbook;
 
-        // We initialize a list of enquiries across all camps made by all students
+        // We initialize a list of suggestions across all camps made by all students
         // This list will be in order of camps
 
         List<Suggestion> allSuggestions = new ArrayList<>();
+        List<Camp> allCamps = CampsList.getCreatedCampsList();
 
-        for (Camp camp : CampsList.getCreatedCampsList()) {
+        for (Camp camp : allCamps) {
             if (camp.getSuggestionList().size() > 0) {
-                for (Suggestion suggestion : camp.getSuggestionList()) {
-                    allSuggestions.add(suggestion);
-                }
+                System.out.println(camp.getSuggestionList().size());
+                allSuggestions.addAll(camp.getSuggestionList());
+            } else {
+                System.out.println(camp.getCampName() + " has no suggestions!");
             }
         }
 
@@ -394,15 +390,12 @@ public class Upload {
             workbook = new XSSFWorkbook();
         }
 
+        // Get or create the "Suggestions" sheet
         Sheet sheet_suggestion = workbook.getSheet("Suggestions");
-        // Sheet sheet_attendees = workbook.getSheet("Attendees");
-
-        // Camps Sheet
-        // If the sheet doesn't exist, create it
         if (sheet_suggestion == null) {
             sheet_suggestion = workbook.createSheet("Suggestions");
 
-            // Create header row
+            // Create header row if the sheet is newly created
             Row headerRow = sheet_suggestion.createRow(0);
             headerRow.createCell(0).setCellValue("Camp Name");
             headerRow.createCell(1).setCellValue("Committee Member User ID");
@@ -410,59 +403,69 @@ public class Upload {
             headerRow.createCell(3).setCellValue("Approval Status"); // boolean
         }
 
-        // If the sheet exists, delete it
-        Iterator<Row> rowIterator = sheet_suggestion.iterator();
-        List<Row> rowsToRemove = new ArrayList<>();
-
-        // Make the iterator skip the header row
-        rowIterator.next();
-
-        while (rowIterator.hasNext()) {
-            Row row = rowIterator.next();
-            Cell campNameCell = row.getCell(0);
-
-            if (campNameCell != null) {
-                rowsToRemove.add(row);
-            }
+        else {
+            Upload.deleteAll(filePath);
         }
 
-        // Remove the collected rows outside the loop
-        for (Row rowToRemove : rowsToRemove) {
-            sheet_suggestion.removeRow(rowToRemove);
-        }
-
-        // Should always be 1 because of the header row ??
+        // Add new suggestions
         int rowNum = 1;
 
         for (Suggestion suggestion : allSuggestions) {
-            // Check if the enquiry already exists in the Excel sheet
-
-            // Add new row
             Row row = sheet_suggestion.createRow(rowNum++);
 
             row.createCell(0).setCellValue(suggestion.getCampName());
             row.createCell(1).setCellValue(suggestion.getStudentID());
             row.createCell(2).setCellValue(suggestion.getSuggestionString());
             row.createCell(3).setCellValue(suggestion.getApproved());
-
         }
 
         try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
-            try {
-                workbook.write(outputStream);
-                outputStream.flush();
-                outputStream.close();
-                workbook.close();
-            } catch (IOException e) {
-                outputStream.flush();
-                outputStream.close();
-                workbook.close();
-                e.printStackTrace();
-            }
-        } catch (IOException e) {
+            workbook.write(outputStream);
+        } finally {
             workbook.close();
-            e.printStackTrace();
+        }
+    }
+
+    public static void deleteAll(String filePath) throws IOException {
+        // method to delete all camps from excel file
+
+        Workbook workbook;
+        File file = new File(filePath);
+        workbook = WorkbookFactory.create(file);
+        Sheet sheet_suggestion = workbook.getSheet("Suggestions");
+
+        // Clear existing data by removing all rows except the header
+        for (int i = sheet_suggestion.getLastRowNum(); i > 0; i--) {
+            sheet_suggestion.removeRow(sheet_suggestion.getRow(i));
         }
 
+        // check if deletion is truly successful by checking if there are any rows left
+        if (sheet_suggestion.getLastRowNum() == 0) {
+            System.out.println("All suggestions deleted successfully");
+        } else {
+            System.out.println("Error deleting suggestions");
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream(filePath, true)) {
+            workbook.write(outputStream);
+        } finally {
+            if (workbook != null) {
+                try {
+                    workbook.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    // method to delete an entire workbook
+    public static void deleteWorkbook(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (file.delete()) {
+            System.out.println("File deleted successfully");
+        } else {
+            System.out.println("Failed to delete the file");
+        }
     }
 }

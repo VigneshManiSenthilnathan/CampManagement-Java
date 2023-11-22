@@ -1,9 +1,5 @@
 package pkg_camp;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public class Student implements User {
     private String userID;
     private String password;
@@ -18,16 +14,6 @@ public class Student implements User {
         this.faculty = faculty;
         // this.enquiryList = enquiryList;
     }
-
-    /*
-     * public Student(String userID, String password, String faculty) {
-     * this.userID = userID;
-     * this.password = "password";
-     * this.faculty = faculty;
-     * // this.isCampCommitteeMember = false;
-     * this.enquiryList = new ArrayList<>();
-     * }
-     */
 
     // Implement the methods from the User interface
     public String getUserID() {

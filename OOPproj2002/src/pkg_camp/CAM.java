@@ -43,7 +43,6 @@ public class CAM {
 
         // student_list.xlsx
         try {
-
             studentList = StudentsList.getStudentList();
 
             if (!fileExists) {
@@ -157,8 +156,8 @@ public class CAM {
                             System.out.println(
                                     "Invalid Username, try again. You have " + errorCount + " tries left.");
                             System.out.println("UserID: ");
-                            userID = scanner.next().toUpperCase();// Loop check if invalid username   
-                            if(errorCount == 0){
+                            userID = scanner.next().toUpperCase();// Loop check if invalid username
+                            if (errorCount == 0) {
                                 break;
                             }
                             errorCount--;
@@ -186,7 +185,7 @@ public class CAM {
                                     "Try again, re-type password. You have " + errorCount + " tries left.");
                             System.out.println("Password: ");
                             password = scanner.next();
-                            if(errorCount == 0){
+                            if (errorCount == 0) {
                                 break;
                             }
                             errorCount--;
@@ -196,12 +195,10 @@ public class CAM {
                     if (errorCount == -1) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
-                    }
-                    else{
+                    } else {
                         validcredentials = true;
                     }
-                    
-                    
+
                     while (validcredentials) {
                         Student thisStudent = (Student) Download.createUser(userID, "STUDENT");
                         for (Student student : StudentsList.getStudentList()) {
@@ -211,31 +208,8 @@ public class CAM {
                         }
 
                         if (password.equals("password") && thisStudent != null) {
-                            // if studentID is correct and its their first time logging in,
-                            // ask them to change password
-                            boolean changed = false;
-                            while (!changed) {
-                                System.out.println("Change your password: ");
-                                String newPassword = scanner.next();
-
-                                // if newPassword is not the same as old password
-                                // "password", change the password to newPassword
-
-                                if (newPassword != "password") {
-                                    System.out.println("Password Successfully Changed!");
-                                    thisStudent.setPassword(newPassword);
-                                    Credentials.updatePassword(userID, newPassword);
-                                    changed = true; // exit asking them to change password
-                                    validcredentials = false; // make them reenter password
-                                    StudentMenu.studentMenuPage(thisStudent);
-                                    exitstudentlogin = true;
-                                    break;
-                                }
-
-                                else { // if they input the same password, ask them to input again
-                                    System.out.println("Use a Different Password!");
-                                }
-                            }
+                            System.out.println("As this is your first time logging in, please change your password.");
+                            ManageCredentials.changePassword(thisStudent);
                         }
 
                         // userID and password is correct, not their first time logging in
@@ -272,7 +246,7 @@ public class CAM {
                             System.out.println("Invalid Username, try again. You have " + errorCount + " tries left.");
                             System.out.println("UserID: ");
                             userID = scanner.next().toUpperCase(); // Loop check if invalid username
-                            if(errorCount == 0){
+                            if (errorCount == 0) {
                                 break;
                             }
                             errorCount--;
@@ -295,12 +269,11 @@ public class CAM {
                         if (Credentials.verifyPassword(userID, password)) {
                             validcredentials = true;
                             break;
-                        } 
-                        else {
+                        } else {
                             System.out.println("Try again, re-type password. You have " + errorCount + " tries left.");
                             System.out.println("Password: ");
                             password = scanner.next();
-                            if(errorCount == 0){
+                            if (errorCount == 0) {
                                 break;
                             }
                             errorCount--;
@@ -310,8 +283,7 @@ public class CAM {
                     if (errorCount == -1) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
-                    }
-                    else{
+                    } else {
                         validcredentials = true;
                     }
 
@@ -339,41 +311,8 @@ public class CAM {
                         }
 
                         if (password.equals("password") && thisStaff != null) {
-                            // if staffID is correct and its their first time logging in,
-                            // ask them to change password
-                            boolean changed = false;
-                            while (!changed) {
-                                System.out.println("Change your password. Password cannot be the same as before: ");
-                                String newPassword = scanner.next();
-                                System.out.println("Please type your new password again: ");
-                                String newPassword2 = scanner.next();
-
-                                // if newPassword is not the same as old password
-                                // "password", change the password to newPassword
-
-                                if (newPassword != "password") {
-                                    System.out.println("Password Successfully Changed!");
-                                    thisStaff.setPassword(newPassword);
-                                    Credentials.updatePassword(userID, newPassword);
-                                    StaffMenu.staffMenuPage(thisStaff);
-                                    changed = true; // exit asking them to change password
-                                    validcredentials = false; // make them reenter password
-                                    break;
-                                }
-
-                                else if (newPassword == "password") { // if they input the same password, ask them to
-                                                                      // input again
-                                    System.out.println("Use a Different Password!");
-                                }
-
-                                else if (newPassword != newPassword2) {
-                                    System.out.println("You have re-entered the wrong password. Please try again");
-                                }
-
-                                else {
-                                    System.out.println("Please try again.");
-                                }
-                            }
+                            System.out.println("As this is your first time logging in, please change your password.");
+                            ManageCredentials.changePassword(thisStaff);
                         }
 
                         // userID and password is correct, not their first time logging in

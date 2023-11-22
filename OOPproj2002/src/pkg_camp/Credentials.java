@@ -1,6 +1,5 @@
 package pkg_camp;
 
-import java.io.*;
 import java.util.Iterator;
 
 import java.security.MessageDigest;

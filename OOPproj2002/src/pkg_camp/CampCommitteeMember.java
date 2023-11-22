@@ -1,10 +1,7 @@
 package pkg_camp;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class CampCommitteeMember extends Student {
-    private Student student;
     private CampInformation campDetails;
     private int points;
 

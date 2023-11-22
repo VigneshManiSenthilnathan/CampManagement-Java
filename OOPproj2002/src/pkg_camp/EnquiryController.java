@@ -1,19 +1,17 @@
 package pkg_camp;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class EnquiryController {
 
     public static void viewEnquiry(Student student) {
         ViewEnquiry.viewEnquiry(student);
+    }
+
+    public static void viewEnquiry(Staff staff) {
+        ViewEnquiry.viewEnquiry(staff);
+    }
+
+    public static void viewEnquiry(CampCommitteeMember campCommitteeMember) {
+        ViewEnquiry.viewEnquiry(campCommitteeMember);
     }
 
     public static void submitEnquiry(Student student) {
@@ -30,6 +28,10 @@ public class EnquiryController {
 
     public static void replyEnquiry(CampCommitteeMember campCommitteeMember) {
         ReplyEnquiry.replyEnquiry(campCommitteeMember);
+    }
+
+    public static void replyEnquiry(Staff staff) {
+        ReplyEnquiry.replyEnquiry(staff);
     }
 }
 

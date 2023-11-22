@@ -100,40 +100,54 @@ public class GenerateReport {
     }
 
     public static void getPerformanceReport(Staff staff, List<Camp> allCamps) {
-        StringBuilder reportContent = new StringBuilder();
 
-        for (Camp camp : CampsList.getCreatedCampsList()) {
-            // Check if the camp was created by this staff member and has a camp committee
-            if (camp.getStaffInCharge().equals(this) && !camp.getCampCommitteeList().isEmpty()) {
-                reportContent.append("Camp Name: ").append(camp.getCampName()).append("\n");
-                reportContent.append("Camp Date: ").append(camp.getDates()).append("\n");
-                reportContent.append("Location: ").append(camp.getLocation()).append("\n");
+        try (PrintWriter writer = new PrintWriter(new FileWriter("performance_report.txt"))) {
 
-                // Add camp committee members to the report
-                List<Student> campCommitteeMembers = camp.getCampCommitteeList();
-                for (Student committeeMember : campCommitteeMembers) {
+            for (Camp camp : allCamps) {
+                // Check if the camp was created by this staff member
+                if (camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
+                    List<CampCommitteeMember> committee = camp.getCampCommitteeList();
+                    List<Enquiry> enquiries = camp.getEnquiryList();
+                    List<Suggestion> suggestions = camp.getSuggestionList();
 
-                    // same getter method
-                    reportContent.append("Committee Member Name: ").append(committeeMember.getUserID()).append("\n");
-                    // Add more committee member details as needed
+                    for (CampCommitteeMember commMember : committee) {
 
-                    // Add a separator between committee members
-                    reportContent.append("------------------------\n");
+                        int enqpoints = 0;
+
+                        writer.println("------------------------------");
+                        writer.println("Committee Member: " + commMember.getUserID());
+
+                        for (Enquiry enquiry : enquiries) {
+                            if (enquiry.getRepliedBy().equalsIgnoreCase(commMember.getUserID())) {
+                                enqpoints++;
+                            }
+                        }
+
+                        int sugpoints = 0;
+                        int sugpointsA = 0;
+
+                        for (Suggestion suggestion : suggestions) {
+                            if (suggestion.getStudentID().equalsIgnoreCase(commMember.getUserID())) {
+
+                                if (suggestion.getApproved()) {
+                                    sugpointsA++;
+                                }
+                                sugpoints++;
+                            }
+                        }
+
+                        writer.println("Enquiries Replied: " + enqpoints);
+                        writer.println("Suggestions Given: " + sugpoints);
+                        writer.println("Suggestions Approved: " + sugpointsA);
+                        writer.println("Total Points:" + enqpoints + sugpoints + sugpointsA);
+                        writer.println("------------------------------");
+                    }
+
                 }
-
-                // Add a separator between camps
-                reportContent.append("========================================\n");
             }
-        }
 
-        // Output the performance report to a file in the specified format (txt or csv)
-        String outputFileName = "camp_committee_performance_report." + outputFileFormat;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFileName))) {
-            writer.write(reportContent.toString());
-            System.out.println("Performance report generated: " + outputFileName);
         } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error: Unable to write the performance report.");
+            System.err.println("Error writing to file: " + e.getMessage());
         }
     }
 
