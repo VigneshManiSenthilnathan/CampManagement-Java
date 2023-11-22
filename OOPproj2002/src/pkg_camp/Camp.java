@@ -6,16 +6,16 @@ import java.util.List;
 
 public class Camp {
 
-    private List<Student> attendees;
-    private List<Student> campCommittee;
+    private List<Student> attendeesList;
+    private List<CampCommitteeMember> campCommitteeList;
     private List<Enquiry> enquiryList;
     private List<Suggestion> suggestionList;
     private CampInformation campInformation;
 
     public Camp(CampInformation campInformation) {
         this.campInformation = campInformation;
-        this.attendees = new ArrayList<>();
-        this.campCommittee = new ArrayList<>();
+        this.attendeesList = new ArrayList<>();
+        this.campCommitteeList = new ArrayList<>();
         this.enquiryList = new ArrayList<>();
         this.suggestionList = new ArrayList<>();
     }
@@ -209,48 +209,49 @@ public class Camp {
 
     // methods to get, add, and remove attendees and camp committe members
 
-    public List<Student> getAttendees() {
-        return attendees;
+    public List<Student> getAttendeesList() {
+        return attendeesList;
     }
 
     public void addAttendee(Student attendee) {
-        attendees.add(attendee);
+        attendeesList.add(attendee);
     }
 
     public void addAttendee(List<Student> attendeeList) {
-        this.attendees = attendeeList;
+        this.attendeesList = attendeeList;
     }
 
     public void removeAttendee(Student attendee) {
-        attendees.remove(attendee);
+        attendeesList.remove(attendee);
     }
 
     // For use in CampController class, withdrawCamp method
     // We remove student from attendee list using student.getUserID()
     public void removeAttendee(String studentUserID) {
-        for (Student attendee : attendees) {
+        for (Student attendee : attendeesList) {
             if (attendee.getUserID().equals(studentUserID)) {
-                attendees.remove(attendee);
+                attendeesList.remove(attendee);
                 break;
             }
         }
     }
 
-    public List<Student> getCampCommittee() {
-        return campCommittee;
+    public List<CampCommitteeMember> getCampCommitteeList() {
+        return campCommitteeList;
     }
 
-    public void addCampCommitteeMember(Student committeeMember) {
+    public void addCampCommitteeMember(Student student) {
         // System.out.println(committeeMember.getUserID());
-        campCommittee.add(committeeMember);
+        CampCommitteeMember campCommitteeMember = (CampCommitteeMember) student;
+        campCommitteeList.add(campCommitteeMember);
     }
 
-    public void addCampCommitteeMember(List<Student> committeeMemberList) {
-        this.campCommittee = committeeMemberList;
+    public void setCampCommitteeMemberList(List<CampCommitteeMember> committeeMemberList) {
+        this.campCommitteeList = committeeMemberList;
     }
 
     public void removeCampCommitteeMember(Student committeeMember) {
-        campCommittee.remove(committeeMember);
+        campCommitteeList.remove(committeeMember);
     }
 
     // Getter Methods
@@ -346,7 +347,7 @@ public class Camp {
 
         // System.out.println("reached!");
 
-        for (Student attendee : attendees) {
+        for (Student attendee : attendeesList) {
             attendeeNames.add(attendee.getUserID());
         }
 
@@ -359,7 +360,7 @@ public class Camp {
 
         // System.out.println("reached!");
 
-        for (Student member : campCommittee) {
+        for (Student member : campCommitteeList) {
             commiteeNames.add(member.getUserID());
         }
 
@@ -367,9 +368,9 @@ public class Camp {
     }
 
     public void removeCampCommitteeMember(String committeeMemberName) {
-        for (Student committeeMember : campCommittee) {
+        for (Student committeeMember : campCommitteeList) {
             if (committeeMember.getUserID().equals(committeeMemberName)) {
-                campCommittee.remove(committeeMember);
+                campCommitteeList.remove(committeeMember);
                 break;
             }
         }
@@ -377,7 +378,7 @@ public class Camp {
 
     public int getRemainingSlots() {
         int totalSlots = campInformation.getTotalSlots();
-        int occupiedSlots = getAttendees().size() + getCampCommittee().size();
+        int occupiedSlots = getAttendeesList().size() + getCampCommitteeList().size();
         return totalSlots - occupiedSlots;
     }
 }

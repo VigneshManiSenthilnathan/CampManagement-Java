@@ -19,11 +19,11 @@ public class Registration {
             for (Camp camp : createdCamps) {
                 int i = 1;
                 if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase()) && camp.getVisibility()
-                        && (camp.getTotalSlots() - camp.getAttendees().size()) > 0
+                        && (camp.getTotalSlots() - camp.getAttendeesList().size()) > 0
                         && !camp.getAttendeeUserID().contains(student.getUserID())) {
                     found = true;
                     System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | ");
-                    System.out.println("(Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
+                    System.out.println("(Slots left: " + (camp.getTotalSlots() - camp.getAttendeesList().size()) + ")");
                     i++;
                 }
             }
@@ -48,7 +48,7 @@ public class Registration {
                     campNameExists = true;
 
                     // Uncomment after implementing camp committee
-                    for (Student applicant : camp.getCampCommittee()) {
+                    for (Student applicant : camp.getCampCommitteeList()) {
                         if (applicant.getUserID().equals(student.getUserID())) {
                             System.out.println(
                                     "You are already a part of the committee for this camp. You cannot register for this camp.");
@@ -85,11 +85,11 @@ public class Registration {
             System.out.println("List of Camps with Committee Roles Available:");
             for (Camp camp : CampsList.getCreatedCampsList()) {
                 if (camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())
-                        && (10 - camp.getCampCommittee().size()) > 0
+                        && (10 - camp.getCampCommitteeList().size()) > 0
                         && !camp.getCommiteeUserID().contains(student.getUserID())) {
                     found = true;
                     System.out.println(i + ". " + camp.getCampName() + " - " + camp.getDescription() + " | ");
-                    System.out.println("(Committee Slots left: " + (10 - camp.getCampCommittee().size()) + ")");
+                    System.out.println("(Committee Slots left: " + (10 - camp.getCampCommitteeList().size()) + ")");
                     i++;
                 }
 
@@ -111,7 +111,7 @@ public class Registration {
             for (Camp camp : CampsList.getCreatedCampsList()) {
                 if (campname.equals(camp.getCampName())) {
 
-                    for (Student applicant : camp.getAttendees()) {
+                    for (Student applicant : camp.getAttendeesList()) {
                         if (applicant.getUserID().equals(student.getUserID())) {
                             System.out.println("You are already a attendee for this camp!");
                             System.out.println("You cannot register for this camp committee!");
@@ -137,7 +137,7 @@ public class Registration {
         System.out.println("Here are the camps you have registered for:");
         for (Camp camp : createdCamps) {
             if (camp.getUserGroup().equals(student.getFaculty())) {
-                for (Student attendee : camp.getAttendees()) {
+                for (Student attendee : camp.getAttendeesList()) {
                     if (student.getUserID().equals(attendee.getUserID())) {
                         System.out.println(j + "- " + camp.getCampName());
                     }

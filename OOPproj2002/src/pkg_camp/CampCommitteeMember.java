@@ -32,6 +32,10 @@ public class CampCommitteeMember extends Student {
         return points;
     }
 
+    public String getUserID(){
+        return super.getUserID();
+    }
+
     public void awardPoints(int additionalPoints) {
         points += additionalPoints;
     }

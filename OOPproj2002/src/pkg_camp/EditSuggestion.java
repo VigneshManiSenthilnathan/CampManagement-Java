@@ -1,8 +1,5 @@
 package pkg_camp;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,16 +23,15 @@ public class EditSuggestion {
                                 + suggestion.getSuggestionString());
                         i++;
                     }
-
                 }
             }
-
             System.out.println("Edit Suggestions (Enter Camp Name or 'exit' to cancel): ");
             Scanner sc = new Scanner(System.in);
             String campNameToModify = sc.nextLine();
 
             if (campNameToModify.equalsIgnoreCase("exit")) {
                 System.out.println("Suggestions canceled.");
+                System.out.println("");
                 break;
             }
 
@@ -57,9 +53,8 @@ public class EditSuggestion {
             }
 
             if (!validInput) {
-                System.out.println("Invalid input. Please enter a valid Camp Name or 'exit' to cancel."); // keep asking user to enter a valid camp name to suggest
-                                                                                
-        }
+                System.out.println("Invalid input. Please enter a valid Camp Name or 'exit' to cancel."); // keep asking user to enter a valid camp name to suggest                                                      
+            }
         // int j = 1; // follow enquiry modification for code below
         // for (Suggestion suggestion : camp.getSuggestionList()) {
         // if (j == suggestionNumber) {
@@ -76,7 +71,7 @@ public class EditSuggestion {
         // }
         // }
         // return;
-    }
+        }
 
     // public static void editSuggestionDetails(CampCommitteeMember
     // campCommitteeMember,Suggestion suggestion, String edit) {
@@ -87,4 +82,5 @@ public class EditSuggestion {
     // }
     // System.out.println("Suggestion has been changed!");
     // }
+    }
 }

@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class ViewSuggestion {
 
-    public static void campCommitteeViewSuggestion(CampCommitteeMember campCommitteeMember) {
+    public static void viewSuggestion(CampCommitteeMember campCommitteeMember) {
         System.out.println("Your suggestions:");
 
         // Check for empty list
@@ -23,25 +23,40 @@ public class ViewSuggestion {
         for (Camp camp : CampsList.getCreatedCampsList()) {
             for (Suggestion suggestion : camp.getSuggestionList()) {
                 if (suggestion.getStudentID().equals(campCommitteeMember.getUserID())) {
-                    System.out.println(i + ". [Camp: " + suggestion.getCampName() + "] Suggestion: "
-                            + suggestion.getSuggestionString());
+                    System.out.println(i + ". [Camp: " + suggestion.getSuggestionString() + "] Suggestion: "
+                            + suggestion.getCampName());
                     i++;
+
+                    System.out.println("Press EXIT to quit");
+                    Scanner scan = new Scanner(System.in);
+                    String exit = scan.nextLine();
+                    if (exit.equalsIgnoreCase(exit)) {
+                        return;
+                    }
                 }
             }
         }
 
     }
 
-    public static void staffViewSuggestion(Staff staff) {
+    public static void viewSuggestion(Staff staff) {
 
         System.out.println("All suggestions:");
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
             for (Suggestion suggestion : camp.getSuggestionList()) {
                 if (camp.getStaffInCharge().equals(staff.getUserID())) {
-                    System.out.println(i + ". [Camp: " + suggestion.getCampName() + "] Suggestion: "
-                            + suggestion.getSuggestionString());
+                    System.out.println(i + ". [Camp: " + suggestion.getSuggestionString() + "] Suggestion: "
+                            + suggestion.getCampName());
                     i++;
+
+                    System.out.println("Press EXIT to quit");
+                    Scanner scan = new Scanner(System.in);
+                    String exit = scan.nextLine();
+                    if (exit.equalsIgnoreCase(exit)) {
+                        return;
+                    }
+
                 }
             }
 

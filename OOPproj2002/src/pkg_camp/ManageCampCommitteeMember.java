@@ -24,7 +24,7 @@ public class ManageCampCommitteeMember {
                     chosenCamp = camp;
                     // Print out a list
                     System.out.println("Camp Committee Members:");
-                    for (Student committeeMember : camp.getCampCommittee()) {
+                    for (Student committeeMember : camp.getCampCommitteeList()) {
                         System.out.println(committeeMember.getUserID());
                     }
                 }

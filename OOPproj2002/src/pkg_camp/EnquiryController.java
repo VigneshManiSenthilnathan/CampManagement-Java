@@ -27,6 +27,10 @@ public class EnquiryController {
     public static void deleteEnquiry(Student student) {
         DeleteEnquiry.deleteEnquiry(student);
     }
+
+    public static void replyEnquiry(CampCommitteeMember campCommitteeMember) {
+        ReplyEnquiry.replyEnquiry(campCommitteeMember);
+    }
 }
 
 /*

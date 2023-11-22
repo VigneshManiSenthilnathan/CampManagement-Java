@@ -39,13 +39,13 @@ public class GenerateReport {
             writer.println("Visibility: " + camp.getVisibility());
             writer.println("------------------------------");
             writer.println("Attendees:");
-            for (Student student : camp.getAttendees()) {
+            for (Student student : camp.getAttendeesList()) {
                 writer.println(student.getUserID());
             }
             if (choice == 0) {
                 writer.println("------------------------------");
                 writer.println("Camp Committee Members:");
-                for (Student student : camp.getCampCommittee()) {
+                for (Student student : camp.getCampCommitteeList()) {
                     writer.println(student.getUserID());
                 }
             }
@@ -81,13 +81,13 @@ public class GenerateReport {
                     writer.println("Visibility: " + camp.getVisibility());
                     writer.println("------------------------------");
                     writer.println("Attendees:");
-                    for (Student student : camp.getAttendees()) {
+                    for (Student student : camp.getAttendeesList()) {
                         writer.println(student.getUserID());
                     }
                     if (choice == 0) {
                         writer.println("------------------------------");
                         writer.println("Camp Committee Members:");
-                        for (Student student : camp.getCampCommittee()) {
+                        for (Student student : camp.getCampCommitteeList()) {
                             writer.println(student.getUserID());
                         }
                     }
@@ -102,15 +102,15 @@ public class GenerateReport {
     public static void getPerformanceReport(Staff staff, List<Camp> allCamps) {
         StringBuilder reportContent = new StringBuilder();
 
-        for (CampController camp : camps) {
+        for (Camp camp : CampsList.getCreatedCampsList()) {
             // Check if the camp was created by this staff member and has a camp committee
-            if (camp.getStaffInCharge().equals(this) && !camp.getCampCommittee().isEmpty()) {
+            if (camp.getStaffInCharge().equals(this) && !camp.getCampCommitteeList().isEmpty()) {
                 reportContent.append("Camp Name: ").append(camp.getCampName()).append("\n");
                 reportContent.append("Camp Date: ").append(camp.getDates()).append("\n");
                 reportContent.append("Location: ").append(camp.getLocation()).append("\n");
 
                 // Add camp committee members to the report
-                List<Student> campCommitteeMembers = camp.getCampCommittee();
+                List<Student> campCommitteeMembers = camp.getCampCommitteeList();
                 for (Student committeeMember : campCommitteeMembers) {
 
                     // same getter method

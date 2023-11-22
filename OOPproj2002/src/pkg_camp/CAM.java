@@ -17,7 +17,7 @@ public class CAM {
             System.out.println("Camp Name: " + camp.getCampName());
             System.out.println("Attendees:");
 
-            List<Student> attendees = camp.getAttendees();
+            List<Student> attendees = camp.getAttendeesList();
             for (Student attendee : attendees) {
                 System.out.println(" - " + attendee.getUserID());
             }
@@ -245,7 +245,6 @@ public class CAM {
                             // Redirect to student menu method below
                             StudentMenu.studentMenuPage(thisStudent);
                             exitstudentlogin = true;
-
                             break;
                         }
 
@@ -380,7 +379,6 @@ public class CAM {
                         // userID and password is correct, not their first time logging in
                         else if (!password.equals("password")) {
                             System.out.println("Staff Login Successful!");
-
                             // Redirect to staff menu method below
                             StaffMenu.staffMenuPage(thisStaff);
                             exitstafflogin = true;

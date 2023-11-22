@@ -73,15 +73,15 @@ public class CampCommitteeMenu {
 
                         switch (option) {
                             case 1:
-                                SuggestionController.ViewSuggestion(campCommitteeMember);
+                                SuggestionController.viewSuggestion(campCommitteeMember);
                                 break;
 
                             case 2:
-                                SuggestionController.EditSuggestion(campCommitteeMember);
+                                SuggestionController.editSuggestion(campCommitteeMember);
                                 break;
 
                             case 3:
-                                SuggestionController.DeleteSuggestion(campCommitteeMember);
+                                SuggestionController.deleteSuggestion(campCommitteeMember);
                                 break;
                         }
                     }

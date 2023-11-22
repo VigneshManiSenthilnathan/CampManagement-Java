@@ -96,7 +96,6 @@ public class StudentMenu {
 
                         else if (role_choice == 2) {
                             CampController.registerForCampCommitee(student);
-                            System.out.println("Pending Approval from Staff . . .");
                             break;
                         }
 
@@ -129,7 +128,7 @@ public class StudentMenu {
                     // campcommitteemenu
                     // else show rejection message, "only camp committee members can access this"
                     for (Camp camp : createdCampsList) {
-                        for (Student comm : camp.getCampCommittee()) {
+                        for (Student comm : camp.getCampCommitteeList()) {
                             if (comm.getUserID().equals(student.getUserID())) {
                                 System.out.println("Entering Camp Committee Menu");
                                 System.out.println("");
@@ -150,6 +149,7 @@ public class StudentMenu {
                 case 9:
                     CampsList.setCreatedCampsList(createdCampsList);
                     Upload.writeToExcel(CampsList.getCreatedCampsList());
+                    Upload.suggestionsWriter();
                     exitStudentMenu = true;
                     break;
 

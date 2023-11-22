@@ -6,8 +6,6 @@ import java.util.Scanner;
 public class ViewCamp {
 
     public static void studentViewCamps(Student student) {
-        int i = 1;
-
         // check if createdCampsList is empty
         if (CampsList.getCreatedCampsList().isEmpty()) {
             System.out.println("No camps available");
@@ -20,9 +18,15 @@ public class ViewCamp {
         for (Camp camp : CampsList.getCreatedCampsList()) {
             if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())) && (camp.getVisibility())
                     && (camp.getRemainingSlots()) > 0 && !camp.getAttendeeUserID().contains(student.getUserID())) {
-                System.out.println(i + ": " + camp.getCampName() + " [Camp Description: " + camp.getDescription()
-                        + "] (Slots left: " + (camp.getTotalSlots() - camp.getAttendees().size()) + ")");
-                i++;
+                System.out.println("Camp Name: " + camp.getCampName());
+                System.out.println("Dates: " + camp.getDates());
+                System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
+                System.out.println("Location: " + camp.getLocation());
+                System.out.println("Total Slots: " + camp.getTotalSlots());
+                System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
+                System.out.println("Description: " + camp.getDescription());
+                System.out.println("Staff in Charge: " + camp.getStaffInCharge());
+                System.out.println("------------------------------");
                 found = true;
             }
         }
@@ -35,13 +39,16 @@ public class ViewCamp {
             return;
         }
 
-        System.out.println("Type 'EXIT' to go back to Student Menu");
-        Scanner sc = new Scanner(System.in);
-        String exit = sc.nextLine();
-        if (exit.equalsIgnoreCase("EXIT")) {
-            return;
-        } else {
-            System.out.println("Invalid Input");
+    // Loop for input validation
+        while (true) {
+            System.out.println("Type 'EXIT' to go back to Student Menu");
+            Scanner sc = new Scanner(System.in);
+            String exit = sc.nextLine();
+            if (exit.equalsIgnoreCase("EXIT")) {
+                return;
+            } else {
+                System.out.println("Invalid Input. Please type 'EXIT' to go back to Student Menu.");
+            }
         }
     }
 
@@ -123,6 +130,7 @@ public class ViewCamp {
                     break;
             }
         }
+        return;
     }
 
     public static void campCommitteeViewCamp(CampCommitteeMember campCommitteeMember, Camp camp) {

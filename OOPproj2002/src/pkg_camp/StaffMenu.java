@@ -1,11 +1,13 @@
 package pkg_camp;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 // Staff Menu - after log in
 public class StaffMenu {
     public static void staffMenuPage(Staff staff) throws IOException {
+        List<Camp> createdCampsList = CampsList.getCreatedCampsList();
 
         Scanner scanner = new Scanner(System.in);
         boolean exitStaffMenu = false;
@@ -41,11 +43,6 @@ public class StaffMenu {
                             System.out.println("(3) Delete Camp");
                             System.out.println("(4) Exit to Staff Menu");
                             int choice = scanner.nextInt();
-                            if (choice != 1 || choice != 2 || choice != 3 || choice != 4) {
-                                System.out.println(
-                                        "You have input an invalid choice. Please pick an option from 1 to 4.");
-                                continue;
-                            }
 
                             switch (choice) {
                                 case 1:
@@ -88,19 +85,21 @@ public class StaffMenu {
 
                     case 7:
                         SuggestionController.ApproveSuggestion(staff);
+                        break;
 
                     case 8: // Generate camp report
-
-                        ReportController.staffGR(staff, CampsList.getCreatedCampsList());
+                        ReportController.staffGR(staff, createdCampsList);
                         break;
 
                     case 9: // Generate performance report
-                        ReportController.getPerformanceReport(staff, CampsList.getCreatedCampsList());
+                        ReportController.getPerformanceReport(staff, createdCampsList);
                         break;
 
                     case 10: // Exit Staff Menu
                         // Upload.deleteAll();
-                        Upload.writeToExcel(CampsList.getCreatedCampsList());
+                        CampsList.setCreatedCampsList(createdCampsList);
+                        Upload.writeToExcel(createdCampsList);
+                        Upload.suggestionsWriter();
                         exitStaffMenu = true;
                         // scanner.close();
                         break;
@@ -113,7 +112,7 @@ public class StaffMenu {
                 System.out.println("Invalid input, please try again.");
                 continue;
             }
-            return;
         }
+        return;
     }
 }

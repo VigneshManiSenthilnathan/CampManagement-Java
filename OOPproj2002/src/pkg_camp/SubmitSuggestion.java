@@ -18,7 +18,7 @@ public class SubmitSuggestion {
         System.out.println("You can submit a Suggestion for the following Camps: ");
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
-            if (camp.getAttendeeUserID().contains(campCommitteeMember.getUserID())) {
+            if (camp.getCampCommitteeList().contains(campCommitteeMember)) {
                 System.out
                         .println(i + ": " + camp.getCampName() + " [Camp Description: " + camp.getDescription() + "]");
             }
@@ -27,17 +27,19 @@ public class SubmitSuggestion {
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter(System.lineSeparator());
 
-        System.out.println("Submit a Suggestion to (Enter Camp Name): ");
+        System.out.println("Submit Suggestion to Camp: ");
         String campNameString = sc.next();
 
         for (Camp camp : CampsList.getCreatedCampsList()) {
-            if (camp.getCampName() == campNameString) {
+            if (camp.getCampName().equalsIgnoreCase(campNameString)) {
                 System.out.println("Your Suggestion: ");
                 String campSuggestionString = sc.next();
 
                 Suggestion newSuggestion = new Suggestion(campCommitteeMember.getUserID(), camp.getCampName(),
                         campSuggestionString);
                 camp.addSuggestion(newSuggestion);
+                System.out.println("Your Suggestion has been submitted!");
+                System.out.println("");
             }
         }
     }

@@ -9,23 +9,23 @@ public class SuggestionController {
         SubmitSuggestion.submitSuggestion(campCommitteeMember);
     }
 
-    public static void ViewSuggestion(Staff staff) {
-        ViewSuggestion.staffViewSuggestion(staff);
+    public static void viewSuggestion(Staff staff) {
+        ViewSuggestion.viewSuggestion(staff);
     }
 
-    public static void ApproveSuggestion(Staff staff) {
+    public static void approveSuggestion(Staff staff) {
         ApproveSuggestion.approveSuggestion(staff);
     }
 
-    public static void ViewSuggestion(CampCommitteeMember campCommitteeMember) {
-        ViewSuggestion.campCommitteeViewSuggestion(campCommitteeMember);
+    public static void viewSuggestion(CampCommitteeMember campCommitteeMember) {
+        ViewSuggestion.viewSuggestion(campCommitteeMember);
     }
 
-    public static void EditSuggestion(CampCommitteeMember campCommitteeMember) {
+    public static void editSuggestion(CampCommitteeMember campCommitteeMember) {
         EditSuggestion.editSuggestion(campCommitteeMember);
     }
 
-    public static void DeleteSuggestion(CampCommitteeMember campCommitteeMember) {
+    public static void deleteSuggestion(CampCommitteeMember campCommitteeMember) {
         DeleteSuggestion.deleteSuggestion(campCommitteeMember);
     }
 

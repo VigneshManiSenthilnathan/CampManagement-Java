@@ -121,11 +121,11 @@ public class Download {
                         campCommittee = row.getCell(11).getStringCellValue();
                     }
 
-                    ArrayList<Student> comm = new ArrayList<Student>();
+                    ArrayList<CampCommitteeMember> comm = new ArrayList<>();
                     if (campCommittee != null && campCommittee != "") {
                         String[] campCommitteeList = campCommittee.split(" ");
                         for (String commMemUserID : campCommitteeList) {
-                            comm.add((Student) createUser(commMemUserID, "STUDENT"));
+                            comm.add((CampCommitteeMember) createUser(commMemUserID, "STUDENT"));
                         }
                     }
 
@@ -143,7 +143,7 @@ public class Download {
                             camp = new Camp(campinfo);
 
                             camp.addAttendee(attendees);
-                            camp.addCampCommitteeMember(comm);
+                            camp.setCampCommitteeMemberList(comm);
                             createdCampsList.add(camp);
                         }
 
@@ -158,7 +158,7 @@ public class Download {
                     // Only Committee list is available
                     else if (campCommittee != null && campCommittee != "") {
                         camp = new Camp(campinfo);
-                        camp.addCampCommitteeMember(comm);
+                        camp.setCampCommitteeMemberList(comm);
                         createdCampsList.add(camp);
                     }
 
@@ -323,28 +323,22 @@ public class Download {
 
                     Cell cell = row.getCell(3);
                     if (cell != null) {
-                        approvalExists = true;
                         if (cell.getCellType() == CellType.BOOLEAN) {
-                            approval = row.getCell(8).getBooleanCellValue();
+                            approval = row.getCell(3).getBooleanCellValue();
                         }
 
                         else if (cell.getCellType() == CellType.STRING) {
-                            String approvalStr = row.getCell(8).getStringCellValue();
+                            String approvalStr = row.getCell(3).getStringCellValue();
                             if (approvalStr.equalsIgnoreCase("false")) {
                                 approval = false;
                             }
+                            else if (approvalStr.equalsIgnoreCase("true")){
+                                approval = true;
+                            }
                         }
                     }
-
-                    if (approvalExists) {
-                        suggestion = new Suggestion(commMember, suggestionMsg, campName, approval);
-                        camp.addSuggestion(suggestion);
-                    }
-
-                    else {
-                        suggestion = new Suggestion(commMember, suggestionMsg, campName);
-                        camp.addSuggestion(suggestion);
-                    }
+                    suggestion = new Suggestion(commMember, suggestionMsg, campName, approval);
+                    camp.addSuggestion(suggestion);
                 }
             }
             excelFile.close();
