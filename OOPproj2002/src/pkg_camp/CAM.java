@@ -1,5 +1,6 @@
 package pkg_camp;
 
+import org.apache.batik.svggen.font.Font;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -7,24 +8,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
-
 import java.util.Scanner;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class CAM {
-
-    public static void printAttendeesForAllCamps(List<Camp> createdCampsList) {
-        for (Camp camp : createdCampsList) {
-            System.out.println("Camp Name: " + camp.getCampName());
-            System.out.println("Attendees:");
-
-            List<Student> attendees = camp.getAttendeesList();
-            for (Student attendee : attendees) {
-                System.out.println(" - " + attendee.getUserID());
-            }
-
-            System.out.println("-------------------------");
-        }
-    } // This should be deleted later, this is just for testing purposes
 
     public static void main(String[] args) throws IOException {
 
@@ -36,8 +25,6 @@ public class CAM {
         createdCampsList = Download.loadCamps(createdCampsList);
         CampsList.setCreatedCampsList(createdCampsList);
 
-        printAttendeesForAllCamps(CampsList.getCreatedCampsList());
-
         // check if credientials file exists
         boolean fileExists = Credentials.checkFileExists();
 
@@ -47,7 +34,7 @@ public class CAM {
 
             if (!fileExists) {
 
-                // reads data from file path: student_list
+                // reads data from file path: student_list2
                 File file = new File("OOPproj2002/src/pkg_camp/student_list.xlsx");
 
                 FileInputStream excelFile1 = new FileInputStream(file);
@@ -125,6 +112,33 @@ public class CAM {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        int width = 100;
+        int height = 30;
+
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics g = image.getGraphics();
+        g.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 24));
+
+        Graphics2D graphics = (Graphics2D) g;
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+                RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics.drawString("CAMS", 10, 20);
+
+        for (int y = 0; y < height; y++) {
+            StringBuilder sb = new StringBuilder();
+            for (int x = 0; x < width; x++) {
+
+                sb.append(image.getRGB(x, y) == -16777216 ? " " : "$");
+
+            }
+
+            if (sb.toString().trim().isEmpty()) {
+                continue;
+            }
+
+            System.out.println(sb);
         }
 
         Scanner scanner = new Scanner(System.in);

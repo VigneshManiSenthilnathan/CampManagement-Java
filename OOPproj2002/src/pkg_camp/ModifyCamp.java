@@ -8,6 +8,13 @@ import java.util.Scanner;
 public class ModifyCamp {
 
     public static void modifyCamp(Staff staff) {
+        System.out.println("Your Created Camps: ");
+        int i = 1;
+        for (Camp camp : CampsList.getCreatedCampsList()) {
+            if (camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
+                System.out.println(i + ". Camp name: " + camp.getCampName());
+            }
+        }
 
         System.out.println("Enter Camp Name: ");
         Scanner sc = new Scanner(System.in);
@@ -37,6 +44,7 @@ public class ModifyCamp {
 
         boolean done = false;
         while (!done) {
+            System.out.println("(0) Exit to Previous Menu");
             System.out.println("(1) Change Camp Name");
             System.out.println("(2) Change Camp Dates");
             System.out.println("(3) Change Camp Registration Closing Date");
@@ -47,12 +55,16 @@ public class ModifyCamp {
             System.out.println("(8) Change Camp Description");
             System.out.println("(9) Change Camp Visibility");
             System.out.println("(10) Change StaffInCharge");
-            System.out.println("(11) Exit to Staff Menu");
 
             sc.useDelimiter(System.lineSeparator());
             int choice = sc.nextInt();
 
             switch (choice) {
+                case 0:
+                    System.out.println("Exiting back to Previous Menu...");
+                    done = true;
+                    return;
+
                 case 1:
                     System.out.println("Enter New Camp Name: ");
                     String newCampName = sc.next();
@@ -121,11 +133,6 @@ public class ModifyCamp {
                     String newStaffIncharge = sc.next();
                     editCampDetails(thisCamp, 8, newStaffIncharge);
                     break;
-
-                case 11:
-                    System.out.println("Exiting back to staff menu...");
-                    done = true;
-                    return;
 
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");

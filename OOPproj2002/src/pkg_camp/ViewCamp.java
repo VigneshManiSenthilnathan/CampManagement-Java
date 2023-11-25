@@ -94,7 +94,7 @@ public class ViewCamp {
         while (!viewcamps) {
             System.out.println("(1) View All Camps");
             System.out.println("(2) View Created Camps");
-            System.out.println("(0) Exit to Staff Menu");
+            System.out.println("(0) Exit to Previous Menu");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
             boolean found = false;
