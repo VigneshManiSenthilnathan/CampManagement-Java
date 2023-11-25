@@ -11,6 +11,7 @@ public class Camp {
     private List<Enquiry> enquiryList;
     private List<Suggestion> suggestionList;
     private CampInformation campInformation;
+    private List<String> blackList;
 
     public Camp(CampInformation campInformation) {
         this.campInformation = campInformation;
@@ -18,6 +19,7 @@ public class Camp {
         this.campCommitteeList = new ArrayList<>();
         this.enquiryList = new ArrayList<>();
         this.suggestionList = new ArrayList<>();
+        this.blackList = new ArrayList<>();
     }
 
     /*
@@ -181,7 +183,22 @@ public class Camp {
      * }
      */
 
+    // methods to get, add, and remove blacklist
+    
+    public List<String> getBlackList() {
+        return blackList;
+    }
+
+    public void addBlackList(String student) {
+        blackList.add(student.toUpperCase());
+    }
+
+    public void delBlackList(String student) {
+        blackList.remove(student.toUpperCase());
+    }
+
     // methods to get, add, and remove enquiries
+
     public List<Enquiry> getEnquiryList() {
         return enquiryList;
     }
@@ -248,10 +265,6 @@ public class Camp {
 
     public void setCampCommitteeMemberList(List<CampCommitteeMember> committeeMemberList) {
         this.campCommitteeList = committeeMemberList;
-    }
-
-    public void removeCampCommitteeMember(Student committeeMember) {
-        campCommitteeList.remove(committeeMember);
     }
 
     // Getter Methods
@@ -344,9 +357,7 @@ public class Camp {
     public List<String> getAttendeeUserID() {
         // load student userID into a string list
         ArrayList<String> attendeeNames = new ArrayList<>();
-
         // System.out.println("reached!");
-
         for (Student attendee : attendeesList) {
             attendeeNames.add(attendee.getUserID());
         }
@@ -357,18 +368,15 @@ public class Camp {
     public List<String> getCommiteeUserID() {
         // load student userID into a string list
         ArrayList<String> commiteeNames = new ArrayList<>();
-
         // System.out.println("reached!");
-
         for (Student member : campCommitteeList) {
             commiteeNames.add(member.getUserID());
         }
-
         return commiteeNames;
     }
 
     public void removeCampCommitteeMember(String committeeMemberName) {
-        for (Student committeeMember : campCommitteeList) {
+        for (CampCommitteeMember committeeMember : campCommitteeList) {
             if (committeeMember.getUserID().equals(committeeMemberName)) {
                 campCommitteeList.remove(committeeMember);
                 break;

@@ -13,50 +13,69 @@ public class CampCommitteeMenu {
 
         while (!exitCampCommitteeMenu) {
             System.out.println("Camp Committee Menu:");
-            System.out.println(""); // new line
-            System.out.println("(1) View The Details of Your Camp"); // campcommittee can choose to view the details of
-                                                                     // their own camps
-            System.out.println("(2) Submit Suggestions");
-            System.out.println("(3) View/Reply To Enquiries");
-            System.out.println("(4) View, Edit, or Delete Your Suggestions");
-            System.out.println("(5) Generate Camp Report For Camp Attendees");
-            System.out.println("(6) Return to Student Menu"); // done
+            System.out.println("(1) Change Password"); // done
+            System.out.println("(2) View Available Camps"); // done
+            System.out.println("(3) Register for a Camp"); // done
+            System.out.println("(4) Submit Enquiry to a Camp"); //done
+            System.out.println("(5) Manage your Enquiries"); //done
+            System.out.println("(6) View/Reply To Enquiries (Camp Committee)"); //done
+            System.out.println("(7) Withdraw from a Camp"); // done
+            System.out.println("(8) Submit Suggestions to a Camp (Camp Committee)");
+            System.out.println("(9) Manage Your Suggestions (Camp Committee)");
+            System.out.println("(10) Generate Camp Report for Camp Attendees (Camp Committee)");
+            System.out.println("(0) Exit Menu"); // done
+            System.out.print("Input Choice: ");
 
             int menu = scanner.nextInt();
             scanner.useDelimiter(System.lineSeparator());
 
             switch (menu) {
-                case 1:
-                    CampController.viewCamps(campCommitteeMember, camp);
+                case 0:
+                    exitCampCommitteeMenu = true;
+                    return;
+
+                case 1: //change password
+                    ManageCredentials.changePassword(campCommitteeMember);
+                break;
+
+                case 2: //view camps
+                    CampController.viewCamps(campCommitteeMember);
                     break;
 
-                case 2:
-                    SuggestionController.submitSuggestion(campCommitteeMember);
+                case 3: //register for camps
+                    CampController.registerForCamp(campCommitteeMember);
                     break;
 
-                case 3:
-                    boolean quit = false;
-                    while (!quit) {
-                        System.out.println("Choose your option below");
-                        System.out.println("Press [1] to View Enquiries");
-                        System.out.println("Press [2] to Reply Enquiries");
-                        System.out.println("Press [3] to Exit");
+                case 4: //submit enquiry
+                    EnquiryController.submitEnquiry(campCommitteeMember);
+                    break;
 
-                        int option = scanner.nextInt();
+                case 5: //manage own enquiries
+                    boolean modifyDone = false;
+                    while (!modifyDone) {
+                        System.out.println("[1] View all Enquiries");
+                        System.out.println("[2] Modify Enquiry");
+                        System.out.println("[3] Delete Enquiry");
+                        System.out.println("[0] Exit");
 
-                        switch (option) {
+                        Scanner sc = new Scanner(System.in);
+                        int choice = sc.nextInt();
+
+                        switch (choice) {
+                            case 0:
+                                modifyDone = true;
+                                break;
+
                             case 1:
-                                // view enquiries method
-                                EnquiryController.viewEnquiry(campCommitteeMember);
+                                EnquiryController.viewOwnEnquiry(campCommitteeMember);
                                 break;
 
                             case 2:
-                                // reply enquiries method
-                                EnquiryController.replyEnquiry(campCommitteeMember);
+                                EnquiryController.modifyEnquiry(campCommitteeMember);
                                 break;
 
                             case 3:
-                                quit = true;
+                                EnquiryController.deleteEnquiry(campCommitteeMember);
                                 break;
 
                             default:
@@ -66,7 +85,47 @@ public class CampCommitteeMenu {
                     }
                     break;
 
-                case 4:
+                case 6: //campcomm view/reply enquiries
+                    boolean quit = false;
+                    while (!quit) {
+                        System.out.println("Choose your option below");
+                        System.out.println("Press [1] to View Enquiries");
+                        System.out.println("Press [2] to Reply Enquiries");
+                        System.out.println("Press [0] to Exit");
+
+                        int option = scanner.nextInt();
+
+                        switch (option) {
+                            case 0:
+                                quit = true;
+                                break;
+
+                            case 1:
+                                // view enquiries method
+                                EnquiryController.viewEnquiry(campCommitteeMember, camp);
+                                break;
+
+                            case 2:
+                                // reply enquiries method
+                                EnquiryController.replyEnquiry(campCommitteeMember, camp);
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice. Please choose a valid option.");
+                                break;
+                        }
+                    }
+                    break;
+
+                case 7: //withdraw from camp
+                    CampController.withdrawCamp(campCommitteeMember);
+                    break;
+
+                case 8: //submit suggestion
+                    SuggestionController.submitSuggestion(campCommitteeMember);
+                    break;
+
+                case 9: //modify suggestion
                     quit = false;
                     while (!quit) {
                         System.out.println("Choose your option below");
@@ -100,14 +159,10 @@ public class CampCommitteeMenu {
                     }
                     break;
 
-                case 5:
+                case 10:
                     // Generate Camp Report For Camp Attendees
                     ReportController.campCommitteeGR(campCommitteeMember, camp);
                     break;
-
-                case 6:
-                    exitCampCommitteeMenu = true;
-                    return;
             }
         }
     }

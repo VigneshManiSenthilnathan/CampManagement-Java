@@ -16,8 +16,7 @@ public class StaffMenu {
             try {
                 System.out.println("Staff Menu:");
                 System.out.println("(1) Change Password");
-                System.out.println("(2) Create, Edit or Delete Camps");
-                // System.out.println("(3) Toggle Camp Visibility");
+                System.out.println("(2) Create, Edit or Delete Camps (Toggle Camp Visibility)");
                 System.out.println("(3) View Camps");
                 System.out.println("(4) Manage Camp Committee Members");
                 System.out.println("(5) View or Reply Enquiries");

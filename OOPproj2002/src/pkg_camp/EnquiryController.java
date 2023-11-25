@@ -10,29 +10,46 @@ public class EnquiryController {
         ViewEnquiry.viewEnquiry(staff);
     }
 
-    public static void viewEnquiry(CampCommitteeMember campCommitteeMember) {
-        ViewEnquiry.viewEnquiry(campCommitteeMember);
+    public static void viewEnquiry(CampCommitteeMember campCommitteeMember, Camp camp) {
+        ViewEnquiry.viewEnquiry(campCommitteeMember, camp);
+    }
+
+    public static void viewOwnEnquiry(CampCommitteeMember campCommitteeMember){
+        ViewEnquiry.viewOwnEnquiry(campCommitteeMember);
     }
 
     public static void submitEnquiry(Student student) {
         SubmitEnquiry.submitEnquiry(student);
     }
 
+    public static void submitEnquiry(CampCommitteeMember campCommitteeMember) {
+        SubmitEnquiry.submitEnquiry(campCommitteeMember);
+    }
+
     public static void modifyEnquiry(Student student) {
         ModifyEnquiry.modifyEnquiry(student);
+    }
+
+    public static void modifyEnquiry(CampCommitteeMember campCommitteeMember) {
+        ModifyEnquiry.modifyEnquiry(campCommitteeMember);
     }
 
     public static void deleteEnquiry(Student student) {
         DeleteEnquiry.deleteEnquiry(student);
     }
 
-    public static void replyEnquiry(CampCommitteeMember campCommitteeMember) {
-        ReplyEnquiry.replyEnquiry(campCommitteeMember);
+    public static void deleteEnquiry(CampCommitteeMember campCommitteeMember) {
+        DeleteEnquiry.deleteEnquiry(campCommitteeMember);
+    }
+
+    public static void replyEnquiry(CampCommitteeMember campCommitteeMember, Camp camp) {
+        ReplyEnquiry.replyEnquiry(campCommitteeMember, camp);
     }
 
     public static void replyEnquiry(Staff staff) {
         ReplyEnquiry.replyEnquiry(staff);
     }
+
 }
 
 /*

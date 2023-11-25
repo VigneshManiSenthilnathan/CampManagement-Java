@@ -56,6 +56,7 @@ public class Upload {
             headerRow.createCell(9).setCellValue("Staff In Charge");
             headerRow.createCell(10).setCellValue("Attendees");
             headerRow.createCell(11).setCellValue("Camp Committee");
+            headerRow.createCell(12).setCellValue("Withdrawn Students");
         }
 
         int lastRowNumCamp = sheet_camps.getLastRowNum();
@@ -93,6 +94,7 @@ public class Upload {
                 row.createCell(9).setCellValue(camp.getStaffInCharge());
                 row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
                 row.createCell(11).setCellValue(String.join(" ", camp.getCommiteeUserID()));
+                row.createCell(12).setCellValue(String.join(" ", camp.getBlackList()));
             } else {
                 // Add new row
                 Row row = sheet_camps.createRow(rowNumCamp++);
@@ -109,6 +111,7 @@ public class Upload {
                 row.createCell(9).setCellValue(camp.getStaffInCharge());
                 row.createCell(10).setCellValue(String.join(" ", camp.getAttendeeUserID()));
                 row.createCell(11).setCellValue(String.join(" ", camp.getCommiteeUserID()));
+                row.createCell(12).setCellValue(String.join(" ", camp.getBlackList()));
             }
         }
 

@@ -17,11 +17,8 @@ public class ViewSuggestion {
         int i = 1;
 
         for (Camp camp : CampsList.getCreatedCampsList()) {
-
             if (camp.getSuggestionList().size() > 0) {
-
                 System.out.println("");
-
                 System.out.println("Camp: " + camp.getCampName());
                 System.out.println("");
 
@@ -32,28 +29,23 @@ public class ViewSuggestion {
                         i++;
                     }
                 }
-
                 System.out.println("End of suggestions for camp: " + camp.getCampName());
                 System.out.println("//////////////////////////////////////////");
                 System.out.println("");
-
             }
         }
 
-    }
+        System.out.println("Enter EXIT to quit");
+        Scanner scan = new Scanner(System.in);
+        String exit = scan.nextLine();
 
-    System.out.println("Enter EXIT to quit");
-
-    Scanner scan = new Scanner(System.in);
-    String exit = scan.nextLine();
-
-    if(exit.equalsIgnoreCase("exit"))
-    {
-        return;
+        if(exit.equalsIgnoreCase("exit"))
+        {
+            return;
+        }
     }
 
     public static void viewSuggestion(Staff staff) {
-
         System.out.println("All suggestions:");
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
@@ -74,5 +66,4 @@ public class ViewSuggestion {
             }
         }
     }
-
 }

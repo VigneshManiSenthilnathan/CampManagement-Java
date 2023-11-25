@@ -33,7 +33,11 @@ public class ManageCredentials {
                 staff.setPassword(newPassword3);
                 Credentials.updatePassword(staff.getUserID(), newPassword3);
                 change = true;
-            } else {
+            }
+            else if(newPassword3.toUpperCase().equals("PASSWORD")){
+                System.out.println("Password cannot be password or any other combination of the word password. Please try again.");
+            } 
+            else {
                 System.out.println("Password same as previous. Use a Different Password!");
             }
         }
@@ -68,7 +72,11 @@ public class ManageCredentials {
                 student.setPassword(newPassword3);
                 Credentials.updatePassword(student.getUserID(), newPassword3);
                 change = true;
-            } else {
+            } 
+            else if(newPassword3.toUpperCase().equals("PASSWORD")){
+                System.out.println("Password cannot be password or any other combination of the word password. Please try again.");
+            } 
+            else {
                 System.out.println("Password same as previous. Use a Different Password!");
             }
         }

@@ -17,7 +17,7 @@ public class CreateCamp {
         System.out.println("Enter Camp Name: ");
         String campName = sc.next();
 
-        System.out.println("Enter Camp Dates: ");
+        System.out.println("Enter Camp Dates in the format DDMMYY: ");
         String datesStr = sc.next();
         try {
             dates = LocalDate.parse(datesStr, DateTimeFormatter.ofPattern("dd/MM/yy"));

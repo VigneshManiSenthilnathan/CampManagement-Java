@@ -24,7 +24,7 @@ public class CAM {
 
             System.out.println("-------------------------");
         }
-    }
+    } //This should be deleted later, this is just for testing purposes
 
     public static void main(String[] args) throws IOException {
 
@@ -153,8 +153,7 @@ public class CAM {
 
                     while (errorCount > 0) {
                         if (!Credentials.usernameExists(userID.toUpperCase())) {
-                            System.out.println(
-                                    "Invalid Username, try again. You have " + errorCount + " tries left.");
+                            System.out.println("Invalid Username, try again. You have " + errorCount + " tries left.");
                             System.out.println("UserID: ");
                             userID = scanner.next().toUpperCase();// Loop check if invalid username
                             if (errorCount == 0) {
@@ -208,7 +207,7 @@ public class CAM {
                         }
 
                         if (password.equals("password") && thisStudent != null) {
-                            System.out.println("As this is your first time logging in, please change your password.");
+                            System.out.println("First time logging in, please change your password.");
                             ManageCredentials.changePassword(thisStudent);
                         }
 
@@ -216,7 +215,17 @@ public class CAM {
                         else if (!password.equals("password")) {
                             System.out.println("Student Login Successful!");
 
-                            // Redirect to student menu method below
+                            // Redirect to the correct student menu method below
+                            for (Camp camp : CampsList.getCreatedCampsList()){
+                                for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeList()){
+                                    if (thisStudent.getUserID().equalsIgnoreCase(campCommitteeMember.getUserID())){
+                                        CampCommitteeMember committeeMember = (CampCommitteeMember) thisStudent;
+                                        CampCommitteeMenu.campCommitteeMenuPage(committeeMember, camp);
+                                        break;
+                                    }
+                                }
+                            }
+
                             StudentMenu.studentMenuPage(thisStudent);
                             exitstudentlogin = true;
                             break;

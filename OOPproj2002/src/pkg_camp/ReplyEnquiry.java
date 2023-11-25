@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class ReplyEnquiry {
 
-    public static void replyEnquiry(CampCommitteeMember campCommitteeMember) {
+    public static void replyEnquiry(CampCommitteeMember campCommitteeMember, Camp camp) {
 
         // check if createdCampsList is empty
         if (CampsList.getCreatedCampsList().isEmpty()) {
@@ -16,25 +16,23 @@ public class ReplyEnquiry {
         System.out.println("The Enquiries are: ");
         int i = 1;
         int totalEnquiries = 0;
-        for (Camp camp : CampsList.getCreatedCampsList()) {
-            if (camp.getEnquiryList().size() > 0) {
-                System.out.println("");
+        if (camp.getEnquiryList().size() > 0) {
+            System.out.println("");
 
-                System.out.println("Camp: " + camp.getCampName());
-                System.out.println("");
+            System.out.println("Camp: " + camp.getCampName());
+            System.out.println("");
 
-                for (Enquiry enquiry : camp.getEnquiryList()) {
-                    if (camp.getCampCommitteeList().contains(campCommitteeMember)) {
-                        System.out.println(
-                                i + ". Enquiry: " + enquiry.getEnquiryString());
-                        i++;
-                        totalEnquiries++;
-                        found = true;
-                    }
+            for (Enquiry enquiry : camp.getEnquiryList()) {
+                if (camp.getCampCommitteeList().contains(campCommitteeMember)) {
+                    System.out.println(
+                            i + ". Enquiry: " + enquiry.getEnquiryString());
+                    i++;
+                    totalEnquiries++;
+                    found = true;
                 }
-                System.out.println("");
-                System.out.println("-------------------------------------------------");
             }
+            System.out.println("");
+            System.out.println("-------------------------------------------------");
         }
 
         if (!found) {
@@ -61,21 +59,18 @@ public class ReplyEnquiry {
             }
 
             i = 1;
-
-            for (Camp camp : CampsList.getCreatedCampsList()) {
-                if (camp.getCampCommitteeList().contains(campCommitteeMember)) {
-                    for (Enquiry enquiry : camp.getEnquiryList()) {
-                        if (choice == i) {
-                            System.out.println("Enter your Reply: ");
-                            String reply = sc.next();
-                            enquiry.setReply(reply);
-                            enquiry.setRepliedBy(campCommitteeMember.getUserID());
-                            enquiry.setReplierType("CAMP_COMMITTEE_MEMBER");
-                            replyDone = true;
-                            break;
-                        }
-                        i++;
+            if (camp.getCampCommitteeList().contains(campCommitteeMember)) {
+                for (Enquiry enquiry : camp.getEnquiryList()) {
+                    if (choice == i) {
+                        System.out.println("Enter your Reply: ");
+                        String reply = sc.next();
+                        enquiry.setReply(reply);
+                        enquiry.setRepliedBy(campCommitteeMember.getUserID());
+                        enquiry.setReplierType("CAMP_COMMITTEE_MEMBER");
+                        replyDone = true;
+                        break;
                     }
+                    i++;
                 }
             }
         }

@@ -17,8 +17,8 @@ public class CampController {
         ViewCamp.staffViewCamps(staff);
     }
 
-    public static void viewCamps(CampCommitteeMember campCommitteeMember, Camp camp) {
-        ViewCamp.campCommitteeViewCamp(campCommitteeMember, camp);
+    public static void viewCamps(CampCommitteeMember campCommitteeMember) {
+        ViewCamp.campCommitteeViewCamp(campCommitteeMember);
     }
 
     public static void modifyCamp(Staff staff) {
@@ -32,16 +32,16 @@ public class CampController {
      * }
      */ // apparently cannot do this???
 
-    public static void registerForCamp(Student student, List<Camp> createdCampsList) {
-        Registration.registerForCamp(student, createdCampsList);
-    }
-
-    public static void registerForCampCommitee(Student student) {
-        Registration.registerForCampCommitee(student);
+    public static void registerForCamp(Student student) {
+        Registration.registerForCamp(student);
     }
 
     public static void withdrawCamp(Student student) {
         Withdrawal.withdrawCamp(student);
+    }
+
+    public static void withdrawCamp(CampCommitteeMember campCommitteeMember) {
+        Withdrawal.withdrawCamp(campCommitteeMember);
     }
 
     public static void createNewCamp(Staff staff) {

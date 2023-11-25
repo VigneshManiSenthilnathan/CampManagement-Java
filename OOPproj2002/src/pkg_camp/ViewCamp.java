@@ -11,42 +11,69 @@ public class ViewCamp {
             return;
         }
 
-        System.out.println("List of Camps available to join:");
+        System.out.println("[1] View all camps allowed to join");
+        System.out.println("[2] View your registered camps");
+        System.out.println("[0] Exit");
+        Scanner sc = new Scanner(System.in);
+        int choice = sc.nextInt();
 
-        boolean found = false;
-        for (Camp camp : CampsList.getCreatedCampsList()) {
-            if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())) && (camp.getVisibility())
-                    && (camp.getRemainingSlots()) > 0 && !camp.getAttendeeUserID().contains(student.getUserID())) {
-                System.out.println("Camp Name: " + camp.getCampName());
-                System.out.println("Dates: " + camp.getDates());
-                System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
-                System.out.println("Location: " + camp.getLocation());
-                System.out.println("Total Slots: " + camp.getTotalSlots());
-                System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
-                System.out.println("Description: " + camp.getDescription());
-                System.out.println("Staff in Charge: " + camp.getStaffInCharge());
-                System.out.println("------------------------------");
-                found = true;
-            }
-        }
+        boolean doneView = false;
+        while (!doneView){
+            switch(choice){
+                case 0:
+                    doneView = true;
+                    break;
 
-        System.out.println("");
+                case 1:
+                    System.out.println("List of Camps available to join:");
+                    boolean found = false;
+                    for (Camp camp : CampsList.getCreatedCampsList()) {
+                        if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())) && (camp.getVisibility())
+                                && (camp.getRemainingSlots()) > 0 && !camp.getAttendeeUserID().contains(student.getUserID()) && !camp.getBlackList().contains(student.getUserID())) {
+                            System.out.println("Camp Name: " + camp.getCampName());
+                            System.out.println("Dates: " + camp.getDates());
+                            System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
+                            System.out.println("Location: " + camp.getLocation());
+                            System.out.println("Total Slots: " + camp.getTotalSlots());
+                            System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
+                            System.out.println("Description: " + camp.getDescription());
+                            System.out.println("Staff in Charge: " + camp.getStaffInCharge());
+                            System.out.println("------------------------------");
+                            found = true;
+                        }
+                    }
+                    System.out.println("");
 
-        if (!found) {
-            System.out.println("No camps available to view.");
-            System.out.println("");
-            return;
-        }
+                    if (!found) {
+                        System.out.println("No camps available to view!");
+                        System.out.println("");
+                        return;
+                    }
+                    break;
 
-    // Loop for input validation
-        while (true) {
-            System.out.println("Type 'EXIT' to go back to Student Menu");
-            Scanner sc = new Scanner(System.in);
-            String exit = sc.nextLine();
-            if (exit.equalsIgnoreCase("EXIT")) {
-                return;
-            } else {
-                System.out.println("Invalid Input. Please type 'EXIT' to go back to Student Menu.");
+                case 2:
+                    int j = 1;
+                    found = false;
+                    System.out.println("Here are the camps you have registered for:");
+                    for (Camp camp : CampsList.getCreatedCampsList()) {
+                        if (camp.getUserGroup().equals(student.getFaculty())) {
+                            for (Student attendee : camp.getAttendeesList()) {
+                                if (student.getUserID().equals(attendee.getUserID())) {
+                                    System.out.println(j + "- " + camp.getCampName());
+                                    found = true;
+                                }
+                            }
+                        }
+                    }
+
+                    if (!found){
+                        System.out.println("You have not registered for any Camps!");
+                    }
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please choose a valid option.");
+                    break;
             }
         }
     }
@@ -64,10 +91,15 @@ public class ViewCamp {
         while (!viewcamps) {
             System.out.println("(1) View All Camps");
             System.out.println("(2) View Created Camps");
-            System.out.println("(3) Exit to Staff Menu");
+            System.out.println("(0) Exit to Staff Menu");
             Scanner scanner = new Scanner(System.in);
             int choice = scanner.nextInt();
+            boolean found = false;
             switch (choice) {
+                case 0:
+                    viewcamps = true;
+                    break;
+
                 case 1:
                     System.out.println("List of ALL Camps:");
                     for (Camp camp : CampsList.getCreatedCampsList()) {
@@ -79,17 +111,8 @@ public class ViewCamp {
                         System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
                         System.out.println("Description: " + camp.getDescription());
                         System.out.println("Staff in Charge: " + camp.getStaffInCharge());
-                        System.out.println("Visibility: " + camp.getVisibility());
+                        System.out.println("Visibility (Not visible = 0/Visible = 1): " + camp.getVisibility());
                         System.out.println("------------------------------");
-                    }
-
-                    System.out.println("Type 'EXIT' to go back to Staff Menu");
-                    Scanner sc1 = new Scanner(System.in);
-                    String exit = sc1.nextLine();
-                    if (exit.equalsIgnoreCase("EXIT")) {
-                        break;
-                    } else {
-                        System.out.println("Invalid Input");
                     }
                     break;
 
@@ -107,21 +130,14 @@ public class ViewCamp {
                             System.out.println("Staff in Charge: " + camp.getStaffInCharge());
                             System.out.println("Visibility: " + camp.getVisibility());
                             System.out.println("------------------------------");
+                            found = true;
                         }
                     }
 
-                    System.out.println("Type 'EXIT' to go back to Staff Menu");
-                    Scanner sc2 = new Scanner(System.in);
-                    exit = sc2.nextLine();
-                    if (exit.equalsIgnoreCase("EXIT")) {
-                        break;
-                    } else {
-                        System.out.println("Invalid Input");
+                    if (!found){
+                        System.out.println("You have not created any camps!");
                     }
-                    break;
 
-                case 3:
-                    viewcamps = true;
                     break;
 
                 default:
@@ -132,7 +148,7 @@ public class ViewCamp {
         return;
     }
 
-    public static void campCommitteeViewCamp(CampCommitteeMember campCommitteeMember, Camp camp) {
+    public static void campCommitteeViewCamp(CampCommitteeMember campCommitteeMember) {
 
         // check if createdCampsList is empty
         if (CampsList.getCreatedCampsList().isEmpty()) {
@@ -140,21 +156,90 @@ public class ViewCamp {
             return;
         }
 
-        boolean found = false;
+        boolean doneView = false;
+        while (!doneView){
+            System.out.println("[1] View all camps to join");
+            System.out.println("[2] View your registered camps");
+            System.out.println("[3] Details of your Committee Camp");
+            System.out.println("[0] Exit");
+            Scanner sc = new Scanner(System.in);
+            int choice = sc.nextInt();
+            switch(choice){
+                case 0:
+                    doneView = true;
+                    break;
 
-        System.out.println("Details of Your Camps:");
-        for (Camp availcamp : CampsList.getCreatedCampsList()) {
-            if (availcamp.getCampName().equals(camp.getCampName())) { // solid vignesh only did this 1 line ha ha
-                System.out.println("Camp Name: " + camp.getCampName());
-                System.out.println("Dates: " + camp.getDates());
-                System.out.println("Registration Closing Date: " + availcamp.getRegistrationClosingDate());
-                System.out.println("Location: " + camp.getLocation());
-                System.out.println("Total Slots: " + camp.getTotalSlots());
-                System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
-                System.out.println("Description: " + camp.getDescription());
-                System.out.println("Staff in Charge: " + camp.getStaffInCharge());
-                System.out.println("Visibility: " + camp.getVisibility());
-                System.out.println("------------------------------");
+                case 1:
+                    System.out.println("List of Camps available to join:");
+                    boolean found = false;
+                    for (Camp camp : CampsList.getCreatedCampsList()) {
+                        if ((camp.getUserGroup().toUpperCase().equals(campCommitteeMember.getFaculty().toUpperCase())) && (camp.getVisibility())
+                                && (camp.getRemainingSlots()) > 0 && !camp.getAttendeeUserID().contains(campCommitteeMember.getUserID()) && !camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
+                            System.out.println("Camp Name: " + camp.getCampName());
+                            System.out.println("Dates: " + camp.getDates());
+                            System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
+                            System.out.println("Location: " + camp.getLocation());
+                            System.out.println("Total Slots: " + camp.getTotalSlots());
+                            System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
+                            System.out.println("Description: " + camp.getDescription());
+                            System.out.println("Staff in Charge: " + camp.getStaffInCharge());
+                            System.out.println("------------------------------");
+                            found = true;
+                        }
+                    }
+                    System.out.println("");
+
+                    if (!found) {
+                        System.out.println("No camps available to view.");
+                        System.out.println("");
+                        return;
+                    }
+                    break;
+
+                case 2:
+                    found = false;
+                    int j = 1;
+                    System.out.println("Here are the camps you have registered for:");
+                    for (Camp camp : CampsList.getCreatedCampsList()) {
+                        if (camp.getAttendeeUserID().contains(campCommitteeMember.getUserID())) {
+                            System.out.println(j + ": " + camp.getCampName());
+                            j++;
+                            found = true;
+                        }
+                        else if (camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
+                            System.out.println(j + ": " + camp.getCampName());
+                            j++;
+                            continue;
+                        }
+                    }
+                    
+                    if (!found) {
+                        System.out.println("No camps available to view.");
+                        System.out.println("");
+                        return;
+                    }
+                    break;
+                    
+                case 3:
+                    System.out.println("Details of Your Camps:");
+                    for (Camp camp : CampsList.getCreatedCampsList()) {
+                        if (camp.getCampCommitteeList().contains(campCommitteeMember)) { // solid vignesh only did this 1 line ha ha
+                            System.out.println("Camp Name: " + camp.getCampName());
+                            System.out.println("Dates: " + camp.getDates());
+                            System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
+                            System.out.println("Location: " + camp.getLocation());
+                            System.out.println("Total Slots: " + camp.getTotalSlots());
+                            System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
+                            System.out.println("Description: " + camp.getDescription());
+                            System.out.println("Staff in Charge: " + camp.getStaffInCharge());
+                            System.out.println("Visibility(Not visible = 0/Visible = 1): " + camp.getVisibility());
+                            System.out.println("------------------------------");
+                        }
+                    }
+
+                default:
+                    System.out.println("Invalid choice. Please choose a valid option.");
+                    break;
             }
         }
     }
