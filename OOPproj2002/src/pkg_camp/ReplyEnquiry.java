@@ -132,8 +132,8 @@ public class ReplyEnquiry {
                 if (camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
                     for (Enquiry enquiry : camp.getEnquiryList()) {
                         if (choice == i) {
-                            System.out.println("Enter your Reply: ");
                             String reply = sc.nextLine();
+                            System.out.println("Enter your Reply: ");
                             enquiry.setReply(reply);
                             enquiry.setRepliedBy(staff.getUserID());
                             enquiry.setReplierType("STAFF");

@@ -1,4 +1,4 @@
-package pkg_camp;
+package model;
 
 import java.util.List;
 

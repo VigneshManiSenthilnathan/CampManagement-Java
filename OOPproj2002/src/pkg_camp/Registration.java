@@ -100,7 +100,7 @@ public class Registration {
                     }
 
                     // Register for an available Camp
-                    System.out.println("Register as Committee Member: ");
+                    System.out.println("Register as Committee Member (Exit to quit): ");
                     Scanner register = new Scanner(System.in);
                     String campname = register.nextLine();
                     if (campname.equalsIgnoreCase("EXIT")) {
@@ -108,7 +108,7 @@ public class Registration {
                     }
 
                     for (Camp camp : CampsList.getCreatedCampsList()) {
-                        if (campname.equals(camp.getCampName())) {
+                        if (campname.equalsIgnoreCase(camp.getCampName())) {
                             if (camp.getAttendeesList().contains(student)
                                     && !camp.getBlackList().contains(student.getUserID())) {
                                 camp.removeAttendee(student.getUserID());
@@ -117,6 +117,10 @@ public class Registration {
                                 System.out.println("");
                                 done = true;
                                 break;
+                            } else if (!camp.getBlackList().contains(student.getUserID())) {
+                                camp.addCampCommitteeMember(student);
+                                System.out.println("Registration Successful! You are now a Camp Committee Member!");
+                                System.out.println("");
                             }
                         }
                     }

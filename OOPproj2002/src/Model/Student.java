@@ -1,4 +1,4 @@
-    package pkg_camp;
+package model;
 
 public class Student implements User {
     private String userID;

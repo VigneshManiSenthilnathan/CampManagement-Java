@@ -1,4 +1,4 @@
-package pkg_camp;
+package controller;
 
 import java.util.Iterator;
 import java.util.ArrayList;

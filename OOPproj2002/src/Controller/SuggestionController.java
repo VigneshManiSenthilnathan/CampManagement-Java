@@ -1,5 +1,4 @@
-package pkg_camp;
-
+package controlle
 
 public class SuggestionController {
 

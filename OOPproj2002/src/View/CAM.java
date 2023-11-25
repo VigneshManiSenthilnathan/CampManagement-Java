@@ -1,4 +1,4 @@
-package pkg_camp;
+package view;
 
 import org.apache.batik.svggen.font.Font;
 import org.apache.poi.ss.usermodel.*;

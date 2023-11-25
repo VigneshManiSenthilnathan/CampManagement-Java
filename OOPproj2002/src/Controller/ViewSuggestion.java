@@ -1,4 +1,4 @@
-package pkg_camp;
+package controller;
 
 import java.util.Scanner;
 
@@ -39,8 +39,7 @@ public class ViewSuggestion {
         Scanner scan = new Scanner(System.in);
         String exit = scan.nextLine();
 
-        if(exit.equalsIgnoreCase("exit"))
-        {
+        if (exit.equalsIgnoreCase("exit")) {
             return;
         }
     }

@@ -1,4 +1,4 @@
-package pkg_camp;
+package controller;
 
 public class Suggestion {
 

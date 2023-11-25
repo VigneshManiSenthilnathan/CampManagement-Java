@@ -1,4 +1,4 @@
-package pkg_camp;
+package model;
 
 public interface User {
     String getUserID();

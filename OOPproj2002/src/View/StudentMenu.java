@@ -1,4 +1,4 @@
-package pkg_camp;
+package view;
 
 import java.io.IOException;
 import java.util.List;

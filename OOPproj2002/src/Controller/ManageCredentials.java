@@ -1,4 +1,4 @@
-package pkg_camp;
+package controller;
 
 import java.util.Scanner;
 
@@ -67,7 +67,7 @@ public class ManageCredentials {
         // Add some conditions to check
         boolean change = false;
         while (!change) {
-            if (!newPassword3.equals(oldPW)) {
+            if (!newPassword3.equals(oldPW)) { // checking if new pw is same as old pw
                 student.setPassword(newPassword3);
                 Credentials.updatePassword(student.getUserID(), newPassword3);
                 change = true;

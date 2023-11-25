@@ -1,4 +1,4 @@
-package pkg_camp;
+package controller;
 
 import java.io.*;
 import java.util.List;

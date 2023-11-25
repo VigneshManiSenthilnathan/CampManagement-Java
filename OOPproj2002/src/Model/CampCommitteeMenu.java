@@ -1,4 +1,4 @@
-package pkg_camp;
+package model;
 
 import java.io.IOException;
 import java.util.Scanner;

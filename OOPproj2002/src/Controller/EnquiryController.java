@@ -1,4 +1,5 @@
-package pkg_camp;
+package controller;
+import model.*;
 
 public class EnquiryController {
 
@@ -14,7 +15,7 @@ public class EnquiryController {
         ViewEnquiry.viewEnquiry(campCommitteeMember, camp);
     }
 
-    public static void viewOwnEnquiry(CampCommitteeMember campCommitteeMember){
+    public static void viewOwnEnquiry(CampCommitteeMember campCommitteeMember) {
         ViewEnquiry.viewOwnEnquiry(campCommitteeMember);
     }
 
