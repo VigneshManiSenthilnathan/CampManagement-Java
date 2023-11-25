@@ -11,6 +11,14 @@ public class StudentsList {
         return studentList;
     }
 
+    public static List<String> getStudentUserIDList() {
+        List<String> studentUserIDList = new ArrayList<>();
+        for (Student student : studentList) {
+            studentUserIDList.add(student.getUserID());
+        }
+        return studentUserIDList;
+    }
+
     // Use when staff creates a new camp in running memory
 
     public static void appendToStudentList(Student student) {

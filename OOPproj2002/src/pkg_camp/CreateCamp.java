@@ -17,21 +17,34 @@ public class CreateCamp {
         System.out.println("Enter Camp Name: ");
         String campName = sc.next();
 
-        System.out.println("Enter Camp Dates in the format DDMMYY: ");
-        String datesStr = sc.next();
-        try {
-            dates = LocalDate.parse(datesStr, DateTimeFormatter.ofPattern("dd/MM/yy"));
-        } catch (DateTimeParseException ex) {
-            System.out.println("Invalid date format. Use 'dd/MM/yy'.");
+        boolean flag = true;
+
+        while (flag) {
+            System.out.println("Enter Camp Dates in the format DD/MM/YY including the '/' character: ");
+            String datesStr = sc.next();
+            try {
+                dates = LocalDate.parse(datesStr, DateTimeFormatter.ofPattern("dd/MM/yy"));
+                flag = false;
+            } catch (DateTimeParseException ex) {
+                System.out.println("Invalid date format. Use 'DD/MM/YY'.");
+                continue;
+            }
         }
 
-        System.out.println("Enter Camp Registration Closing Date: ");
-        String registrationClosingDateStr = sc.next();
-        try {
-            registrationClosingDate = LocalDate.parse(registrationClosingDateStr,
-                    DateTimeFormatter.ofPattern("dd/MM/yy"));
-        } catch (DateTimeParseException ex) {
-            System.out.println("Invalid date format. Use 'dd/MM/yy'.");
+        flag = true;
+
+        while (flag) {
+            System.out.println(
+                    "Enter Camp Registration Closing Date in the format DD/MM/YY including the '/' character: ");
+            String registrationClosingDateStr = sc.next();
+            try {
+                registrationClosingDate = LocalDate.parse(registrationClosingDateStr,
+                        DateTimeFormatter.ofPattern("dd/MM/yy"));
+                flag = false;
+            } catch (DateTimeParseException ex) {
+                System.out.println("Invalid date format. Use 'DD/MM/YY'.");
+                continue;
+            }
         }
 
         System.out.println("Enter Faculty: ");
@@ -40,16 +53,34 @@ public class CreateCamp {
         System.out.println("Enter Location: ");
         String location = sc.next();
 
+        flag = true;
+        int totalSlots = 0;
+
         System.out.println("Enter Total Slots Available: ");
-        int totalSlots = sc.nextInt();
+        while (flag) {
+            try {
+                totalSlots = sc.nextInt();
+                flag = false;
+            } catch (Exception e) {
+                System.out.println("Please enter a valid integer only!");
+                continue;
+            }
+        }
 
         boolean ccslots = false;
         int campCommitteeSlots = 0;
+
         while (!ccslots) {
             System.out.println("Enter Camp Committee Slots Available: ");
-            campCommitteeSlots = sc.nextInt();
+            try {
+                campCommitteeSlots = sc.nextInt();
+            } catch (Exception e) {
+                System.out.println("Please enter a valid integer only!");
+                continue;
+            }
             if (campCommitteeSlots > 10) {
                 System.out.println("Max Camp Committee Slots is 10!");
+                continue;
             } else {
                 ccslots = true;
             }

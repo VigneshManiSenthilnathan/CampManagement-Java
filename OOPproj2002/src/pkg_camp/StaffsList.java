@@ -11,6 +11,14 @@ public class StaffsList {
         return staffList;
     }
 
+    public static List<String> getStaffUserIDList() {
+        List<String> staffUserIDList = new ArrayList<>();
+        for (Staff staff : staffList) {
+            staffUserIDList.add(staff.getUserID());
+        }
+        return staffUserIDList;
+    }
+
     // Use when staff creates a new camp in running memory
 
     public static void appendToStaffList(Staff staff) {

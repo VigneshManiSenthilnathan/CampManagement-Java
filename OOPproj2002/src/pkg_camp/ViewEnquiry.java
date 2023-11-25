@@ -18,7 +18,7 @@ public class ViewEnquiry {
         }
 
         if (!found) {
-            System.out.println("There are no camps for you to view Enquiries of!");
+            System.out.println("You have not submitted an Enquiry!");
             System.out.println("");
             return;
         }
@@ -40,7 +40,7 @@ public class ViewEnquiry {
         }
 
         if (!found) {
-            System.out.println("There are no camps for you to view Enquiries of!");
+            System.out.println("You have not submitted an Enquiry!");
             System.out.println("");
             return;
         }
@@ -51,14 +51,12 @@ public class ViewEnquiry {
         boolean found = false;
         int i = 1;
         for (Enquiry enquiry : camp.getEnquiryList()) {
-            if (camp.getCampCommitteeList().contains(campCommitteeMember)) {
-                System.out.println(i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
-                i++;
-                found = true;
-            }
+            System.out.println(i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
+            i++;
+            found = true;
         }
         if (!found) {
-            System.out.println("There are no camps for you to view Enquiries of!");
+            System.out.println("There are no Enquiries to view!");
             System.out.println("");
             return;
         }
@@ -67,14 +65,21 @@ public class ViewEnquiry {
     public static void viewEnquiry(Staff staff) {
         System.out.println("The Enquiries are: ");
         int i = 1;
+        boolean found = false;
         for (Camp camp : CampsList.getCreatedCampsList()) {
             for (Enquiry enquiry : camp.getEnquiryList()) {
                 if (camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
                     System.out.println(
                             i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
                     i++;
+                    found = true;
                 }
             }
+        }
+        if (!found) {
+            System.out.println("There are no Camps with Enquiries for you to view!");
+            System.out.println("");
+            return;
         }
     }
 }

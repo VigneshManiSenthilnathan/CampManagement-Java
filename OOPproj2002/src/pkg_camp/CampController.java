@@ -1,6 +1,5 @@
 package pkg_camp;
 
-
 import java.util.List;
 
 public class CampController {
@@ -34,6 +33,14 @@ public class CampController {
 
     public static void registerForCamp(Student student) {
         Registration.registerForCamp(student);
+    }
+
+    public static void manageCreatedCamps(Staff staff) {
+        ManageCreatedCamps.manageCreatedCamps(staff);
+    }
+
+    public static void registerForCamp(CampCommitteeMember campCommitteeMember) {
+        Registration.registerForCamp(campCommitteeMember);
     }
 
     public static void withdrawCamp(Student student) {

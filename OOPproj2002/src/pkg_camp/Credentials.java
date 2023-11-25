@@ -1,5 +1,6 @@
 package pkg_camp;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import java.security.MessageDigest;
@@ -129,7 +130,7 @@ public class Credentials {
                 }
                 hexString.append(hex);
             }
-            System.out.println("Encoding Successful!");
+            // System.out.println("Encoding Successful!");
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -168,6 +169,66 @@ public class Credentials {
             }
 
             fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static final boolean usernameExistsStudent(String username) {
+
+        try {
+            FileInputStream fis = new FileInputStream("OOPproj2002/src/pkg_camp/student_list.xlsx");
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheet("student");
+
+            for (Row row : sheet) {
+                String userID = row.getCell(1).getStringCellValue();
+
+                if (userID.contains("@")) {
+                    String[] parts = userID.split("@");
+                    userID = parts[0].trim();
+                    if (userID.equals(username)) {
+                        return true;
+                    }
+                }
+
+            }
+
+            fis.close();
+            workbook.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static final boolean usernameExistsStaff(String username) {
+
+        try {
+            FileInputStream fis = new FileInputStream("OOPproj2002/src/pkg_camp/staff_list.xlsx");
+            Workbook workbook = new XSSFWorkbook(fis);
+            Sheet sheet = workbook.getSheet("staff");
+
+            for (Row row : sheet) {
+                String userID = row.getCell(1).getStringCellValue();
+
+                if (userID.contains("@")) {
+                    String[] parts = userID.split("@");
+                    userID = parts[0].trim();
+                    if (userID.equals(username)) {
+                        return true;
+                    }
+                }
+
+            }
+
+            fis.close();
+            workbook.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -215,13 +276,11 @@ public class Credentials {
 
         try {
             // Write the updated workbook to the Excel file
-            FileOutputStream fileOut = new FileOutputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change
-                                                                                                             // the file
-                                                                                                             // name as
-                                                                                                             // needed
+            // Change the file name as needed
+            FileOutputStream fileOut = new FileOutputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx");
             workbook.write(fileOut);
             fileOut.close();
-            System.out.println("Data has been written to the Excel file.");
+            // System.out.println("Data has been written to the database.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -267,10 +326,8 @@ public class Credentials {
 
         try {
             // Write the updated workbook to the Excel file
-            FileOutputStream fileOut = new FileOutputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx"); // Change
-                                                                                                             // the file
-                                                                                                             // name as
-                                                                                                             // needed
+            // Change the file name as needed
+            FileOutputStream fileOut = new FileOutputStream("OOPproj2002/src/pkg_camp/user_passwords.xlsx");
             workbook.write(fileOut);
             fileOut.close();
             System.out.println("Password updated successfully.");

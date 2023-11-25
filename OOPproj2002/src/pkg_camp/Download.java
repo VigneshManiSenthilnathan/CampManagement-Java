@@ -145,40 +145,38 @@ public class Download {
 
                     Camp camp;
 
+                    if (campAttendees != null && campAttendees != "") {
 
+                        // Both Attendees and Committee lists are available
+                        if (campCommittee != null && campCommittee != "") {
 
-                        if (campAttendees != null && campAttendees != "") {
-
-                            // Both Attendees and Committee lists are available
-                            if (campCommittee != null && campCommittee != "") {
-
-                                camp = new Camp(campinfo);
-
-                                camp.addAttendee(attendees);
-                                camp.setCampCommitteeMemberList(comm);
-                                createdCampsList.add(camp);
-                            }
-
-                            // Only Attendees list is available
-                            else {
-                                camp = new Camp(campinfo);
-                                camp.addAttendee(attendees);
-                                createdCampsList.add(camp);
-                            }
-                        }
-
-                        // Only Committee list is available
-                        else if (campCommittee != null && campCommittee != "") {
                             camp = new Camp(campinfo);
+
+                            camp.addAttendee(attendees);
                             camp.setCampCommitteeMemberList(comm);
                             createdCampsList.add(camp);
                         }
 
-                        // Neither available
+                        // Only Attendees list is available
                         else {
                             camp = new Camp(campinfo);
+                            camp.addAttendee(attendees);
                             createdCampsList.add(camp);
                         }
+                    }
+
+                    // Only Committee list is available
+                    else if (campCommittee != null && campCommittee != "") {
+                        camp = new Camp(campinfo);
+                        camp.setCampCommitteeMemberList(comm);
+                        createdCampsList.add(camp);
+                    }
+
+                    // Neither available
+                    else {
+                        camp = new Camp(campinfo);
+                        createdCampsList.add(camp);
+                    }
 
                     // Check if the camp has enquiries or suggestions lists and load them
                     camp = loadEnquiries(camp);
@@ -227,7 +225,7 @@ public class Download {
             if (sheet.getLastRowNum() <= 0) { // Assuming the header is in the first row
                 excelFile.close();
                 workbook.close();
-                throw new IOException("The supplied file is empty.");
+                return camp;
             } else {
                 System.out.println(sheet.getLastRowNum());
             }
@@ -312,7 +310,7 @@ public class Download {
             if (sheet.getLastRowNum() <= 0) { // Assuming the header is in the first row
                 excelFile.close();
                 workbook.close();
-                throw new IOException("The supplied file is empty.");
+                return camp;
             } else {
                 System.out.println(sheet.getLastRowNum());
             }

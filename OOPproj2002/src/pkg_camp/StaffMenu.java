@@ -16,9 +16,9 @@ public class StaffMenu {
             try {
                 System.out.println("Staff Menu:");
                 System.out.println("(1) Change Password");
-                System.out.println("(2) Create, Edit or Delete Camps (Toggle Camp Visibility)");
-                System.out.println("(3) View Camps");
-                System.out.println("(4) Manage Camp Committee Members");
+                System.out.println("(2) View, Create or Edit Camps");
+                System.out.println("(3) Delete Camps");
+                System.out.println("(4) Manage Camps");
                 System.out.println("(5) View or Reply Enquiries");
                 System.out.println("(6) View Suggestions To Camps");
                 System.out.println("(7) Approve Camp Suggestions");
@@ -34,30 +34,30 @@ public class StaffMenu {
                         ManageCredentials.changePassword(staff);
                         break;
 
-                    case 2: // Create, edit, delete camp
+                    case 2: // View, Create, Edit camp
                         boolean campedits = false;
                         while (!campedits) {
-                            System.out.println("(1) Create New Camp");
-                            System.out.println("(2) Modify Camp/Toggle Visibility");
-                            System.out.println("(3) Delete Camp");
-                            System.out.println("(4) Exit to Staff Menu");
+                            System.out.println("(1) View All Camp");
+                            System.out.println("(2) Create a New Camp");
+                            System.out.println("(3) Modify Camp");
+                            System.out.println("(0) Exit to Staff Menu");
                             int choice = scanner.nextInt();
 
                             switch (choice) {
+                                case 0:
+                                    campedits = true;
+                                    break;
+
                                 case 1:
-                                    CampController.createNewCamp(staff);
+                                    CampController.viewCamps(staff);
                                     break;
 
                                 case 2:
-                                    CampController.modifyCamp(staff);
+                                    CampController.createNewCamp(staff);
                                     break;
 
                                 case 3:
-                                    CampController.deleteCamp(staff);
-                                    break;
-
-                                case 4:
-                                    campedits = true;
+                                    CampController.modifyCamp(staff);
                                     break;
 
                                 default:
@@ -66,12 +66,12 @@ public class StaffMenu {
                         }
                         break;
 
-                    case 3: // View camps
-                        CampController.viewCamps(staff);
+                    case 3: // Delete camps
+                        CampController.deleteCamp(staff);
                         break;
 
                     case 4: // Manage Camp Committee
-                        ManageCampCommitteeMember.ManageCCMember(staff);
+                        CampController.manageCreatedCamps(staff);
                         break;
 
                     case 5: // View or Reply enquiries

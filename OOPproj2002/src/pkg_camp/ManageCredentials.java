@@ -11,7 +11,7 @@ public class ManageCredentials {
             Scanner sc = new Scanner(System.in);
             System.out.println("If you want to exit, type EXIT. Enter new Password: ");
             String newPassword = sc.next();
-            if (newPassword.equals("EXIT")) {
+            if (newPassword.equalsIgnoreCase("EXIT")) {
                 return;
             }
             System.out.println("Retype new Password: ");
@@ -33,11 +33,10 @@ public class ManageCredentials {
                 staff.setPassword(newPassword3);
                 Credentials.updatePassword(staff.getUserID(), newPassword3);
                 change = true;
-            }
-            else if(newPassword3.toUpperCase().equals("PASSWORD")){
-                System.out.println("Password cannot be password or any other combination of the word password. Please try again.");
-            } 
-            else {
+            } else if (newPassword3.toUpperCase().equals("PASSWORD")) {
+                System.out.println(
+                        "Password cannot be password or any other combination of the word password. Please try again.");
+            } else {
                 System.out.println("Password same as previous. Use a Different Password!");
             }
         }
@@ -50,7 +49,7 @@ public class ManageCredentials {
             Scanner sc = new Scanner(System.in);
             System.out.println("If you want to exit, type EXIT. Enter new Password: ");
             String newPassword = sc.next();
-            if (newPassword.equals("EXIT")) {
+            if (newPassword.equalsIgnoreCase("EXIT")) {
                 return;
             }
             System.out.println("Retype new Password: ");
@@ -72,11 +71,10 @@ public class ManageCredentials {
                 student.setPassword(newPassword3);
                 Credentials.updatePassword(student.getUserID(), newPassword3);
                 change = true;
-            } 
-            else if(newPassword3.toUpperCase().equals("PASSWORD")){
-                System.out.println("Password cannot be password or any other combination of the word password. Please try again.");
-            } 
-            else {
+            } else if (newPassword3.toUpperCase().equals("PASSWORD")) {
+                System.out.println(
+                        "Password cannot be password or any other combination of the word password. Please try again.");
+            } else {
                 System.out.println("Password same as previous. Use a Different Password!");
             }
         }

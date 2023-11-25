@@ -24,7 +24,7 @@ public class CAM {
 
             System.out.println("-------------------------");
         }
-    } //This should be deleted later, this is just for testing purposes
+    } // This should be deleted later, this is just for testing purposes
 
     public static void main(String[] args) throws IOException {
 
@@ -147,12 +147,17 @@ public class CAM {
                 while (!exitstudentlogin) {
                     scanner.useDelimiter(System.lineSeparator());
                     System.out.println("| Student Login |");
-                    System.out.print("UserID: ");
+                    System.out.print("(Type EXIT to restart the program)\n UserID: ");
                     String userID = scanner.next();
                     userID = userID.toUpperCase();
+                    if (userID.equalsIgnoreCase("EXIT")) {
+                        System.out.println("Restarting CAMs...");
+                        exitstudentlogin = true;
+                        break;
+                    }
 
                     while (errorCount > 0) {
-                        if (!Credentials.usernameExists(userID.toUpperCase())) {
+                        if (!Credentials.usernameExistsStudent(userID.toUpperCase())) {
                             System.out.println("Invalid Username, try again. You have " + errorCount + " tries left.");
                             System.out.println("UserID: ");
                             userID = scanner.next().toUpperCase();// Loop check if invalid username
@@ -198,17 +203,22 @@ public class CAM {
                         validcredentials = true;
                     }
 
+                    Student thisStudent = (Student) Download.createUser(userID, "STUDENT");
+
                     while (validcredentials) {
-                        Student thisStudent = (Student) Download.createUser(userID, "STUDENT");
+
                         for (Student student : StudentsList.getStudentList()) {
                             if (student.getUserID().equals(userID)) {
                                 thisStudent = student;
                             }
+
                         }
 
                         if (password.equals("password") && thisStudent != null) {
                             System.out.println("First time logging in, please change your password.");
                             ManageCredentials.changePassword(thisStudent);
+                            System.out.println("Password changed successfully, please re-login.");
+                            validcredentials = false;
                         }
 
                         // userID and password is correct, not their first time logging in
@@ -216,9 +226,9 @@ public class CAM {
                             System.out.println("Student Login Successful!");
 
                             // Redirect to the correct student menu method below
-                            for (Camp camp : CampsList.getCreatedCampsList()){
-                                for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeList()){
-                                    if (thisStudent.getUserID().equalsIgnoreCase(campCommitteeMember.getUserID())){
+                            for (Camp camp : CampsList.getCreatedCampsList()) {
+                                for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeList()) {
+                                    if (thisStudent.getUserID().equalsIgnoreCase(campCommitteeMember.getUserID())) {
                                         CampCommitteeMember committeeMember = (CampCommitteeMember) thisStudent;
                                         CampCommitteeMenu.campCommitteeMenuPage(committeeMember, camp);
                                         break;
@@ -247,11 +257,17 @@ public class CAM {
                 while (!exitstafflogin) {
                     scanner.useDelimiter(System.lineSeparator());
                     System.out.println("| Staff Login |");
-                    System.out.print("UserID: ");
+                    System.out.print("(Type EXIT to restart the program) \n UserID: ");
                     String userID = scanner.next();
 
+                    if (userID.equalsIgnoreCase("EXIT")) {
+                        System.out.println("Restarting CAMs...");
+                        exitstafflogin = true;
+                        break;
+                    }
+
                     while (errorCount > 0) {
-                        if (!Credentials.usernameExists(userID.toUpperCase())) {
+                        if (!Credentials.usernameExistsStaff(userID.toUpperCase())) {
                             System.out.println("Invalid Username, try again. You have " + errorCount + " tries left.");
                             System.out.println("UserID: ");
                             userID = scanner.next().toUpperCase(); // Loop check if invalid username
@@ -322,6 +338,8 @@ public class CAM {
                         if (password.equals("password") && thisStaff != null) {
                             System.out.println("As this is your first time logging in, please change your password.");
                             ManageCredentials.changePassword(thisStaff);
+                            System.out.println("Password changed successfully, please re-login.");
+                            validcredentials = false;
                         }
 
                         // userID and password is correct, not their first time logging in

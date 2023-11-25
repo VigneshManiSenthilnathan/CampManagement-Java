@@ -34,27 +34,27 @@ public class Withdrawal {
 
                 for (Camp camp : CampsList.getCreatedCampsList()) {
                     if (campname.equals(camp.getCampName())
-                        && camp.getAttendeeUserID().contains(student.getUserID())) {
+                            && camp.getAttendeeUserID().contains(student.getUserID())) {
 
-                        System.out.println("You are about to withdraw from "+camp.getCampName()+". Are you sure? (Y/N)");
+                        System.out.println(
+                                "You are about to withdraw from " + camp.getCampName() + ". Are you sure? (Y/N)");
                         String confirm = sc.nextLine();
 
                         if (confirm.toUpperCase().equals("Y")) {
                             camp.removeAttendee(student.getUserID());
                             camp.addBlackList(student.getUserID());
+
                             System.out.println("Withdrawal successful from " + camp.getCampName());
                             System.out.println("You are not allowed to re-join this camp.");
-                            withdrawalSuccessful = true;    
-                        }
-                        else if (confirm.toUpperCase().equals("N")) {
+                            withdrawalSuccessful = true;
+                        } else if (confirm.toUpperCase().equals("N")) {
                             System.out.println("Withdrawal cancelled.");
                             withdrawalSuccessful = true;
-                        }
-                        else{
+                        } else {
                             System.out.println("Invalid input. Withdrawal cancelled. Returning to menu.");
                             withdrawalSuccessful = true;
                         }
-                        
+
                     }
                 }
 
@@ -76,15 +76,8 @@ public class Withdrawal {
 
             for (Camp camp : CampsList.getCreatedCampsList()) {
                 if (camp.getUserGroup().toUpperCase().equals(campCommitteeMember.getFaculty().toUpperCase())
-                        && camp.getAttendeeUserID().contains(campCommitteeMember.getUserID()) && camp.getCampCommitteeList().contains(campCommitteeMember)) {
-                    System.out.println(i + ". " + camp.getCampName() + " [Camp Committee Member]");
-                    System.out.println("");
-                    i++;
-                }
-                else if(camp.getUserGroup().toUpperCase().equals(campCommitteeMember.getFaculty().toUpperCase())
-                        && camp.getAttendeeUserID().contains(campCommitteeMember.getUserID())){
-                    System.out.println(i + ". " + camp.getCampName() + " [Camp Committee Member]");
-                    System.out.println("");
+                        && camp.getAttendeeUserID().contains(campCommitteeMember.getUserID())) {
+                    System.out.println(i + ". " + camp.getCampName());
                     i++;
                 }
             }
@@ -103,26 +96,25 @@ public class Withdrawal {
                     if (campname.equalsIgnoreCase(camp.getCampName())
                             && camp.getAttendeeUserID().contains(campCommitteeMember.getUserID())) {
 
-                        System.out.println("You are about to withdraw from "+camp.getCampName()+". Are you sure? (Y/N)");
+                        System.out.println(
+                                "You are about to withdraw from " + camp.getCampName() + ". Are you sure? (Y/N)");
                         String confirm = sc.nextLine();
 
-                        if (confirm.toUpperCase().equals("Y")){
+                        if (confirm.equalsIgnoreCase("Y")) {
                             camp.removeAttendee(campCommitteeMember.getUserID());
                             camp.addBlackList(campCommitteeMember.getUserID());
                             System.out.println("Withdrawal successful from " + camp.getCampName());
                             System.out.println("You are not allowed to re-join this camp.");
                             withdrawalSuccessful = true;
-                        }
-                        else if (confirm.toUpperCase().equals("N")) {
+                        } else if (confirm.equalsIgnoreCase("N")) {
                             System.out.println("Withdrawal cancelled.");
                             withdrawalSuccessful = true;
-                        }
-                        else{
+                        } else {
                             System.out.println("Invalid input. Withdrawal cancelled. Returning to menu.");
                             withdrawalSuccessful = true;
-                        }                      
-                    }
-                    else if (campname.equalsIgnoreCase(camp.getCampName()) && camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
+                        }
+                    } else if (campname.equalsIgnoreCase(camp.getCampName())
+                            && camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
                         System.out.println("Camp Committee Member cannot quit from Camp!");
                         withdrawalSuccessful = true;
                     }

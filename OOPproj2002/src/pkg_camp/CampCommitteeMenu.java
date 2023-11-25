@@ -16,9 +16,9 @@ public class CampCommitteeMenu {
             System.out.println("(1) Change Password"); // done
             System.out.println("(2) View Available Camps"); // done
             System.out.println("(3) Register for a Camp"); // done
-            System.out.println("(4) Submit Enquiry to a Camp"); //done
-            System.out.println("(5) Manage your Enquiries"); //done
-            System.out.println("(6) View/Reply To Enquiries (Camp Committee)"); //done
+            System.out.println("(4) Submit Enquiry to a Camp"); // done
+            System.out.println("(5) Manage your Enquiries"); // done
+            System.out.println("(6) View/Reply To Enquiries (Camp Committee)"); // done
             System.out.println("(7) Withdraw from a Camp"); // done
             System.out.println("(8) Submit Suggestions to a Camp (Camp Committee)");
             System.out.println("(9) Manage Your Suggestions (Camp Committee)");
@@ -34,23 +34,23 @@ public class CampCommitteeMenu {
                     exitCampCommitteeMenu = true;
                     return;
 
-                case 1: //change password
+                case 1: // change password
                     ManageCredentials.changePassword(campCommitteeMember);
-                break;
+                    break;
 
-                case 2: //view camps
+                case 2: // view camps
                     CampController.viewCamps(campCommitteeMember);
                     break;
 
-                case 3: //register for camps
+                case 3: // register for camps
                     CampController.registerForCamp(campCommitteeMember);
                     break;
 
-                case 4: //submit enquiry
+                case 4: // submit enquiry
                     EnquiryController.submitEnquiry(campCommitteeMember);
                     break;
 
-                case 5: //manage own enquiries
+                case 5: // manage own enquiries
                     boolean modifyDone = false;
                     while (!modifyDone) {
                         System.out.println("[1] View all Enquiries");
@@ -85,7 +85,7 @@ public class CampCommitteeMenu {
                     }
                     break;
 
-                case 6: //campcomm view/reply enquiries
+                case 6: // campcomm view/reply enquiries
                     boolean quit = false;
                     while (!quit) {
                         System.out.println("Choose your option below");
@@ -117,15 +117,15 @@ public class CampCommitteeMenu {
                     }
                     break;
 
-                case 7: //withdraw from camp
+                case 7: // withdraw from camp
                     CampController.withdrawCamp(campCommitteeMember);
                     break;
 
-                case 8: //submit suggestion
+                case 8: // submit suggestion
                     SuggestionController.submitSuggestion(campCommitteeMember);
                     break;
 
-                case 9: //modify suggestion
+                case 9: // modify suggestion
                     quit = false;
                     while (!quit) {
                         System.out.println("Choose your option below");

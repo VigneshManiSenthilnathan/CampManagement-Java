@@ -18,8 +18,8 @@ public class ViewCamp {
         int choice = sc.nextInt();
 
         boolean doneView = false;
-        while (!doneView){
-            switch(choice){
+        while (!doneView) {
+            switch (choice) {
                 case 0:
                     doneView = true;
                     break;
@@ -28,8 +28,11 @@ public class ViewCamp {
                     System.out.println("List of Camps available to join:");
                     boolean found = false;
                     for (Camp camp : CampsList.getCreatedCampsList()) {
-                        if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase())) && (camp.getVisibility())
-                                && (camp.getRemainingSlots()) > 0 && !camp.getAttendeeUserID().contains(student.getUserID()) && !camp.getBlackList().contains(student.getUserID())) {
+                        if ((camp.getUserGroup().toUpperCase().equals(student.getFaculty().toUpperCase()))
+                                && (camp.getVisibility())
+                                && (camp.getRemainingSlots()) > 0
+                                && !camp.getAttendeeUserID().contains(student.getUserID())
+                                && !camp.getBlackList().contains(student.getUserID())) {
                             System.out.println("Camp Name: " + camp.getCampName());
                             System.out.println("Dates: " + camp.getDates());
                             System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
@@ -66,7 +69,7 @@ public class ViewCamp {
                         }
                     }
 
-                    if (!found){
+                    if (!found) {
                         System.out.println("You have not registered for any Camps!");
                     }
                     break;
@@ -134,7 +137,7 @@ public class ViewCamp {
                         }
                     }
 
-                    if (!found){
+                    if (!found) {
                         System.out.println("You have not created any camps!");
                     }
 
@@ -157,14 +160,15 @@ public class ViewCamp {
         }
 
         boolean doneView = false;
-        while (!doneView){
+        while (!doneView) {
             System.out.println("[1] View all camps to join");
             System.out.println("[2] View your registered camps");
             System.out.println("[3] Details of your Committee Camp");
             System.out.println("[0] Exit");
             Scanner sc = new Scanner(System.in);
             int choice = sc.nextInt();
-            switch(choice){
+
+            switch (choice) {
                 case 0:
                     doneView = true;
                     break;
@@ -173,8 +177,11 @@ public class ViewCamp {
                     System.out.println("List of Camps available to join:");
                     boolean found = false;
                     for (Camp camp : CampsList.getCreatedCampsList()) {
-                        if ((camp.getUserGroup().toUpperCase().equals(campCommitteeMember.getFaculty().toUpperCase())) && (camp.getVisibility())
-                                && (camp.getRemainingSlots()) > 0 && !camp.getAttendeeUserID().contains(campCommitteeMember.getUserID()) && !camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
+                        if ((camp.getUserGroup().toUpperCase().equals(campCommitteeMember.getFaculty().toUpperCase()))
+                                && (camp.getVisibility())
+                                && (camp.getRemainingSlots()) > 0
+                                && !camp.getAttendeeUserID().contains(campCommitteeMember.getUserID())
+                                && !camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
                             System.out.println("Camp Name: " + camp.getCampName());
                             System.out.println("Dates: " + camp.getDates());
                             System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
@@ -205,25 +212,24 @@ public class ViewCamp {
                             System.out.println(j + ": " + camp.getCampName());
                             j++;
                             found = true;
-                        }
-                        else if (camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
-                            System.out.println(j + ": " + camp.getCampName());
+                        } else if (camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
+                            System.out.println(j + ": " + camp.getCampName() + " (Camp Committee)");
                             j++;
                             continue;
                         }
                     }
-                    
+
                     if (!found) {
                         System.out.println("No camps available to view.");
                         System.out.println("");
                         return;
                     }
                     break;
-                    
+
                 case 3:
-                    System.out.println("Details of Your Camps:");
+                    System.out.println("Details of Your Camp:");
                     for (Camp camp : CampsList.getCreatedCampsList()) {
-                        if (camp.getCampCommitteeList().contains(campCommitteeMember)) { // solid vignesh only did this 1 line ha ha
+                        if (camp.getCommiteeUserID().contains(campCommitteeMember.getUserID())) {
                             System.out.println("Camp Name: " + camp.getCampName());
                             System.out.println("Dates: " + camp.getDates());
                             System.out.println("Registration Closing Date: " + camp.getRegistrationClosingDate());
@@ -232,10 +238,12 @@ public class ViewCamp {
                             System.out.println("Camp Committee Slots: " + camp.getCampCommitteeSlots());
                             System.out.println("Description: " + camp.getDescription());
                             System.out.println("Staff in Charge: " + camp.getStaffInCharge());
-                            System.out.println("Visibility(Not visible = 0/Visible = 1): " + camp.getVisibility());
+                            System.out
+                                    .println("Visibility(Not visible = false/Visible = true): " + camp.getVisibility());
                             System.out.println("------------------------------");
                         }
                     }
+                    break;
 
                 default:
                     System.out.println("Invalid choice. Please choose a valid option.");
