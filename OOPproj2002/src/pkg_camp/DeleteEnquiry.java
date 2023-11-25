@@ -7,7 +7,9 @@ public class DeleteEnquiry {
     public static void deleteEnquiry(Student student) {
         Scanner sc = new Scanner(System.in);
 
+        System.out.println("");
         System.out.println("These are your Enquiries: ");
+        System.out.println("-------------------------------------");
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
             for (Enquiry enquiry : camp.getEnquiryList()) {
@@ -22,11 +24,13 @@ public class DeleteEnquiry {
         boolean validInput = false;
 
         while (!validInput) {
+            System.out.println("");
             System.out.println("Delete Enquiry (Enter Camp Name or 'exit' to cancel): ");
             String enquiryDel = sc.nextLine();
 
             if (enquiryDel.equalsIgnoreCase("exit")) {
                 System.out.println("Deletion canceled.");
+                System.out.println("");
                 break;
             }
 
@@ -37,6 +41,7 @@ public class DeleteEnquiry {
                         validInput = true;
                         camp.delEnquiry(enquiry);
                         System.out.println("Enquiry deleted successfully.");
+                        System.out.println("");
                         break;
                     }
                 }
@@ -44,14 +49,16 @@ public class DeleteEnquiry {
 
             if (!validInput) {
                 System.out.println("Invalid input. Please enter a valid Camp Name or 'exit' to cancel.");
+                System.out.println("");
             }
         }
     }
 
     public static void deleteEnquiry(CampCommitteeMember campCommitteeMember) {
         Scanner sc = new Scanner(System.in);
-
+        System.out.println("");
         System.out.println("These are your Enquiries: ");
+        System.out.println("-------------------------------------");
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
             for (Enquiry enquiry : camp.getEnquiryList()) {

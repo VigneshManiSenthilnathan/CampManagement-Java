@@ -16,15 +16,18 @@ public class StudentMenu {
         boolean exitStudentMenu = false;
 
         while (!exitStudentMenu) {
+            System.out.println("");
             System.out.println("Student Menu:");
+            System.out.println("-------------------------------------");
             System.out.println("(1) Change Password"); // done
-            System.out.println("(2) View Available Camps"); // done
+            System.out.println("(2) View Camps"); // done
             System.out.println("(3) Register for a Camp"); // done
-            System.out.println("(4) Submit Enquiry to a Camp"); //done
-            System.out.println("(5) Manage your Enquiries"); //done
+            System.out.println("(4) Submit Enquiry to a Camp"); // done
+            System.out.println("(5) Manage your Enquiries"); // done
             System.out.println("(6) Withdraw from a Camp"); // done
             System.out.println("(0) Exit Menu"); // done
             System.out.print("Input Choice: ");
+            System.out.println("");
 
             int menu = scanner.nextInt();
             scanner.useDelimiter(System.lineSeparator());
@@ -40,7 +43,7 @@ public class StudentMenu {
 
                 case 1:
                     ManageCredentials.changePassword(student);
-                    break;
+                    return;
 
                 case 2:
                     CampController.viewCamps(student);
@@ -48,11 +51,11 @@ public class StudentMenu {
 
                 case 3:
                     CampController.registerForCamp(student);
-                    //check if Student has become a Camp Committee Member
-                    //if Yes, go into CampCommitteeMenu
-                    for (Camp camp : CampsList.getCreatedCampsList()){
-                        for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeList()){
-                            if (campCommitteeMember.getUserID().equalsIgnoreCase(student.getUserID())){
+                    // check if Student has become a Camp Committee Member
+                    // if Yes, go into CampCommitteeMenu
+                    for (Camp camp : CampsList.getCreatedCampsList()) {
+                        for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeList()) {
+                            if (campCommitteeMember.getUserID().equalsIgnoreCase(student.getUserID())) {
                                 CampCommitteeMember newCampCommitteeMember = (CampCommitteeMember) student;
                                 CampCommitteeMenu.campCommitteeMenuPage(newCampCommitteeMember, camp);
                                 return;

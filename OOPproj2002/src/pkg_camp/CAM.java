@@ -184,7 +184,7 @@ public class CAM {
                         }
                     }
 
-                    if (errorCount == -1) {
+                    if (errorCount == 0) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
                     }
@@ -210,7 +210,7 @@ public class CAM {
                         } // Loop check if invalid password
                     }
 
-                    if (errorCount == -1) {
+                    if (errorCount == 0) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
                     } else {
@@ -238,7 +238,6 @@ public class CAM {
                         // userID and password is correct, not their first time logging in
                         else if (!password.equals("password")) {
                             System.out.println("Student Login Successful!");
-
                             // Redirect to the correct student menu method below
                             for (Camp camp : CampsList.getCreatedCampsList()) {
                                 for (CampCommitteeMember campCommitteeMember : camp.getCampCommitteeList()) {
@@ -273,8 +272,7 @@ public class CAM {
                     System.out.println("| Staff Login |");
                     System.out.print("(Type EXIT to restart the program) \n UserID: ");
                     String userID = scanner.next();
-
-                    if (userID.equalsIgnoreCase("EXIT")) {
+                    if (userID.equalsIgnoreCase("EXIT")) { // Exit to main menu
                         System.out.println("Restarting CAMs...");
                         exitstafflogin = true;
                         break;
@@ -294,14 +292,14 @@ public class CAM {
                         }
                     }
 
-                    if (errorCount == -1) {
+                    if (errorCount == 0) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
                     }
 
                     System.out.print("Password (default: password): ");
-                    String password = scanner.next();
                     errorCount = 3;
+                    String password = scanner.next();
 
                     // Credentials check
                     while (errorCount > 0) {
@@ -319,30 +317,16 @@ public class CAM {
                         } // Loop check if invalid password
                     }
 
-                    if (errorCount == -1) {
+                    if (errorCount == 0) {
                         System.out.println("Too many failed attempts, closing CAMS system. Please try again later.");
                         return;
                     } else {
                         validcredentials = true;
                     }
 
-                    /*
-                     * if (!Credentials.usernameExists(userID)) {
-                     * System.out.print("Invalid Username");
-                     * break;
-                     * }
-                     * 
-                     * System.out.print("Password (default: password): ");
-                     * String password = scanner.next();
-                     * 
-                     * // Credentials check
-                     * if (Credentials.verifyPassword(userID, password)) {
-                     * validcredentials = true;
-                     * }
-                     */
+                    Staff thisStaff = (Staff) Download.createUser(userID, "STAFF");
 
                     while (validcredentials) {
-                        Staff thisStaff = (Staff) Download.createUser(userID, "STAFF");
                         for (Staff staff : StaffsList.getStaffList()) {
                             if (staff.getUserID().equals(userID)) {
                                 thisStaff = staff;

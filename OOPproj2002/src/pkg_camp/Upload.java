@@ -375,7 +375,7 @@ public class Upload {
                 System.out.println(camp.getSuggestionList().size());
                 allSuggestions.addAll(camp.getSuggestionList());
             } else {
-                System.out.println(camp.getCampName() + " has no suggestions!");
+                // System.out.println(camp.getCampName() + " has no suggestions!");
             }
         }
 
@@ -444,7 +444,7 @@ public class Upload {
 
         // check if deletion is truly successful by checking if there are any rows left
         if (sheet_suggestion.getLastRowNum() == 0) {
-            System.out.println("All suggestions deleted successfully");
+            // System.out.println("All suggestions deleted successfully");
         } else {
             System.out.println("Error deleting suggestions");
         }

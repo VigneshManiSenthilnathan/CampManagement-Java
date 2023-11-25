@@ -62,7 +62,8 @@ public class SubmitEnquiry {
                 System.out.println("Your Enquiry: ");
                 String campEnquiryString = sc.next();
 
-                Enquiry newEnquiry = new Enquiry(campCommitteeMember.getUserID(), camp.getCampName(), campEnquiryString);
+                Enquiry newEnquiry = new Enquiry(campCommitteeMember.getUserID(), camp.getCampName(),
+                        campEnquiryString);
                 camp.addEnquiry(newEnquiry);
                 System.out.println("Enquiry Submited to " + camp.getCampName());
                 System.out.println("");

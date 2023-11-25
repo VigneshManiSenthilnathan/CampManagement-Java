@@ -8,9 +8,16 @@ public class ViewEnquiry {
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
             for (Enquiry enquiry : camp.getEnquiryList()) {
-                if (enquiry.getStudentID().equals(student.getUserID())) {
+                if (enquiry.getStudentID().equals(student.getUserID()) && enquiry.getReply() == null) {
                     System.out.println(
-                            i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
+                            i + ". [Camp: " + enquiry.getCampName() + "]: " + enquiry.getEnquiryString() + "(Reply: -");
+                    i++;
+                    found = true;
+                } else if (enquiry.getStudentID().equals(student.getUserID()) && enquiry.getReply() != null) {
+                    System.out.println(
+                            i + ". [Camp: " + enquiry.getCampName() + "]: " + enquiry.getEnquiryString()
+                                    + "(Replied by " + enquiry.getReplierType() + " " + enquiry.getRepliedBy() + ": "
+                                    + enquiry.getReply() + ")");
                     i++;
                     found = true;
                 }
@@ -30,9 +37,17 @@ public class ViewEnquiry {
         int i = 1;
         for (Camp camp : CampsList.getCreatedCampsList()) {
             for (Enquiry enquiry : camp.getEnquiryList()) {
-                if (enquiry.getStudentID().equals(campCommitteeMember.getUserID())) {
+                if (enquiry.getStudentID().equals(campCommitteeMember.getUserID()) && enquiry.getReply() == null) {
                     System.out.println(
-                            i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
+                            i + ". [Camp: " + enquiry.getCampName() + "]: " + enquiry.getEnquiryString() + "(Reply: -");
+                    i++;
+                    found = true;
+                } else if (enquiry.getStudentID().equals(campCommitteeMember.getUserID())
+                        && enquiry.getReply() != null) {
+                    System.out.println(
+                            i + ". [Camp: " + enquiry.getCampName() + "]: " + enquiry.getEnquiryString()
+                                    + "(Replied by " + enquiry.getReplierType() + " " + enquiry.getRepliedBy() + ": "
+                                    + enquiry.getReply() + ")");
                     i++;
                     found = true;
                 }
@@ -51,7 +66,9 @@ public class ViewEnquiry {
         boolean found = false;
         int i = 1;
         for (Enquiry enquiry : camp.getEnquiryList()) {
-            System.out.println(i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
+            System.out.println(
+                    i + ". [Camp: " + enquiry.getCampName() + "] Enquiry by " + enquiry.getEnquirySender() + ": "
+                            + enquiry.getEnquiryString());
             i++;
             found = true;
         }
@@ -67,10 +84,11 @@ public class ViewEnquiry {
         int i = 1;
         boolean found = false;
         for (Camp camp : CampsList.getCreatedCampsList()) {
-            for (Enquiry enquiry : camp.getEnquiryList()) {
-                if (camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
+            if (camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
+                for (Enquiry enquiry : camp.getEnquiryList()) {
                     System.out.println(
-                            i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
+                            i + ". [Camp: " + enquiry.getCampName() + "] Enquiry by " + enquiry.getEnquirySender()
+                                    + ": " + enquiry.getEnquiryString());
                     i++;
                     found = true;
                 }

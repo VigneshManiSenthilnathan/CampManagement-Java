@@ -11,14 +11,13 @@ public class ViewCamp {
             return;
         }
 
-        System.out.println("[1] View all camps allowed to join");
-        System.out.println("[2] View your registered camps");
-        System.out.println("[0] Exit");
-        Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-
         boolean doneView = false;
         while (!doneView) {
+            System.out.println("[1] View Camps to Join");
+            System.out.println("[2] View Registered Camps");
+            System.out.println("[0] Exit");
+            Scanner sc = new Scanner(System.in);
+            int choice = sc.nextInt();
             switch (choice) {
                 case 0:
                     doneView = true;
@@ -50,7 +49,7 @@ public class ViewCamp {
                     if (!found) {
                         System.out.println("No camps available to view!");
                         System.out.println("");
-                        return;
+                        break;
                     }
                     break;
 
@@ -59,13 +58,10 @@ public class ViewCamp {
                     found = false;
                     System.out.println("Here are the camps you have registered for:");
                     for (Camp camp : CampsList.getCreatedCampsList()) {
-                        if (camp.getUserGroup().equals(student.getFaculty())) {
-                            for (Student attendee : camp.getAttendeesList()) {
-                                if (student.getUserID().equals(attendee.getUserID())) {
-                                    System.out.println(j + "- " + camp.getCampName());
-                                    found = true;
-                                }
-                            }
+                        if (camp.getAttendeeUserID().contains(student.getUserID())) {
+                            System.out.println(j + ". " + camp.getCampName() + "[Camp Description: "
+                                    + camp.getDescription() + " ]");
+                            found = true;
                         }
                     }
 

@@ -16,6 +16,7 @@ public class ModifyCamp {
             }
         }
 
+        System.out.println("");
         System.out.println("Enter Camp Name: ");
         Scanner sc = new Scanner(System.in);
         String campName = sc.next();
@@ -32,6 +33,7 @@ public class ModifyCamp {
             }
 
             if (campExists == false) {
+                System.out.println("");
                 System.out.println("Camp does not exist. Please enter a valid camp name.");
                 System.out.println("Type 'Exit' to go back to Staff Menu");
                 System.out.println("Enter Camp Name: ");
@@ -44,6 +46,7 @@ public class ModifyCamp {
 
         boolean done = false;
         while (!done) {
+            System.out.println("");
             System.out.println("(0) Exit to Previous Menu");
             System.out.println("(1) Change Camp Name");
             System.out.println("(2) Change Camp Dates");
@@ -55,6 +58,7 @@ public class ModifyCamp {
             System.out.println("(8) Change Camp Description");
             System.out.println("(9) Change Camp Visibility");
             System.out.println("(10) Change StaffInCharge");
+            System.out.println("");
 
             sc.useDelimiter(System.lineSeparator());
             int choice = sc.nextInt();

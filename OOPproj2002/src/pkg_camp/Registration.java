@@ -77,7 +77,6 @@ public class Registration {
                 while (!done) {
                     int i = 1;
                     found = false;
-
                     // List all the camps available for commitee
                     System.out.println("List of Camps with Committee Roles Available:");
                     for (Camp camp : CampsList.getCreatedCampsList()) {

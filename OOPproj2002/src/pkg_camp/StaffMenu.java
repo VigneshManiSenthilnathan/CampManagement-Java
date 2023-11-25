@@ -14,7 +14,10 @@ public class StaffMenu {
 
         while (!exitStaffMenu) { // While the user is not done with Staff Menu
             try {
+                System.out.println("");
                 System.out.println("Staff Menu:");
+                System.out.println("------------------------------");
+                System.out.println("(0) Exit Menu");
                 System.out.println("(1) Change Password");
                 System.out.println("(2) View, Create or Edit Camps");
                 System.out.println("(3) Delete Camps");
@@ -24,12 +27,20 @@ public class StaffMenu {
                 System.out.println("(7) Approve Camp Suggestions");
                 System.out.println("(8) Generate Camp Report");
                 System.out.println("(9) Generate Performance Report");
-                System.out.println("(10) Exit Menu");
+                System.out.println("");
 
                 int menu = scanner.nextInt();
                 scanner.useDelimiter(System.lineSeparator());
 
                 switch (menu) {
+                    case 0: // Exit Staff Menu
+                        CampsList.setCreatedCampsList(createdCampsList);
+                        Upload.writeToExcel(createdCampsList);
+                        Upload.suggestionsWriter();
+                        Upload.enquiriesWriter();
+                        exitStaffMenu = true;
+                        break;
+
                     case 1: // Change password
                         ManageCredentials.changePassword(staff);
                         break;
@@ -37,10 +48,11 @@ public class StaffMenu {
                     case 2: // View, Create, Edit camp
                         boolean campedits = false;
                         while (!campedits) {
-                            System.out.println("(1) View All Camp");
+                            System.out.println("(1) View Camps");
                             System.out.println("(2) Create a New Camp");
                             System.out.println("(3) Modify Camp");
                             System.out.println("(0) Exit to Staff Menu");
+                            System.out.println("");
                             int choice = scanner.nextInt();
 
                             switch (choice) {
@@ -62,6 +74,7 @@ public class StaffMenu {
 
                                 default:
                                     System.out.println("Invalid choice. Please choose a valid option.");
+                                    System.out.println("");
                             }
                         }
                         break;
@@ -79,14 +92,18 @@ public class StaffMenu {
 
                         while (!enquiryDone) {
                             System.out.println("[1] View all Enquiries");
-                            System.out.println("[2] Modify Enquiry");
-                            System.out.println("[3] Delete Enquiry");
-                            System.out.println("[4] Exit");
+                            System.out.println("[2] Reply Enquiry");
+                            System.out.println("[0] Exit");
+                            System.out.println("");
 
                             Scanner sc = new Scanner(System.in);
                             int choice = sc.nextInt();
 
                             switch (choice) {
+                                case 0:
+                                    enquiryDone = true;
+                                    break;
+
                                 case 1:
                                     EnquiryController.viewEnquiry(staff);
                                     break;
@@ -94,12 +111,10 @@ public class StaffMenu {
                                 case 2:
                                     EnquiryController.replyEnquiry(staff);
                                     break;
-                                case 4:
-                                    enquiryDone = true;
-                                    break;
 
                                 default:
                                     System.out.println("Invalid choice. Please choose a valid option.");
+                                    System.out.println("");
                                     break;
                             }
                         }
@@ -121,22 +136,14 @@ public class StaffMenu {
                         ReportController.getPerformanceReport(staff, createdCampsList);
                         break;
 
-                    case 10: // Exit Staff Menu
-
-                        CampsList.setCreatedCampsList(createdCampsList);
-                        Upload.writeToExcel(createdCampsList);
-                        Upload.suggestionsWriter();
-                        Upload.enquiriesWriter();
-                        exitStaffMenu = true;
-
-                        break;
-
                     default:
                         System.out.println("Invalid choice. Please choose a valid option.");
+                        System.out.println("");
                         break;
                 }
             } catch (java.util.InputMismatchException e) {
                 System.out.println("Invalid input, please try again.");
+                System.out.println("");
                 continue;
             }
         }

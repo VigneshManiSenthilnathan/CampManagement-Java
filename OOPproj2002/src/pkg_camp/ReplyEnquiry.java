@@ -45,9 +45,9 @@ public class ReplyEnquiry {
         int choice = 0;
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter(System.lineSeparator());
-        
+
         while (!replyDone) {
-            System.out.println("Which Enquiry are you replying to?");
+            System.out.println("Which Enquiry Number are you replying to?");
 
             choice = sc.nextInt();
 
@@ -90,22 +90,21 @@ public class ReplyEnquiry {
         int i = 1;
 
         for (Camp camp : CampsList.getCreatedCampsList()) {
-            if (camp.getEnquiryList().size() > 0 && camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
-                System.out.println("Camp: " + camp.getCampName());
-                System.out.println("");
-
+            if (camp.getStaffInCharge().equalsIgnoreCase(staff.getUserID())) {
                 for (Enquiry enquiry : camp.getEnquiryList()) {
                     totalEnquiries++;
-                    System.out.println(i + ". [Camp: " + enquiry.getCampName() + "] Enquiry: " + enquiry.getEnquiryString());
+                    System.out.println(i + ". [Camp: " + enquiry.getCampName() + "] Enquiry by "
+                            + enquiry.getEnquirySender() + ": " + enquiry.getEnquiryString());
                     i++;
                 }
-
-                System.out.println("-------------------------------------------------");
-                found = true;
             }
+            System.out.println("-------------------------------------------------");
+            found = true;
         }
 
-        if (!found) {
+        if (!found)
+
+        {
             System.out.println("There are no camps for you to view Enquiries of!");
             System.out.println("");
             return;
@@ -121,7 +120,7 @@ public class ReplyEnquiry {
             choice = sc.nextInt();
 
             if (choice > totalEnquiries || choice < 1) {
-                System.out.println("Invalid choice!");
+                System.out.println("Invalid choice! Enter a valid integer.");
                 System.out.println("Please choose from the above list of enquiries.");
                 System.out.println("");
                 continue;
